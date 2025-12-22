@@ -15,7 +15,15 @@
     "stylelint:fix": "stylelint ./src/**/*.style.ts --fix",
     "prettier": "prettier . --write",
     "prettier:check": "prettier . --check",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint-front": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "stylelint --fix"
+    ]
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

@@ -2,8 +2,11 @@
   "name": "albaform",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "20.19.6"
+  },
   "scripts": {
-    "dev": "next dev",
+    "dev": "node check-node-version.cjs && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

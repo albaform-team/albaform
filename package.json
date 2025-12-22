@@ -6,10 +6,15 @@
     "node": "20.19.6"
   },
   "scripts": {
-    "dev": "node check-node-version.cjs && next dev",
+    "dev": "node check-node-version.mjs && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "stylelint": "stylelint ./src/**/*.style.ts",
+    "stylelint:fix": "stylelint ./src/**/*.style.ts --fix",
+    "prettier": "prettier . --write",
+    "prettier:check": "prettier . --check",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -36,6 +41,7 @@
     "eslint-plugin-import": "^2.32.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
+    "postcss-styled-syntax": "^0.7.1",
     "prettier": "^3.7.4",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1",

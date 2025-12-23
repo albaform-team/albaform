@@ -1,8 +1,15 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import styles from '@/components/Header/Header.module.css';
 
-export default function Header() {
+type UserType = 'unlogin' | 'owner' | 'user';
+
+type HeaderType = {
+  user: UserType;
+};
+
+export default function Header({ user }: HeaderType) {
   return (
     <header className={styles.headerContainer}>
       <div className={styles.headerContent}>
@@ -25,8 +32,48 @@ export default function Header() {
           </div>
         </div>
         <div className={styles.headerRight}>
-          <div className={styles.button}>로그인</div>
-          <div className={styles.button}>회원가입</div>
+          {user === 'unlogin' && (
+            <>
+              <Link href="/login" className={styles.button}>
+                로그인
+              </Link>
+              <Link href="/signup" className={styles.button}>
+                회원가입
+              </Link>
+            </>
+          )}
+          {user === 'owner' && (
+            <>
+              <Link href="/mystore" className={styles.button}>
+                내 가게
+              </Link>
+              <Link href="/signup" className={styles.button}>
+                로그아웃
+              </Link>
+              <Image
+                src={'/assets/png/notification.png'}
+                alt="알림"
+                width={24}
+                height={24}
+              />
+            </>
+          )}
+          {user === 'user' && (
+            <>
+              <Link href="/mystore" className={styles.button}>
+                내 프로필
+              </Link>
+              <Link href="/signup" className={styles.button}>
+                로그아웃
+              </Link>
+              <Image
+                src={'/assets/png/notification.png'}
+                alt="알림"
+                width={24}
+                height={24}
+              />
+            </>
+          )}
         </div>
       </div>
     </header>

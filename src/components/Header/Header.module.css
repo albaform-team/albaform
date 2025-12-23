@@ -44,12 +44,11 @@
   box-shadow: none;
 }
 .headerRight {
-  /* margin: 23.5px 22.5px; */
   display: flex;
   gap: 40px;
 }
 .button {
-  width: 59px;
+  width: 63px;
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;

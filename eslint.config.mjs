@@ -61,8 +61,6 @@ const eslintConfig = [
       ],
       // react-refresh export 제한 해제
       'react-refresh/only-export-components': 'off',
-      // 사용하지 않는 변수 에러 (대문자 상수는 허용)
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
 ];

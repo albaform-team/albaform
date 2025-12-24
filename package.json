@@ -11,8 +11,8 @@
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "stylelint": "stylelint ./src/**/*.style.ts",
-    "stylelint:fix": "stylelint ./src/**/*.style.ts --fix",
+    "stylelint": "stylelint ./src/**/*.ts",
+    "stylelint:fix": "stylelint ./src/**/*.ts --fix",
     "prettier": "prettier . --write",
     "prettier:check": "prettier . --check",
     "prepare": "husky install",
@@ -52,6 +52,7 @@
     "postcss-styled-syntax": "^0.7.1",
     "prettier": "^3.7.4",
     "stylelint": "^16.26.1",
+    "stylelint-config-recess-order": "^7.4.0",
     "stylelint-config-standard": "^39.0.1",
     "stylelint-order": "^7.0.0",
     "typescript": "^5"

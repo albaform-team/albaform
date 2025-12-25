@@ -13,11 +13,11 @@ export const Container = styled.div`
 export const Button = styled.button`
   width: 100%;
   padding: 10px 20px;
-  border-radius: 6px;
-  background-color: #ea3c12;
-  color: #fff;
   font-size: 16px;
   font-weight: 700;
+  color: #fff;
+  background-color: #ea3c12;
+  border-radius: 6px;
 `;
 
 export const Title = styled.h1`
@@ -37,9 +37,9 @@ export const InputWrap = styled.div`
 `;
 
 export const InputWrapLabel = styled.label`
-  color: #111322;
   font-size: 16px;
   font-weight: 400;
+  color: #111322;
 `;
 
 export const TextWon = styled.p`
@@ -67,9 +67,9 @@ export const Select = styled.select`
 export const StoreImgBox = styled.div`
   width: 100%;
   height: 200px;
+  background-color: #f2f2f3;
   border: 1px solid #cbc9cf;
   border-radius: 6px;
-  background-color: #f2f2f3;
 `;
 
 export const TextBox = styled.textarea`

@@ -1,7 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import styles from '@/components/Header/Header.module.css';
+import LogoImage from '@/assets/svg/logo.svg';
+import NotificationImage from '@/assets/svg/notification.svg';
+import SearchImage from '@/assets/svg/search.svg';
+import * as S from '@/components/Header/Header.styles';
 
 type UserType = 'unlogin' | 'owner' | 'user';
 
@@ -11,47 +14,28 @@ type HeaderType = {
 
 export default function Header({ user }: HeaderType) {
   return (
-    <header className={styles.headerContainer}>
-      <div className={styles.headerContent}>
-        <div className={styles.headerLeft}>
-          <Image
-            src="/assets/svg/logo.svg"
-            alt="메인로고"
-            width={112}
-            height={40}
-            className={styles.logoImage}
-          />
-          <div className={styles.searchBox}>
-            <Image
-              src="/assets/png/search.png"
-              alt="검색"
-              width={20}
-              height={20}
-            />
+    <S.HeaderContainer>
+      <S.HeaderContent>
+        <S.HeaderLeft>
+          <S.LogoImage src={LogoImage} alt="메인로고" width={112} height={40} />
+          <S.SearchBox>
+            <Image src={SearchImage} alt="검색" width={20} height={20} />
             <input type="text" placeholder="가게 이름으로 찾아보세요"></input>
-          </div>
-        </div>
-        <div className={styles.headerRight}>
+          </S.SearchBox>
+        </S.HeaderLeft>
+        <S.HeaderRight>
           {user === 'unlogin' && (
             <>
-              <Link href="/login" className={styles.button}>
-                로그인
-              </Link>
-              <Link href="/signup" className={styles.button}>
-                회원가입
-              </Link>
+              <S.Button href="/login">로그인</S.Button>
+              <S.Button href="/signup">회원가입</S.Button>
             </>
           )}
           {user === 'owner' && (
             <>
-              <Link href="/mystore" className={styles.button}>
-                내 가게
-              </Link>
-              <Link href="/signup" className={styles.button}>
-                로그아웃
-              </Link>
+              <S.Button href="/mystore">내 가게</S.Button>
+              <S.Button href="/signup">로그아웃</S.Button>
               <Image
-                src={'/assets/png/notification.png'}
+                src={NotificationImage}
                 alt="알림"
                 width={24}
                 height={24}
@@ -60,12 +44,8 @@ export default function Header({ user }: HeaderType) {
           )}
           {user === 'user' && (
             <>
-              <Link href="/mystore" className={styles.button}>
-                내 프로필
-              </Link>
-              <Link href="/signup" className={styles.button}>
-                로그아웃
-              </Link>
+              <S.Button href="/profile">내 프로필</S.Button>
+              <S.Button href="/signup">로그아웃</S.Button>
               <Image
                 src={'/assets/png/notification.png'}
                 alt="알림"
@@ -74,8 +54,8 @@ export default function Header({ user }: HeaderType) {
               />
             </>
           )}
-        </div>
-      </div>
-    </header>
+        </S.HeaderRight>
+      </S.HeaderContent>
+    </S.HeaderContainer>
   );
 }

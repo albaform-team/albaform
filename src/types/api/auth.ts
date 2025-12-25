@@ -1,28 +1,18 @@
-// 실제 유저 정보
-interface UserItem {
+export type UserType = 'employee' | 'employer';
+
+export interface LoginUser {
   id: string;
   email: string;
-  type: 'employer' | 'employee';
-  name?: string;
-  phone?: string;
-  address?: string;
-  bio?: string;
+  type: UserType;
 }
 
-// user
-interface LoginUser {
-  item: UserItem;
-  href: string;
-}
-
-// item
-interface LoginItem {
-  token: string;
-  user: LoginUser;
-}
-
-// 로그인 응답 전체
 export interface LoginResponse {
-  item: LoginItem;
+  item: {
+    token: string;
+    user: {
+      item: LoginUser;
+      href: string;
+    };
+  };
   links: unknown[];
 }

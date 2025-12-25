@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { Box } from '@mui/material';
 import { isAxiosError } from 'axios';
@@ -19,6 +20,7 @@ export interface ModalState {
 }
 
 export default function LoginPage() {
+  const router = useRouter();
   const {
     form,
     emailError,
@@ -36,11 +38,14 @@ export default function LoginPage() {
 
   const onSubmit = handleSubmit(async validForm => {
     try {
-      const data = await login(validForm.email, validForm.password);
-      console.log(data);
+      await login(validForm.email, validForm.password);
+      router.replace(STORE_ROUTES.ROOT);
     } catch (e) {
       if (isAxiosError(e)) {
-        setModalState({ open: true, message: e.response?.data.message });
+        setModalState({
+          open: true,
+          message: e.response?.data.message ?? '잠시후에 다시 시도해 주세요',
+        });
       }
     }
   });

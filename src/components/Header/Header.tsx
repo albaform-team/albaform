@@ -17,12 +17,21 @@ export default function Header({ user }: HeaderType) {
     <S.HeaderContainer>
       <S.HeaderContent>
         <S.HeaderLeft>
-          <S.LogoImage src={LogoImage} alt="메인로고" width={112} height={40} />
-          <S.SearchBox>
-            <Image src={SearchImage} alt="검색" width={20} height={20} />
-            <input type="text" placeholder="가게 이름으로 찾아보세요"></input>
-          </S.SearchBox>
+          <S.LogoLink href="/">
+            <S.LogoImage
+              src={LogoImage}
+              alt="메인로고"
+              width={112}
+              height={40}
+            />
+          </S.LogoLink>
         </S.HeaderLeft>
+
+        <S.SearchBox>
+          <Image src={SearchImage} alt="검색" width={20} height={20} />
+          <input type="text" placeholder="가게 이름으로 찾아보세요"></input>
+        </S.SearchBox>
+
         <S.HeaderRight>
           {user === 'unlogin' && (
             <>
@@ -34,7 +43,7 @@ export default function Header({ user }: HeaderType) {
             <>
               <S.Button href="/mystore">내 가게</S.Button>
               <S.Button href="/signup">로그아웃</S.Button>
-              <Image
+              <S.NotificationIcon
                 src={NotificationImage}
                 alt="알림"
                 width={24}
@@ -46,8 +55,8 @@ export default function Header({ user }: HeaderType) {
             <>
               <S.Button href="/profile">내 프로필</S.Button>
               <S.Button href="/signup">로그아웃</S.Button>
-              <Image
-                src={'/assets/png/notification.png'}
+              <S.NotificationIcon
+                src={NotificationImage}
                 alt="알림"
                 width={24}
                 height={24}

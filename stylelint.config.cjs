@@ -20,6 +20,8 @@ module.exports = {
     'property-no-unknown': true,
     'length-zero-no-unit': true,
 
+    'media-query-no-invalid': null,
+
     'order/properties-order': [
       [
         {

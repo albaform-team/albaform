@@ -4,9 +4,9 @@ import { GlobalStyle } from '@/styles/GlobalStyle';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main>
+    <>
       <GlobalStyle />
       <Component {...pageProps} />
-    </main>
+    </>
   );
 }

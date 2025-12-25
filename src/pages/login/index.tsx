@@ -2,12 +2,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Box } from '@mui/material';
+import { isAxiosError } from 'axios';
+import { useState } from 'react';
 
 import logo from '@/assets/imgs/logo.png';
 import { AUTH_ROUTES, STORE_ROUTES } from '@/constants/routes';
+import { login } from '@/lib/services/authService';
 
+import LoginModal from './_components/LoginModal';
 import useLoginForm from './_hooks/useLoginForm';
 import * as S from './index.style';
+
+export interface ModalState {
+  open: boolean;
+  message: string;
+}
 
 export default function LoginPage() {
   const {
@@ -20,11 +29,25 @@ export default function LoginPage() {
     blurPassword,
     handleSubmit,
   } = useLoginForm();
-
-  const onSubmit = handleSubmit(validForm => {
-    console.log(validForm);
-    // TODO: 로그인 요청
+  const [modalState, setModalState] = useState<ModalState>({
+    open: false,
+    message: '',
   });
+
+  const onSubmit = handleSubmit(async validForm => {
+    try {
+      const data = await login(validForm.email, validForm.password);
+      console.log(data);
+    } catch (e) {
+      if (isAxiosError(e)) {
+        setModalState({ open: true, message: e.response?.data.message });
+      }
+    }
+  });
+
+  const handleClose = () => {
+    setModalState({ open: false, message: '' });
+  };
 
   return (
     <S.LoginLayout>
@@ -76,6 +99,7 @@ export default function LoginPage() {
           <Link href={AUTH_ROUTES.SIGN_UP}>회원가입하기</Link>{' '}
         </S.TypographySignUp>
       </Box>
+      <LoginModal modalState={modalState} handleClose={handleClose} />
     </S.LoginLayout>
   );
 }

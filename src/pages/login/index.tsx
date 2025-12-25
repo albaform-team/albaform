@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Box } from '@mui/material';
 
 import logo from '@/assets/imgs/logo.png';
+import { AUTH_ROUTES, STORE_ROUTES } from '@/constants/routes';
 
 import useLoginForm from './_hooks/useLoginForm';
 import * as S from './index.style';
@@ -28,7 +29,7 @@ export default function LoginPage() {
   return (
     <S.LoginLayout>
       <S.Title>
-        <Link href="/store">
+        <Link href={STORE_ROUTES.ROOT}>
           <Image
             src={logo}
             fill
@@ -71,7 +72,8 @@ export default function LoginPage() {
       </S.LoginForm>
       <Box sx={{ textAlign: 'center' }}>
         <S.TypographySignUp>
-          회원이 아니신가요? <Link href="/signup">회원가입하기</Link>
+          회원이 아니신가요?{' '}
+          <Link href={AUTH_ROUTES.SIGN_UP}>회원가입하기</Link>{' '}
         </S.TypographySignUp>
       </Box>
     </S.LoginLayout>

@@ -23,7 +23,7 @@ const Footer = () => {
               height={25}
             />
           </Link>
-          <Link href="/">
+          <Link href="https://www.facebook.com/">
             <S.SocialIcon
               src={FacebookImage}
               alt="페이스북"
@@ -31,7 +31,7 @@ const Footer = () => {
               height={25}
             />
           </Link>
-          <Link href="/">
+          <Link href="https://www.instagram.com/">
             <S.SocialIcon
               src={InstaImage}
               alt="인스타그램"

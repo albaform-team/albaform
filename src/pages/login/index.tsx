@@ -28,12 +28,14 @@ export default function LoginPage() {
   return (
     <S.LoginLayout>
       <S.Title>
-        <Image
-          src={logo}
-          fill
-          style={{ objectFit: 'cover' }}
-          alt="더 줄게 로고"
-        />
+        <Link href="/store">
+          <Image
+            src={logo}
+            fill
+            style={{ objectFit: 'cover' }}
+            alt="더 줄게 로고"
+          />
+        </Link>
       </S.Title>
       <S.LoginForm onSubmit={onSubmit}>
         <div>

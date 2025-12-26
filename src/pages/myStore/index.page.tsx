@@ -1,5 +1,4 @@
 import Link from 'next/link';
-
 import * as S from './index.style';
 
 const StorePage = () => {

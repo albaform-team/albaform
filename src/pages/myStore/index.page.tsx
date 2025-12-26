@@ -1,0 +1,18 @@
+import Link from 'next/link';
+import * as S from './index.style';
+
+const StorePage = () => {
+  return (
+    <S.Container>
+      <S.Title>내 가게</S.Title>
+      <S.Card>
+        <S.CardText>내 가게를 소개하고 공고도 등록해 보세요.</S.CardText>
+        <Link href="/myStore/store/new.page">
+          <S.Button>가게 등록하기</S.Button>
+        </Link>
+      </S.Card>
+    </S.Container>
+  );
+};
+
+export default StorePage;

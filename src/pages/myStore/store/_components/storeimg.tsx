@@ -1,5 +1,6 @@
-import * as S from './storeimg.style';
 import StoreImg from '@/assets/img/storeregister.png';
+
+import * as S from './storeimg.style';
 
 const StoreImgComponent = () => {
   return (

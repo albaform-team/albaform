@@ -1,6 +1,7 @@
+import styled from '@emotion/styled';
+
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
-import styled from '@emotion/styled';
 
 export const Container = styled.div`
   width: 100%;
@@ -17,8 +18,8 @@ export const Section = styled.div`
   margin: 0 auto;
 
   @media ${media.tablet} {
-    padding: 60px 32px;
     gap: 32px;
+    padding: 60px 32px;
   }
 
   @media ${media.desktop} {
@@ -44,8 +45,8 @@ export const Button = styled.button`
 export const TitleWrap = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
 `;
 
@@ -65,8 +66,7 @@ export const Wraps = styled.div`
   width: 100%;
 
   @media ${media.tablet} {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     gap: 20px;
   }
 `;
@@ -128,15 +128,16 @@ export const Input = styled.input`
   }
 
   &[type='number'] {
-    -moz-appearance: textfield;
+    appearance: textfield;
   }
 
   &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+    appearance: none;
   }
+
   &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
     margin: 0;
+    appearance: none;
   }
 `;
 
@@ -147,14 +148,14 @@ export const Select = styled.select`
 `;
 
 export const StoreImgBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 200px;
   background-color: ${colors.gray[10]};
   border: 1px solid ${colors.gray[30]};
   border-radius: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 export const TextBox = styled.textarea`
@@ -169,19 +170,19 @@ export const TextBox = styled.textarea`
 `;
 
 export const ModalBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  border-radius: 8px;
-  width: 327px;
-  height: 220px;
-  background-color: ${colors.white};
-  padding: 30px;
-  gap: 40px;
   position: absolute;
   top: 50%;
   left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-content: flex-end;
+  width: 327px;
+  height: 220px;
+  padding: 30px;
+  background-color: ${colors.white};
+  border-radius: 8px;
   transform: translate(-50%, -50%);
 
   @media ${media.tablet} {
@@ -208,11 +209,11 @@ export const ModalButton = styled.button`
   border-radius: 6px;
 
   @media ${media.tablet} {
-    width: 120px;
-    font-size: 16px;
-    padding: 14px 46px;
-    letter-spacing: -0.8px;
     position: relative;
     left: 180px;
+    width: 120px;
+    padding: 14px 46px;
+    font-size: 16px;
+    letter-spacing: -0.8px;
   }
 `;

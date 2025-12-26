@@ -1,16 +1,15 @@
 import styled from '@emotion/styled';
-import { media } from '@/styles/media';
 import { colors } from '@/styles/colors';
+import { media } from '@/styles/media';
 
 export const Container = styled.div`
-  min-width: 375px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
   align-items: center;
-  justify-content: center;
   padding: 40px 12px;
+  margin: 0 auto;
+  min-height: 100vh;
 
   @media ${media.tablet} {
     padding: 60px 32px;
@@ -23,15 +22,19 @@ export const Container = styled.div`
 `;
 
 export const Button = styled.button`
+  width: 110px;
+  height: 37px;
   padding: 10px 20px;
-  border-radius: 6px;
-  background-color: ${colors.red[40]};
-  color: ${colors.white};
   font-size: 14px;
   font-weight: 700;
+  letter-spacing: -1.5px;
+  color: ${colors.white};
+  background-color: ${colors.red[40]};
+  border-radius: 6px;
 
   @media ${media.tablet} {
     min-width: 346px;
+    height: 47px;
     font-size: 16px;
   }
 `;
@@ -59,8 +62,8 @@ export const Card = styled.div`
 `;
 
 export const CardText = styled.p`
-  color: ${colors.black};
   font-size: 14px;
+  color: ${colors.black};
 
   @media ${media.tablet} {
     font-size: 16px;

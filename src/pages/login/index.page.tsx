@@ -19,7 +19,7 @@ export interface ModalState {
   message: string;
 }
 
-export default function LoginPage() {
+const LoginPage = () => {
   const router = useRouter();
   const {
     form,
@@ -107,4 +107,6 @@ export default function LoginPage() {
       <LoginModal modalState={modalState} handleClose={handleClose} />
     </S.LoginLayout>
   );
-}
+};
+
+export default LoginPage;

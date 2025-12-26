@@ -1,8 +1,11 @@
-import * as React from 'react';
-import * as S from './new.style';
-import Modal from '@mui/material/Modal';
 import Image from 'next/image';
+
+import Modal from '@mui/material/Modal';
+import * as React from 'react';
+
 import CloseIcon from '@/assets/svg/closeicon.svg';
+
+import * as S from './new.style';
 
 const JobRegisterPage = () => {
   const [open, setOpen] = React.useState(false);

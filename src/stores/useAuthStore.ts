@@ -1,9 +1,14 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import type { LoginUser } from '@/types/api/auth';
+
 interface AuthState {
   accessToken: string | null;
-  setAccessToken: (t: string | null) => void;
+  user: LoginUser | null;
+
+  setAuth: (payload: { accessToken: string; user: LoginUser }) => void;
+  setUser: (user: LoginUser | null) => void;
   clearAuth: () => void;
 }
 
@@ -11,13 +16,29 @@ const useAuthStore = create<AuthState>()(
   persist(
     set => ({
       accessToken: null,
-      setAccessToken: t => set({ accessToken: t }),
-      clearAuth: () => set({ accessToken: null }),
+      user: null,
+
+      setAuth: ({ accessToken, user }) =>
+        set({
+          accessToken,
+          user,
+        }),
+
+      setUser: user => set({ user }),
+
+      clearAuth: () =>
+        set({
+          accessToken: null,
+          user: null,
+        }),
     }),
     {
       name: 'auth-storage',
       storage: createJSONStorage(() => sessionStorage),
-      partialize: s => ({ accessToken: s.accessToken }),
+      partialize: AuthStore => ({
+        accessToken: AuthStore.accessToken,
+        user: AuthStore.user,
+      }),
     }
   )
 );

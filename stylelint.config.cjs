@@ -21,6 +21,7 @@ module.exports = {
     'length-zero-no-unit': true,
 
     // CSS-in-JS 오탐 제거
+    'nesting-selector-no-missing-scoping-root': null,
     'no-descending-specificity': null,
     'selector-class-pattern': null,
     'selector-id-pattern': null,

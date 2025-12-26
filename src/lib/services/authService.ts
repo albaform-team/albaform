@@ -13,10 +13,13 @@ export const login = async (
     email,
     password,
   });
-  const { setAccessToken } = useAuthStore.getState();
+  const { setAuth } = useAuthStore.getState();
 
   if (data.item.token) {
-    setAccessToken(data.item.token);
+    setAuth({
+      accessToken: data.item.token,
+      user: data.item.user.item,
+    });
   }
 
   return data;

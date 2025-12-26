@@ -1,6 +1,6 @@
 import { Modal } from '@mui/material';
 
-import { ModalState } from '..';
+import { ModalState } from '../index.page';
 
 import * as S from './LoginModal.style';
 

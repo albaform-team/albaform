@@ -47,7 +47,7 @@ export default function Header({ user }: HeaderType) {
               <S.Button href="/profile">내 프로필</S.Button>
               <S.Button href="/signup">로그아웃</S.Button>
               <Image
-                src={'/assets/png/notification.png'}
+                src={NotificationImage}
                 alt="알림"
                 width={24}
                 height={24}

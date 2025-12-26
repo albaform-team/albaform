@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
 
@@ -7,9 +8,9 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 8px;
   align-items: center;
+  min-height: 100vh;
   padding: 40px 12px;
   margin: 0 auto;
-  min-height: 100vh;
 
   @media ${media.tablet} {
     padding: 60px 32px;
@@ -27,8 +28,8 @@ export const Button = styled.button`
   padding: 10px 20px;
   font-size: 14px;
   font-weight: 700;
-  letter-spacing: -1.5px;
   color: ${colors.white};
+  letter-spacing: -1.5px;
   background-color: ${colors.red[40]};
   border-radius: 6px;
 

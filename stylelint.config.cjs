@@ -26,5 +26,6 @@ module.exports = {
     'selector-class-pattern': null,
     'selector-id-pattern': null,
     'media-query-no-invalid': null,
+    'nesting-selector-no-missing-scoping-root': null,
   },
 };

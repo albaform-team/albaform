@@ -45,13 +45,13 @@ export const Title = styled.h1`
 `;
 
 export const Card = styled.div`
-  background-color: ${colors.red[10]};
-  padding: 20px;
-  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap: 12px;
+  width: 100%;
+  padding: 20px;
+  background-color: ${colors.red[10]};
+  border-radius: 12px;
 
   @media ${media.tablet} {
     padding: 25px;
@@ -64,10 +64,10 @@ export const Card = styled.div`
 `;
 
 export const CardImgWrap = styled.div`
-  background-color: ${colors.gray[50]};
-  border-radius: 12px;
   width: 100%;
   height: 178px;
+  background-color: ${colors.gray[50]};
+  border-radius: 12px;
 
   @media ${media.tablet} {
     height: 360px;
@@ -89,10 +89,10 @@ export const CardTextWrap = styled.div`
   }
 
   @media ${media.desktop} {
+    gap: 18px;
+    justify-content: flex-end;
     width: 346px;
     height: 308px;
-    justify-content: flex-end;
-    gap: 18px;
   }
 `;
 
@@ -125,8 +125,8 @@ export const CardTitle = styled.p`
 export const CardNavWrap = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
   gap: 6px;
+  align-items: center;
 `;
 
 export const CardNavText = styled.p`
@@ -158,33 +158,33 @@ export const CardButtonWrap = styled.div`
 `;
 
 export const CardEditButton = styled.button`
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: ${colors.red[40]};
   background-color: ${colors.white};
   border: 1px solid ${colors.red[40]};
   border-radius: 6px;
-  color: ${colors.red[40]};
-  font-size: 14px;
-  font-weight: 700;
-  width: 100%;
-  padding: 10px 20px;
 
   @media ${media.tablet} {
-    font-size: 16px;
     height: 48px;
+    font-size: 16px;
   }
 `;
 
 export const CardRegisterButton = styled.button`
-  background-color: ${colors.red[40]};
-  color: ${colors.white};
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 700;
   width: 100%;
   padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: ${colors.white};
+  background-color: ${colors.red[40]};
+  border: none;
+  border-radius: 6px;
 
   @media ${media.tablet} {
-    font-size: 16px;
     height: 48px;
+    font-size: 16px;
   }
 `;

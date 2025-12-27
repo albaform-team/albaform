@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import NotificationModal from '@/components/Header/NotificationModal/NotificationModal';
+
+import { useState } from 'react';
 
 import LogoImage from '@/assets/svg/logo.svg';
 import NotificationImage from '@/assets/svg/notification.svg';
 import SearchImage from '@/assets/svg/search.svg';
 import * as S from '@/components/Header/Header.styles';
-import { useState } from 'react';
+import NotificationModal from '@/components/Header/NotificationModal/NotificationModal';
 
 type UserType = 'unlogin' | 'owner' | 'user';
 
@@ -14,7 +15,7 @@ type HeaderType = {
   user: UserType;
 };
 
-export default function Header({ user }: HeaderType) {
+const Header = ({ user }: HeaderType) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openNotification = () => setIsOpen(true);
@@ -81,4 +82,6 @@ export default function Header({ user }: HeaderType) {
       </S.HeaderContainer>
     </>
   );
-}
+};
+
+export default Header;

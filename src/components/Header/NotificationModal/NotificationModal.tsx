@@ -6,12 +6,16 @@ import * as S from '@/components/Header/NotificationModal/NotificationModal.styl
 
 import NotificationItem from './NotificationItem';
 
-const NotificationModal = () => {
+type NotificationModalProps = {
+  onClose: () => void;
+};
+
+const NotificationModal = ({ onClose }: NotificationModalProps) => {
   return (
-    <S.NotificationContainer>
+    <S.NotificationContainer onClick={e => e.stopPropagation()}>
       <S.NotificationHeader>
         <S.NotificationTitle>알림 6개</S.NotificationTitle>
-        <S.CloseButton href={'/'}>
+        <S.CloseButton as="button" onClick={onClose}>
           <Image src={CloseIcon} alt="창닫기" width={24} height={24} />
         </S.CloseButton>
       </S.NotificationHeader>

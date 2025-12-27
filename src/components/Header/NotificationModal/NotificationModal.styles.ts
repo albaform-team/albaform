@@ -12,22 +12,24 @@ export const NotificationContainer = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 375px;
-  height: 100vh;
-  padding: 40px 20px;
   background-color: #ffebe7;
 
-  @media (width >= 1024px) {
-    width: 368px;
-    height: 419px;
-    border: 1px solid #cbc9cf;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px 0 rgb(120 116 134 / 25%);
-  }
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  padding: 40px 20px;
 
-  @media (width >= 744px) {
+  @media (min-width: 744px) {
+    position: absolute;
+    inset: auto;
+    top: calc(100% + 8px);
+    right: 0;
+
     width: 368px;
     height: 419px;
+    padding: 40px 20px;
+
     border: 1px solid #cbc9cf;
     border-radius: 10px;
     box-shadow: 0 2px 8px 0 rgb(120 116 134 / 25%);
@@ -47,7 +49,7 @@ export const NotificationTitle = styled.div`
   line-height: 100%;
 `;
 
-export const CloseButton = styled(Link)`
+export const CloseButton = styled.div`
   cursor: pointer;
 `;
 

@@ -15,7 +15,7 @@ type HeaderType = {
   user: UserType;
 };
 
-const Header = ({ user }: HeaderType) => {
+const Header = ({ user = 'unlogin' }: HeaderType) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openNotification = () => setIsOpen(true);

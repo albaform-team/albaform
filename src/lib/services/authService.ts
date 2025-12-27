@@ -1,6 +1,6 @@
-import { AUTH_API } from '@/constants/api';
+import { AUTH_API, USERS_API } from '@/constants/api';
 import useAuthStore from '@/stores/useAuthStore';
-import { LoginResponse } from '@/types/api/auth';
+import { LoginResponse, SignupReponse, UserType } from '@/types/api/auth';
 
 import { services } from './servicesClient';
 
@@ -23,4 +23,24 @@ export const login = async (
   }
 
   return data;
+};
+
+interface SignupRequest {
+  email: string;
+  password: string;
+  type: UserType;
+}
+
+export const signup = async (
+  payload: SignupRequest
+): Promise<SignupReponse> => {
+  // 예시: POST /auth/signup
+  // 실제 API 스펙에 맞게 URL/바디 형태 수정
+  const res = await services.post(USERS_API.SIGN_UP, {
+    email: payload.email,
+    password: payload.password,
+    type: payload.type,
+  });
+
+  return res.data;
 };

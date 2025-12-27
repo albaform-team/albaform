@@ -16,3 +16,8 @@ export interface LoginResponse {
   };
   links: unknown[];
 }
+
+export interface SignupReponse {
+  item: LoginUser;
+  links: unknown[];
+}

@@ -114,7 +114,6 @@ const StoreListIdPage = () => {
                 <S.CardPriceText>15,000원</S.CardPriceText>
                 <S.CardPriceSubTextWrap>
                   <S.CardPriceSubText>기존 시급보다 100%</S.CardPriceSubText>
-                  {/* <Image src={ArrowIcon} alt="ArrowIcon" /> */}
                   <S.ArrowIcon />
                 </S.CardPriceSubTextWrap>
               </S.CardPriceTextWrap>

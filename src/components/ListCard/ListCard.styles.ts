@@ -36,7 +36,6 @@ export const JobImage = styled.div`
   width: 147px;
   height: 84px;
   overflow: hidden;
-  background-color: black;
   border-radius: 12px;
 
   @media ${media.tablet} {
@@ -45,17 +44,40 @@ export const JobImage = styled.div`
   }
 `;
 
+export const JobImageMedia = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  img {
+    object-fit: cover;
+  }
+`;
+
+export const ExpiredOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: ${colors.white};
+  background: rgb(0 0 0 / 70%);
+`;
+
 export const JobSummary = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
 
-export const JobTitle = styled.div`
+export const JobTitle = styled.div<{ $isExpired: boolean }>`
   font-size: 16px;
   font-weight: 700;
   line-height: 20px;
-  color: ${colors.black};
+  color: ${({ $isExpired }) => ($isExpired ? colors.gray[30] : colors.black)};
 
   @media ${media.tablet} {
     font-size: 20px;
@@ -81,11 +103,12 @@ export const JobMetaIcon = styled(Image)`
   }
 `;
 
-export const JobMetaInfo = styled.div`
+export const JobMetaInfo = styled.div<{ $isExpired: boolean }>`
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
-  color: ${colors.gray[50]};
+  color: ${({ $isExpired }) =>
+    $isExpired ? colors.gray[30] : colors.gray[50]};
 
   @media ${media.tablet} {
     font-size: 14px;
@@ -106,22 +129,22 @@ export const PaySection = styled.div`
   }
 `;
 
-export const HourlyPay = styled.div`
+export const HourlyPay = styled.div<{ $isExpired: boolean }>`
   font-size: 18px;
   font-weight: 700;
   line-height: 100%;
-  color: ${colors.black};
+  color: ${({ $isExpired }) => ($isExpired ? colors.gray[30] : colors.black)};
 
   @media ${media.tablet} {
     font-size: 24px;
   }
 `;
 
-export const PayIncreaseBadge = styled.div`
+export const PayIncreaseBadge = styled.div<{ $isExpired: boolean }>`
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
-  color: ${colors.red[40]};
+  color: ${({ $isExpired }) => ($isExpired ? colors.gray[20] : colors.red[40])};
 
   @media ${media.tablet} {
     font-size: 14px;
@@ -131,7 +154,7 @@ export const PayIncreaseBadge = styled.div`
   }
 `;
 
-export const PayIncreaseBadgeSection = styled.div`
+export const PayIncreaseBadgeSection = styled.div<{ $isExpired: boolean }>`
   display: flex;
   gap: 2px;
   align-items: center;
@@ -143,7 +166,8 @@ export const PayIncreaseBadgeSection = styled.div`
     font-weight: 700;
     line-height: 100%;
     color: ${colors.white};
-    background-color: ${colors.red[40]};
+    background-color: ${({ $isExpired }) =>
+      $isExpired ? colors.gray[20] : colors.red[40]};
     border-radius: 20px;
   }
 `;

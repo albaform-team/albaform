@@ -9,7 +9,7 @@ const StoreListPage = () => {
   return (
     <>
       <S.Container>
-        <S.Section>
+        <S.Section01>
           <S.TitleWrap>
             <S.Title>내 가게</S.Title>
           </S.TitleWrap>
@@ -35,10 +35,10 @@ const StoreListPage = () => {
               </S.CardButtonWrap>
             </S.CardTextWrap>
           </S.Card>
-        </S.Section>
+        </S.Section01>
       </S.Container>
       <S.ContainerBg>
-        <S.Section>
+        <S.Section02>
           <S.TitleWrap>
             <S.Title>등록한 공고</S.Title>
           </S.TitleWrap>
@@ -48,7 +48,7 @@ const StoreListPage = () => {
               <S.JobsButton>공고 등록하기</S.JobsButton>
             </Link>
           </S.CardJobs>
-        </S.Section>
+        </S.Section02>
       </S.ContainerBg>
     </>
   );

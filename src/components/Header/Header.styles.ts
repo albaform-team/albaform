@@ -13,6 +13,10 @@ export const HeaderContainer = styled.header`
   justify-content: center;
   width: 100%;
   height: 70px;
+
+  @media (max-width: ${BREAKPOINT.MOBILE}px) {
+    height: 102px;
+  }
 `;
 
 export const HeaderContent = styled.div`
@@ -100,6 +104,7 @@ export const SearchBox = styled.div`
 `;
 
 export const HeaderRight = styled.div`
+  position: relative;
   display: flex;
   gap: 40px;
   align-items: center;
@@ -130,6 +135,28 @@ export const Button = styled(Link)`
   }
 `;
 
-export const NotificationIcon = styled(Image)`
+export const NotificationButton = styled.div`
   cursor: pointer;
+`;
+
+export const NotificationOverlay = styled.div`
+  z-index: 1000;
+
+  /* 모바일 */
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+
+  @media (min-width: 744px) {
+    position: absolute;
+    inset: auto;
+    top: 100%;
+    right: 0;
+
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
 `;

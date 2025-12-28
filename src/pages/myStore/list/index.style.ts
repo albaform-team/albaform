@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
+import ArrowIconComponent from '@/assets/svg/arrowicon';
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
-import ArrowIconComponent from '@/assets/svg/arrowicon';
 
 export const Container = styled.div`
   width: 100%;
@@ -253,11 +253,10 @@ export const CardJobsText = styled.p`
 
 export const CardListWrap = styled.div`
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
+  gap: 16px;
   justify-content: space-between;
   width: 100%;
-  gap: 16px;
 
   @media ${media.tablet} {
     gap: 14px;
@@ -373,27 +372,27 @@ export const CardPriceText = styled.p`
 export const CardPriceSubTextWrap = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
   gap: 3px;
+  align-items: center;
 
   @media ${media.tablet} {
+    height: 36px;
+    padding: 12px;
     background-color: ${colors.red[40]};
     border-radius: 36px;
-    padding: 12px;
-    height: 36px;
   }
 `;
 
 export const CardPriceSubText = styled.p`
   font-size: 12px;
   font-weight: 400;
-  letter-spacing: -1px;
   color: ${colors.red[40]};
+  letter-spacing: -1px;
 
   @media ${media.tablet} {
     font-size: 14px;
-    color: ${colors.white};
     font-weight: 700;
+    color: ${colors.white};
   }
 `;
 

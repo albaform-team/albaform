@@ -3,6 +3,7 @@ import Image from 'next/image';
 import NavIcon from '@/assets/svg/navicon.svg';
 
 import * as S from './index.style';
+import Link from 'next/link';
 
 const StoreListPage = () => {
   return (
@@ -36,6 +37,19 @@ const StoreListPage = () => {
           </S.Card>
         </S.Section>
       </S.Container>
+      <S.ContainerBg>
+        <S.Section>
+          <S.TitleWrap>
+            <S.Title>등록한 공고</S.Title>
+          </S.TitleWrap>
+          <S.CardJobs>
+            <S.CardJobsText>공고를 등록해 보세요.</S.CardJobsText>
+            <Link href="/myStore/jobs/new">
+              <S.JobsButton>공고 등록하기</S.JobsButton>
+            </Link>
+          </S.CardJobs>
+        </S.Section>
+      </S.ContainerBg>
     </>
   );
 };

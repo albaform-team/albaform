@@ -5,10 +5,33 @@ import { media } from '@/styles/media';
 
 export const Container = styled.div`
   width: 100%;
+`;
+
+export const ContainerBg = styled.div`
+  width: 100%;
   min-height: 100vh;
+  background-color: ${colors.gray[5]};
 `;
 
 export const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  padding: 40px 12px;
+  margin: 0 auto;
+
+  @media ${media.tablet} {
+    gap: 32px;
+    padding: 60px 32px;
+  }
+
+  @media ${media.desktop} {
+    max-width: 964px;
+  }
+`;
+
+export const Section02 = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -185,6 +208,44 @@ export const CardRegisterButton = styled.button`
 
   @media ${media.tablet} {
     height: 48px;
+    font-size: 16px;
+  }
+`;
+
+export const JobsButton = styled.button`
+  width: 110px;
+  height: 37px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: ${colors.white};
+  letter-spacing: -1.5px;
+  background-color: ${colors.red[40]};
+  border-radius: 6px;
+
+  @media ${media.tablet} {
+    min-width: 346px;
+    height: 47px;
+    font-size: 16px;
+  }
+`;
+
+export const CardJobs = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  padding: 60px 24px;
+  border: 1px solid ${colors.gray[20]};
+  border-radius: 12px;
+`;
+
+export const CardJobsText = styled.p`
+  font-size: 14px;
+  color: ${colors.black};
+
+  @media ${media.tablet} {
     font-size: 16px;
   }
 `;

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
+import ArrowIconComponent from '@/assets/svg/arrowicon';
 
 export const Container = styled.div`
   width: 100%;
@@ -13,7 +14,7 @@ export const ContainerBg = styled.div`
   background-color: ${colors.gray[5]};
 `;
 
-export const Section = styled.div`
+export const Section01 = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -247,5 +248,166 @@ export const CardJobsText = styled.p`
 
   @media ${media.tablet} {
     font-size: 16px;
+  }
+`;
+
+export const CardListWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+
+  @media ${media.tablet} {
+    gap: 14px;
+  }
+
+  @media ${media.desktop} {
+    gap: 12px;
+  }
+`;
+
+export const CardList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: calc(50% - 10px);
+  padding: 12px;
+  background-color: ${colors.white};
+  border: 1px solid ${colors.gray[20]};
+  border-radius: 12px;
+
+  @media ${media.tablet} {
+    padding: 16px;
+  }
+
+  @media ${media.desktop} {
+    flex-direction: column;
+    width: 32%;
+  }
+`;
+
+export const CardListImgWrap = styled.div`
+  width: 100%;
+  height: 84px;
+  background-color: ${colors.gray[50]};
+  border-radius: 12px;
+
+  @media ${media.tablet} {
+    height: 172px;
+  }
+`;
+
+export const CardListTextWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  @media ${media.tablet} {
+    gap: 6px;
+  }
+`;
+
+export const CardListTitleWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const CardListTitle = styled.p`
+  font-size: 16px;
+  font-weight: 700;
+  color: ${colors.black};
+
+  @media ${media.tablet} {
+    font-size: 28px;
+  }
+`;
+
+export const CardListNavWrap01 = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: flex-start;
+`;
+
+export const CardListNavWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+`;
+
+export const CardListNavText = styled.p`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${colors.gray[50]};
+
+  @media ${media.tablet} {
+    font-size: 14px;
+  }
+`;
+
+export const CardPriceTextWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  @media ${media.tablet} {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+`;
+
+export const CardPriceText = styled.p`
+  font-size: 18px;
+  font-weight: 700;
+  color: ${colors.black};
+
+  @media ${media.tablet} {
+    font-size: 24px;
+  }
+`;
+
+export const CardPriceSubTextWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+
+  @media ${media.tablet} {
+    background-color: ${colors.red[40]};
+    border-radius: 36px;
+    padding: 12px;
+    height: 36px;
+  }
+`;
+
+export const CardPriceSubText = styled.p`
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -1px;
+  color: ${colors.red[40]};
+
+  @media ${media.tablet} {
+    font-size: 14px;
+    color: ${colors.white};
+    font-weight: 700;
+  }
+`;
+
+export const ArrowIcon = styled(ArrowIconComponent)`
+  path {
+    fill: ${colors.red[40]};
+  }
+
+  @media ${media.tablet} {
+    width: 13px;
+    height: 13px;
+
+    path {
+      fill: ${colors.white};
+    }
   }
 `;

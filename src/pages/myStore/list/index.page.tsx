@@ -1,9 +1,9 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import NavIcon from '@/assets/svg/navicon.svg';
 
 import * as S from './index.style';
-import Link from 'next/link';
 
 const StoreListPage = () => {
   return (

@@ -1,10 +1,6 @@
-/* stylelint-disable nesting-selector-no-missing-scoping-root */
-import Link from 'next/link';
-
 import styled from '@emotion/styled';
 
 export const NotificationContainer = styled.div`
-
   position: fixed;
   inset: 0;
   box-sizing: border-box;

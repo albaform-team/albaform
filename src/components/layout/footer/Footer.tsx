@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import EmailImage from '@/assets/svg/footer/email.svg';
 import FacebookImage from '@/assets/svg/footer/facebook.svg';
 import InstaImage from '@/assets/svg/footer/instagram.svg';
-import * as S from '@/components/Footer/Footer.styles';
+
+import * as S from './Footer.styles';
 
 const Footer = () => {
   return (

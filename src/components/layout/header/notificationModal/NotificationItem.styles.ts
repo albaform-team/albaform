@@ -1,10 +1,5 @@
 import styled from '@emotion/styled';
 
-const BREAKPOINT = {
-  TABLET: 744,
-  DESKTOP: 1024,
-};
-
 export const NotificationItem = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,9 +8,9 @@ export const NotificationItem = styled.div`
   width: 323px;
   height: 105px;
   padding: 16px 12px;
+  background-color: #fff;
   border: 1px solid #e5e4e7;
   border-radius: 5px;
-  background-color: #fff;
 
   @media (width >= 1024px) {
     width: 315px;
@@ -29,10 +24,10 @@ export const NotificationItem = styled.div`
 `;
 
 export const NotificationMessage = styled.div`
-  color: #111322;
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
+  color: #111322;
 `;
 
 export const NotificationMessageAlarm = styled.span`
@@ -40,8 +35,8 @@ export const NotificationMessageAlarm = styled.span`
 `;
 
 export const NotificationTime = styled.div`
-  color: #a4a1aa;
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
+  color: #a4a1aa;
 `;

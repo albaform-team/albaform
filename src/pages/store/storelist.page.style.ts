@@ -32,3 +32,47 @@ export const JobSuggestList = styled.div`
     display: none;
   }
 `;
+
+export const AllJobContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  width: 100%;
+  padding: 40px 0 80px;
+`;
+
+export const JobListHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 351px;
+`;
+
+export const JobListTitle = styled.div`
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 100%;
+  color: ${colors.black};
+`;
+
+export const JobFilterContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+export const AllJobListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 29px;
+  justify-content: center;
+  padding-bottom: 29px;
+`;
+
+export const AllJobList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+`;

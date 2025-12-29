@@ -18,18 +18,15 @@ export const FormControlBox = styled(FormControl)`
 `;
 
 export const sortSelectStyle = css`
-  /* 전체 Select */
   .sort-select {
     width: 105px;
   }
 
-  /* ❗ 실제 높이/테두리 */
   .sort-select .MuiOutlinedInput-root {
     height: 30px;
-    padding-right: 24px; /* 화살표 공간 */
+    padding-right: 24px;
   }
 
-  /* 텍스트 영역 */
   .sort-select .MuiSelect-select {
     box-sizing: border-box;
     display: flex;
@@ -39,7 +36,6 @@ export const sortSelectStyle = css`
     font-size: 14px;
   }
 
-  /* 화살표 */
   .sort-select .MuiSelect-icon {
     right: 4px;
   }

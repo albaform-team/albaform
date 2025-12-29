@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import MailIcon from '@mui/icons-material/Mail';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import Box from '@mui/material/Box';
@@ -14,11 +12,11 @@ import ListItemText from '@mui/material/ListItemText';
 import * as React from 'react';
 
 import CloseIcon from '@/assets/svg/close.svg';
-import * as S from '@/pages/store/_components/Drawer.style';
+import * as S from '@/pages/store/_components/DetailFilter/Drawer.style';
 
-import BasicButtons from './Button';
+import OptionSection from './OptionSection';
 
-export default function RightDrawer() {
+const RightDrawer = () => {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer =
@@ -90,44 +88,7 @@ export default function RightDrawer() {
             onClick={toggleDrawer(false)}
           />
         </S.DrawerHeader>
-        <S.DetailOption>
-          <S.LocationSection>
-            <S.DetailOptionTitle>위치</S.DetailOptionTitle>
-            <S.LocationSelectBox>
-              <S.LocationScrollArea>
-                <S.LocationSelectOption>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                  <div>경기도 군포시</div>
-                </S.LocationSelectOption>
-              </S.LocationScrollArea>
-            </S.LocationSelectBox>
-            <S.SelectedLocation></S.SelectedLocation>
-          </S.LocationSection>
-          <S.StartSection>
-            <S.DetailOptionTitle>시작일</S.DetailOptionTitle>
-            <S.StartInput disableUnderline placeholder="입력"></S.StartInput>
-          </S.StartSection>
-          <S.PaySection>
-            <S.DetailOptionTitle>금액</S.DetailOptionTitle>
-            <S.PayInput>
-              <S.PayInputBox
-                disableUnderline
-                placeholder="입력"
-              ></S.PayInputBox>
-              <S.DetailOptionTitle>이상부터</S.DetailOptionTitle>
-            </S.PayInput>
-          </S.PaySection>
-        </S.DetailOption>
+        <OptionSection />
         <S.DrawerFooter>
           <S.ResetButton>초기화</S.ResetButton>
           <S.ApplyButton>적용하기</S.ApplyButton>
@@ -135,4 +96,6 @@ export default function RightDrawer() {
       </S.DrawerContainer>
     </>
   );
-}
+};
+
+export default RightDrawer;

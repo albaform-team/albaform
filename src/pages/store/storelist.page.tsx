@@ -1,4 +1,5 @@
 import { Global } from '@emotion/react';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
@@ -6,25 +7,29 @@ import ListCard from '@/components/ListCard/ListCard';
 import { sortSelectStyle } from '@/pages/store/_components/SelectBox.style';
 import * as S from '@/pages/store/storelist.page.style';
 
-import RightDrawer from './_components/Drawer';
+import RightDrawer from './_components/DetailFilter/Drawer';
+import BasicPopover from './_components/DetailFilter/Popover';
 import PaginationRounded from './_components/Pagination';
 import BasicSelect from './_components/SelectBox';
 
-const storelist = () => {
+const StoreList = () => {
+  const isMobile = useMediaQuery('(max-width: 743px)');
   return (
     <>
       <Header user="user" />
       <S.JobSuggestSection>
-        <S.JobSuggestTitle>맞춤 공고</S.JobSuggestTitle>
         <div>
-          <S.JobSuggestList>
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-          </S.JobSuggestList>
+          <S.JobSuggestTitle>맞춤 공고</S.JobSuggestTitle>
+          <div>
+            <S.JobSuggestList>
+              <ListCard />
+              <ListCard />
+              <ListCard />
+              <ListCard />
+              <ListCard />
+              <ListCard />
+            </S.JobSuggestList>
+          </div>
         </div>
       </S.JobSuggestSection>
 
@@ -34,7 +39,7 @@ const storelist = () => {
           <S.JobFilterContainer>
             <Global styles={sortSelectStyle} />
             <BasicSelect />
-            <RightDrawer />
+            {isMobile ? <RightDrawer /> : <BasicPopover />}
           </S.JobFilterContainer>
         </S.JobListHeader>
         <S.AllJobListContainer>
@@ -54,4 +59,4 @@ const storelist = () => {
   );
 };
 
-export default storelist;
+export default StoreList;

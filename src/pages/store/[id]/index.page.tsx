@@ -7,6 +7,7 @@ import LocationIcon from '@/assets/svg/ListCard/location.svg';
 import ListCard from '@/components/ListCard/ListCard';
 import * as S from '@/pages/store/[id]/index.page.style';
 
+import CancelModal from '../_components/Modal/CancelModal';
 import ProfileRegisterModal from '../_components/Modal/ProfileRegisterModal';
 
 const StoreDetailPage = () => {

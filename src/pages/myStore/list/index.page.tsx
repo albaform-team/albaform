@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import StoreImg from '@/assets/img/storeimg.png';
 import NavIcon from '@/assets/svg/navicon.svg';
 
 import * as S from './index.style';
@@ -14,7 +15,9 @@ const StoreListPage = () => {
             <S.Title>내 가게</S.Title>
           </S.TitleWrap>
           <S.Card>
-            <S.CardImgWrap />
+            <S.CardImgWrap>
+              <Image src={StoreImg} fill alt="StoreImg" />
+            </S.CardImgWrap>
             <S.CardTextWrap>
               <S.CardTitleWrap>
                 <S.CardSmallTitle>식당</S.CardSmallTitle>

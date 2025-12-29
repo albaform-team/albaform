@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 
 import ArrowIconComponent from '@/assets/svg/arrowicon';
-import { colors } from '@/styles/colors';
-import { media } from '@/styles/media';
 import ClockIconComponent from '@/assets/svg/clockicon';
 import NavIconComponent from '@/assets/svg/navicon';
+import { colors } from '@/styles/colors';
+import { media } from '@/styles/media';
 
 export const Container = styled.div`
   width: 100%;
@@ -90,12 +90,12 @@ export const Card = styled.div`
 `;
 
 export const CardImgWrap = styled.div`
+  position: relative;
   width: 100%;
   height: 178px;
+  overflow: hidden;
   background-color: ${colors.gray[50]};
   border-radius: 12px;
-  overflow: hidden;
-  position: relative;
 
   @media ${media.tablet} {
     height: 360px;
@@ -312,12 +312,12 @@ export const CardListDisable = styled.div`
 `;
 
 export const CardListImgWrap = styled.div`
+  position: relative;
   width: 100%;
   height: 84px;
+  overflow: hidden;
   background-color: ${colors.gray[50]};
   border-radius: 12px;
-  position: relative;
-  overflow: hidden;
 
   @media ${media.tablet} {
     height: 172px;
@@ -450,11 +450,11 @@ export const CardPriceSubTextWrapDisable = styled.div`
   align-items: center;
 
   @media ${media.tablet} {
+    display: none;
     height: 36px;
     padding: 12px;
     background-color: ${colors.red[40]};
     border-radius: 36px;
-    display: none;
   }
 `;
 
@@ -487,6 +487,7 @@ export const CardPriceSubTextDisable = styled.p`
 export const ClockIcon = styled(ClockIconComponent)`
   min-width: 18px;
   min-height: 18px;
+
   path {
     fill: ${colors.red[30]};
   }
@@ -500,6 +501,7 @@ export const ClockIcon = styled(ClockIconComponent)`
 export const ClockIconDisable = styled(ClockIconComponent)`
   min-width: 16px;
   min-height: 16px;
+
   path {
     fill: ${colors.gray[30]};
   }
@@ -513,6 +515,7 @@ export const ClockIconDisable = styled(ClockIconComponent)`
 export const NavIcon = styled(NavIconComponent)`
   min-width: 13px;
   min-height: 16px;
+
   path {
     fill: ${colors.red[30]};
   }
@@ -526,6 +529,7 @@ export const NavIcon = styled(NavIconComponent)`
 export const NavIconDisable = styled(NavIconComponent)`
   min-width: 13px;
   min-height: 16px;
+
   path {
     fill: ${colors.gray[30]};
   }

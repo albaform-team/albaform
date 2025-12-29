@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import ArrowIconComponent from '@/assets/svg/arrowicon';
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
+import ClockIconComponent from '@/assets/svg/clockicon';
+import NavIconComponent from '@/assets/svg/navicon';
 
 export const Container = styled.div`
   width: 100%;
@@ -92,6 +94,8 @@ export const CardImgWrap = styled.div`
   height: 178px;
   background-color: ${colors.gray[50]};
   border-radius: 12px;
+  overflow: hidden;
+  position: relative;
 
   @media ${media.tablet} {
     height: 360px;
@@ -287,11 +291,33 @@ export const CardList = styled.div`
   }
 `;
 
+export const CardListDisable = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: calc(50% - 10px);
+  padding: 12px;
+  background-color: ${colors.white};
+  border: 1px solid ${colors.gray[20]};
+  border-radius: 12px;
+
+  @media ${media.tablet} {
+    padding: 16px;
+  }
+
+  @media ${media.desktop} {
+    flex-direction: column;
+    width: 32%;
+  }
+`;
+
 export const CardListImgWrap = styled.div`
   width: 100%;
   height: 84px;
   background-color: ${colors.gray[50]};
   border-radius: 12px;
+  position: relative;
+  overflow: hidden;
 
   @media ${media.tablet} {
     height: 172px;
@@ -324,11 +350,25 @@ export const CardListTitle = styled.p`
   }
 `;
 
+export const CardListTitleDisable = styled.p`
+  font-size: 16px;
+  font-weight: 700;
+  color: ${colors.gray[30]};
+
+  @media ${media.tablet} {
+    font-size: 28px;
+  }
+`;
+
 export const CardListNavWrap01 = styled.div`
   display: flex;
   flex-direction: row;
   gap: 6px;
   align-items: flex-start;
+
+  @media ${media.tablet} {
+    align-items: center;
+  }
 `;
 
 export const CardListNavWrap = styled.div`
@@ -342,6 +382,16 @@ export const CardListNavText = styled.p`
   font-size: 12px;
   font-weight: 400;
   color: ${colors.gray[50]};
+
+  @media ${media.tablet} {
+    font-size: 14px;
+  }
+`;
+
+export const CardListNavTextDisable = styled.p`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${colors.gray[30]};
 
   @media ${media.tablet} {
     font-size: 14px;
@@ -369,6 +419,16 @@ export const CardPriceText = styled.p`
   }
 `;
 
+export const CardPriceTextDisable = styled.p`
+  font-size: 18px;
+  font-weight: 700;
+  color: ${colors.gray[30]};
+
+  @media ${media.tablet} {
+    font-size: 24px;
+  }
+`;
+
 export const CardPriceSubTextWrap = styled.div`
   display: flex;
   flex-direction: row;
@@ -380,6 +440,21 @@ export const CardPriceSubTextWrap = styled.div`
     padding: 12px;
     background-color: ${colors.red[40]};
     border-radius: 36px;
+  }
+`;
+
+export const CardPriceSubTextWrapDisable = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: center;
+
+  @media ${media.tablet} {
+    height: 36px;
+    padding: 12px;
+    background-color: ${colors.red[40]};
+    border-radius: 36px;
+    display: none;
   }
 `;
 
@@ -396,9 +471,89 @@ export const CardPriceSubText = styled.p`
   }
 `;
 
+export const CardPriceSubTextDisable = styled.p`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${colors.gray[30]};
+  letter-spacing: -1px;
+
+  @media ${media.tablet} {
+    font-size: 14px;
+    font-weight: 700;
+    color: ${colors.white};
+  }
+`;
+
+export const ClockIcon = styled(ClockIconComponent)`
+  min-width: 18px;
+  min-height: 18px;
+  path {
+    fill: ${colors.red[30]};
+  }
+
+  @media ${media.tablet} {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const ClockIconDisable = styled(ClockIconComponent)`
+  min-width: 16px;
+  min-height: 16px;
+  path {
+    fill: ${colors.gray[30]};
+  }
+
+  @media ${media.tablet} {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const NavIcon = styled(NavIconComponent)`
+  min-width: 13px;
+  min-height: 16px;
+  path {
+    fill: ${colors.red[30]};
+  }
+
+  @media ${media.tablet} {
+    width: 16px;
+    height: 20px;
+  }
+`;
+
+export const NavIconDisable = styled(NavIconComponent)`
+  min-width: 13px;
+  min-height: 16px;
+  path {
+    fill: ${colors.gray[30]};
+  }
+
+  @media ${media.tablet} {
+    width: 16px;
+    height: 20px;
+  }
+`;
+
 export const ArrowIcon = styled(ArrowIconComponent)`
   path {
     fill: ${colors.red[40]};
+  }
+
+  @media ${media.tablet} {
+    width: 13px;
+    height: 13px;
+
+    path {
+      fill: ${colors.white};
+    }
+  }
+`;
+
+export const ArrowIconDisable = styled(ArrowIconComponent)`
+  path {
+    fill: ${colors.gray[30]};
   }
 
   @media ${media.tablet} {

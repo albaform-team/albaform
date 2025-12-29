@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import { Box } from '@mui/material';
 import { isAxiosError } from 'axios';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import logo from '@/assets/imgs/logo.png';
 import { AUTH_ROUTES, STORE_ROUTES } from '@/constants/routes';
@@ -171,6 +171,10 @@ const SignupPage = () => {
       <SignUpModal modalState={modalState} handleClose={handleClose} />
     </S.SignupLayout>
   );
+};
+
+SignupPage.getLayout = (page: ReactNode) => {
+  return <>{page}</>;
 };
 
 export default SignupPage;

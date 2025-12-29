@@ -8,15 +8,15 @@ const BREAKPOINT = {
 };
 
 export const FooterContainer = styled.footer`
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
   width: 100%;
   height: 100px;
   padding: 0 32px;
-  background-color: #f2f2f3;
   margin-top: 10px;
+  background-color: #f2f2f3;
 `;
 
 export const FooterContents = styled.div`
@@ -33,12 +33,12 @@ export const FooterContents = styled.div`
 
   @media (max-width: ${BREAKPOINT.MOBILE}px) {
     display: grid;
-    width: 335px;
     grid-template: auto auto / 1fr auto;
     grid-template-areas:
       'links social'
       'copyright copyright';
     row-gap: 12px;
+    width: 335px;
   }
 `;
 
@@ -48,9 +48,9 @@ export const FooterCopyright = styled.div`
   line-height: 26px;
 
   @media (max-width: ${BREAKPOINT.MOBILE}px) {
+    grid-area: copyright;
     font-size: 12px;
     line-height: 16px;
-    grid-area: copyright;
   }
 `;
 
@@ -64,9 +64,9 @@ export const FooterLinks = styled.footer`
   line-height: 26px;
 
   @media (max-width: ${BREAKPOINT.MOBILE}px) {
+    grid-area: links;
     font-size: 14px;
     line-height: 22px;
-    grid-area: links;
   }
 `;
 

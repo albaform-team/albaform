@@ -35,10 +35,10 @@ export const HeaderContent = styled.div`
 
   @media (max-width: ${BREAKPOINT.MOBILE}px) {
     display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr auto;
     gap: 12px;
     margin: 0 20px;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
   }
 `;
 
@@ -48,15 +48,15 @@ export const HeaderLeft = styled.div`
   align-items: center;
 
   @media (max-width: ${BREAKPOINT.MOBILE}px) {
-    gap: 0;
     grid-column: 1 / 2;
+    gap: 0;
   }
 `;
 
 export const LogoLink = styled(Link)`
   display: flex;
-  align-items: center;
   flex-shrink: 0;
+  align-items: center;
 `;
 
 export const LogoImage = styled(Image)`
@@ -75,15 +75,15 @@ export const SearchBox = styled.div`
   width: 450px;
   height: 40px;
   padding: 10px;
-  border-radius: 10px;
   background-color: #f2f2f3;
+  border-radius: 10px;
 
   input {
     width: 100%;
-    border: none;
-    background-color: transparent;
-    color: #a4a1aa;
     font-size: 14px;
+    color: #a4a1aa;
+    background-color: transparent;
+    border: none;
 
     &:focus {
       outline: none;
@@ -95,11 +95,11 @@ export const SearchBox = styled.div`
   }
 
   @media (max-width: ${BREAKPOINT.MOBILE}px) {
+    grid-row: 2 / 3;
+    grid-column: 1 / 3;
     width: 100%;
     height: 36px;
     padding: 8px;
-    grid-column: 1 / 3;
-    grid-row: 2 / 3;
   }
 `;
 
@@ -114,19 +114,19 @@ export const HeaderRight = styled.div`
   }
 
   @media (max-width: ${BREAKPOINT.MOBILE}px) {
-    gap: 16px;
     flex-shrink: 0;
+    gap: 16px;
   }
 `;
 
 export const Button = styled(Link)`
   width: 63px;
-  color: #111322;
   font-size: 16px;
   font-weight: 700;
   line-height: 20px;
-  cursor: pointer;
+  color: #111322;
   text-decoration: none;
+  cursor: pointer;
 
   @media (max-width: ${BREAKPOINT.MOBILE}px) {
     width: auto;
@@ -140,23 +140,21 @@ export const NotificationButton = styled.div`
 `;
 
 export const NotificationOverlay = styled.div`
-  z-index: 1000;
 
   /* 모바일 */
   position: fixed;
   inset: 0;
-
+  z-index: 1000;
   display: flex;
-  justify-content: stretch;
   align-items: stretch;
+  justify-content: stretch;
 
-  @media (min-width: 744px) {
+  @media (width >= 744px) {
     position: absolute;
     inset: auto;
     top: 100%;
     right: 0;
-
-    justify-content: flex-end;
     align-items: flex-start;
+    justify-content: flex-end;
   }
 `;

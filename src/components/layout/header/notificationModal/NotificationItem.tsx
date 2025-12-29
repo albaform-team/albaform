@@ -1,7 +1,8 @@
 import Image from 'next/image';
 
 import AlarmButton from '@/assets/svg/approvalAlarm.svg';
-import * as S from '@/components/Header/NotificationModal/NotificationItem.styles';
+
+import * as S from './NotificationItem.styles';
 
 const NotificationItem = () => {
   return (

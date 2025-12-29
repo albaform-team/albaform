@@ -1,13 +1,13 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import { useState } from 'react';
 
 import LogoImage from '@/assets/svg/logo.svg';
 import NotificationImage from '@/assets/svg/notification.svg';
 import SearchImage from '@/assets/svg/search.svg';
-import * as S from '@/components/Header/Header.styles';
-import NotificationModal from '@/components/Header/NotificationModal/NotificationModal';
+
+import * as S from './Header.styles';
+import NotificationModal from './notificationModal/NotificationModal';
 
 type UserType = 'unlogin' | 'owner' | 'user';
 
@@ -50,7 +50,7 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
             )}
             {user === 'owner' && (
               <>
-                <S.Button href="/mystore">내 가게</S.Button>
+                <S.Button href="/myStore">내 가게</S.Button>
                 <S.Button href="/signup">로그아웃</S.Button>
                 <S.NotificationButton onClick={openNotification}>
                   <Image
@@ -76,7 +76,7 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
                 </S.NotificationButton>
               </>
             )}
-            {isOpen && <NotificationModal onClose={() => setIsOpen(false)} />}
+            {isOpen && <NotificationModal onClose={closeNotification} />}
           </S.HeaderRight>
         </S.HeaderContent>
       </S.HeaderContainer>

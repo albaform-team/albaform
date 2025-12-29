@@ -1,10 +1,9 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import CloseIcon from '@/assets/svg/close.svg';
-import * as S from '@/components/Header/NotificationModal/NotificationModal.styles';
 
 import NotificationItem from './NotificationItem';
+import * as S from './NotificationModal.styles';
 
 type NotificationModalProps = {
   onClose: () => void;

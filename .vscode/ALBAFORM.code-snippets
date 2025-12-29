@@ -1,0 +1,18 @@
+{
+  "ImportStylesAsS": {
+    "scope": "javascript,javascriptreact,typescriptreact",
+    "prefix": "ims",
+    "body": ["import * as S from \"./${TM_FILENAME_BASE/\\.page$//}.style\";"],
+    "description": "import * as S from './<컴포넌트이름>.style'",
+  },
+  "MediaTabletQuery": {
+    "prefix": "met",
+    "description": "@media ${media.tablet}",
+    "body": ["@media ${media.tablet} {", "  $0", "}"],
+  },
+  "MediaDesktopQuery": {
+    "prefix": "med",
+    "description": "@media ${media.desktop}",
+    "body": ["@media ${media.desktop} {", "  $0", "}"],
+  },
+}

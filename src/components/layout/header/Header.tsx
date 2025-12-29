@@ -1,13 +1,18 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import { useState } from 'react';
 
 import LogoImage from '@/assets/svg/logo.svg';
 import NotificationImage from '@/assets/svg/notification.svg';
 import SearchImage from '@/assets/svg/search.svg';
-import * as S from '@/components/Header/Header.styles';
-import NotificationModal from '@/components/Header/NotificationModal/NotificationModal';
+import {
+  AUTH_ROUTES,
+  MY_STORE_ROUTES,
+  PROFILE_ROUTES,
+} from '@/constants/routes';
+
+import * as S from './Header.styles';
+import NotificationModal from './notificationModal/NotificationModal';
 
 type UserType = 'unlogin' | 'owner' | 'user';
 
@@ -44,14 +49,14 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
           <S.HeaderRight>
             {user === 'unlogin' && (
               <>
-                <S.Button href="/login">로그인</S.Button>
-                <S.Button href="/signup">회원가입</S.Button>
+                <S.Button href={AUTH_ROUTES.LOGIN}>로그인</S.Button>
+                <S.Button href={AUTH_ROUTES.SIGN_UP}>회원가입</S.Button>
               </>
             )}
             {user === 'owner' && (
               <>
-                <S.Button href="/mystore">내 가게</S.Button>
-                <S.Button href="/signup">로그아웃</S.Button>
+                <S.Button href={MY_STORE_ROUTES.ROOT}>내 가게</S.Button>
+                <S.Button href={AUTH_ROUTES.SIGN_UP}>로그아웃</S.Button>
                 <S.NotificationButton onClick={openNotification}>
                   <Image
                     src={NotificationImage}
@@ -64,8 +69,10 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
             )}
             {user === 'user' && (
               <>
-                <S.Button href="/profile">내 프로필</S.Button>
-                <S.Button href="/signup">로그아웃</S.Button>
+                <S.Button href={PROFILE_ROUTES.ROOT('testUserId')}>
+                  내 프로필
+                </S.Button>
+                <S.Button href={AUTH_ROUTES.SIGN_UP}>로그아웃</S.Button>
                 <S.NotificationButton onClick={openNotification}>
                   <Image
                     src={NotificationImage}
@@ -76,7 +83,7 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
                 </S.NotificationButton>
               </>
             )}
-            {isOpen && <NotificationModal onClose={() => setIsOpen(false)} />}
+            {isOpen && <NotificationModal onClose={closeNotification} />}
           </S.HeaderRight>
         </S.HeaderContent>
       </S.HeaderContainer>

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { Box } from '@mui/material';
 import { isAxiosError } from 'axios';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import logo from '@/assets/imgs/logo.png';
 import { AUTH_ROUTES, STORE_ROUTES } from '@/constants/routes';
@@ -107,6 +107,10 @@ const LoginPage = () => {
       <LoginModal modalState={modalState} handleClose={handleClose} />
     </S.LoginLayout>
   );
+};
+
+LoginPage.getLayout = (page: ReactNode) => {
+  return <>{page}</>;
 };
 
 export default LoginPage;

@@ -27,7 +27,12 @@ const StoreDetailPage = () => {
               <S.Pay>15,000원</S.Pay>
               <S.PayIncrease>
                 기존 시급보다 50%
-                <Image src={ArrowIcon} alt="증가" width={16} height={16} />
+                <S.ArrowIcon
+                  src={ArrowIcon}
+                  alt="증가"
+                  width={16}
+                  height={16}
+                />
               </S.PayIncrease>
             </S.PayInfo>
             <S.InfoList>

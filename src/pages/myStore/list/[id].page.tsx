@@ -1,7 +1,6 @@
 import Image from 'next/image';
 
 import StoreImg from '@/assets/img/storeimg.png';
-import ClockIcon from '@/assets/svg/clockicon.svg';
 import NavIcon from '@/assets/svg/navicon.svg';
 
 import * as S from './index.style';
@@ -73,62 +72,73 @@ const StoreListIdPage = () => {
                 </S.CardPriceSubTextWrap>
               </S.CardPriceTextWrap>
             </S.CardList>
-            <S.CardList>
-              <S.CardListImgWrap>
-                <Image src={StoreImg} fill alt="StoreImg" />
-              </S.CardListImgWrap>
-              <S.CardListTextWrap>
-                <S.CardListTitleWrap>
-                  <S.CardListTitle>도토리식당</S.CardListTitle>
-                </S.CardListTitleWrap>
-                <S.CardListNavWrap01>
-                  <S.ClockIcon />
-                  <S.CardListNavText>
-                    2023-06-02 15:00~18:00 (3시간)
-                  </S.CardListNavText>
-                </S.CardListNavWrap01>
-                <S.CardListNavWrap>
-                  <S.NavIcon />
-                  <S.CardListNavText>서울시 송파구</S.CardListNavText>
-                </S.CardListNavWrap>
-              </S.CardListTextWrap>
-              <S.CardPriceTextWrap>
-                <S.CardPriceText>15,000원</S.CardPriceText>
-                <S.CardPriceSubTextWrap>
-                  <S.CardPriceSubText>기존 시급보다 100%</S.CardPriceSubText>
-                  <S.ArrowIcon />
-                </S.CardPriceSubTextWrap>
-              </S.CardPriceTextWrap>
-            </S.CardList>
-            <S.CardList>
-              <S.CardListImgWrap>
-                <Image src={StoreImg} fill alt="StoreImg" />
-              </S.CardListImgWrap>
-              <S.CardListTextWrap>
-                <S.CardListTitleWrap>
-                  <S.CardListTitle>도토리식당</S.CardListTitle>
-                </S.CardListTitleWrap>
-                <S.CardListNavWrap01>
-                  <S.ClockIcon />
-                  <S.CardListNavText>
-                    2023-06-02 15:00~18:00 (3시간)
-                  </S.CardListNavText>
-                </S.CardListNavWrap01>
-                <S.CardListNavWrap>
-                  <S.NavIcon />
-                  <S.CardListNavText>서울시 송파구</S.CardListNavText>
-                </S.CardListNavWrap>
-              </S.CardListTextWrap>
-              <S.CardPriceTextWrap>
-                <S.CardPriceText>15,000원</S.CardPriceText>
-                <S.CardPriceSubTextWrap>
-                  <S.CardPriceSubText>기존 시급보다 100%</S.CardPriceSubText>
-                  <S.ArrowIcon />
-                </S.CardPriceSubTextWrap>
-              </S.CardPriceTextWrap>
-            </S.CardList>
             <S.CardListDisable>
               <S.CardListImgWrap>
+                <div>마감 완료</div>
+                <Image src={StoreImg} fill alt="StoreImg" />
+              </S.CardListImgWrap>
+              <S.CardListTextWrap>
+                <S.CardListTitleWrap>
+                  <S.CardListTitleDisable>도토리식당</S.CardListTitleDisable>
+                </S.CardListTitleWrap>
+                <S.CardListNavWrap01>
+                  <S.ClockIconDisable />
+                  <S.CardListNavTextDisable>
+                    2023-06-02 15:00~18:00 (3시간)
+                  </S.CardListNavTextDisable>
+                </S.CardListNavWrap01>
+                <S.CardListNavWrap>
+                  <S.NavIconDisable />
+                  <S.CardListNavTextDisable>
+                    서울시 송파구
+                  </S.CardListNavTextDisable>
+                </S.CardListNavWrap>
+              </S.CardListTextWrap>
+              <S.CardPriceTextWrap>
+                <S.CardPriceTextDisable>15,000원</S.CardPriceTextDisable>
+                <S.CardPriceSubTextWrapDisable>
+                  <S.CardPriceSubTextDisable>
+                    기존 시급보다 100%
+                  </S.CardPriceSubTextDisable>
+                  <S.ArrowIconDisable />
+                </S.CardPriceSubTextWrapDisable>
+              </S.CardPriceTextWrap>
+            </S.CardListDisable>
+            <S.CardListDisable>
+              <S.CardListImgWrap>
+                <div>마감 완료</div>
+                <Image src={StoreImg} fill alt="StoreImg" />
+              </S.CardListImgWrap>
+              <S.CardListTextWrap>
+                <S.CardListTitleWrap>
+                  <S.CardListTitleDisable>도토리식당</S.CardListTitleDisable>
+                </S.CardListTitleWrap>
+                <S.CardListNavWrap01>
+                  <S.ClockIconDisable />
+                  <S.CardListNavTextDisable>
+                    2023-06-02 15:00~18:00 (3시간)
+                  </S.CardListNavTextDisable>
+                </S.CardListNavWrap01>
+                <S.CardListNavWrap>
+                  <S.NavIconDisable />
+                  <S.CardListNavTextDisable>
+                    서울시 송파구
+                  </S.CardListNavTextDisable>
+                </S.CardListNavWrap>
+              </S.CardListTextWrap>
+              <S.CardPriceTextWrap>
+                <S.CardPriceTextDisable>15,000원</S.CardPriceTextDisable>
+                <S.CardPriceSubTextWrapDisable>
+                  <S.CardPriceSubTextDisable>
+                    기존 시급보다 100%
+                  </S.CardPriceSubTextDisable>
+                  <S.ArrowIconDisable />
+                </S.CardPriceSubTextWrapDisable>
+              </S.CardPriceTextWrap>
+            </S.CardListDisable>
+            <S.CardListDisable>
+              <S.CardListImgWrap>
+                <div>마감 완료</div>
                 <Image src={StoreImg} fill alt="StoreImg" />
               </S.CardListImgWrap>
               <S.CardListTextWrap>

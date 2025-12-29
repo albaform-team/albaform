@@ -1,8 +1,6 @@
 import { Global } from '@emotion/react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import Footer from '@/components/Footer/Footer';
-import Header from '@/components/Header/Header';
 import ListCard from '@/components/ListCard/ListCard';
 import { sortSelectStyle } from '@/pages/store/_components/SelectBox.style';
 import * as S from '@/pages/store/storelist.page.style';
@@ -16,7 +14,6 @@ const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
   return (
     <>
-      <Header user="user" />
       <S.JobSuggestSection>
         <div>
           <S.JobSuggestTitle>맞춤 공고</S.JobSuggestTitle>
@@ -54,7 +51,6 @@ const StoreList = () => {
         </S.AllJobListContainer>
         <PaginationRounded></PaginationRounded>
       </S.AllJobContainer>
-      <Footer />
     </>
   );
 };

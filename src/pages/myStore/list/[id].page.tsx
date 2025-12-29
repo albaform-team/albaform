@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
+import StoreImg from '@/assets/img/storeimg.png';
 import ClockIcon from '@/assets/svg/clockicon.svg';
 import NavIcon from '@/assets/svg/navicon.svg';
-import StoreImg from '@/assets/img/storeimg.png';
 
 import * as S from './index.style';
 

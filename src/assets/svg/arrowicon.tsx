@@ -1,6 +1,6 @@
 const ArrowIconComponent = (props: React.SVGProps<SVGSVGElement>) => {
   return (
-    <div>
+    <>
       <svg
         {...props}
         width="11"
@@ -14,7 +14,7 @@ const ArrowIconComponent = (props: React.SVGProps<SVGSVGElement>) => {
           fill="currentColor"
         />
       </svg>
-    </div>
+    </>
   );
 };
 

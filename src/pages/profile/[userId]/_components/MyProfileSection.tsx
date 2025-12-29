@@ -16,7 +16,7 @@ const MyProfileSection = ({ name, phone, address, bio }: Props) => {
   const user = useAuthStore(s => s.user);
 
   return (
-    <section>
+    <S.MyProfileLayout>
       <S.Title>내 프로필</S.Title>
       <S.ProfileCard>
         <div>
@@ -47,7 +47,7 @@ const MyProfileSection = ({ name, phone, address, bio }: Props) => {
           편집하기
         </S.EditButton>
       </S.ProfileCard>
-    </section>
+    </S.MyProfileLayout>
   );
 };
 

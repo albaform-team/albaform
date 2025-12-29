@@ -5,6 +5,14 @@ import styled from '@emotion/styled';
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
 
+export const MyProfileLayout = styled.section`
+  @media ${media.desktop} {
+    display: flex;
+    gap: 180px;
+    justify-content: space-between;
+  }
+`;
+
 export const Title = styled.h2`
   margin-bottom: 16px;
   font-size: 20px;
@@ -18,6 +26,7 @@ export const Title = styled.h2`
 
 export const ProfileCard = styled.div`
   display: flex;
+  flex: 1;
   gap: 16px;
   align-items: flex-start;
   justify-content: space-between;
@@ -59,7 +68,6 @@ export const Name = styled.div`
 `;
 
 export const InfoList = styled.ul`
-
   display: flex;
   flex-direction: column;
   gap: 8px;

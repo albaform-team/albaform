@@ -12,7 +12,6 @@ import * as S from './index.style';
 
 const ProfileUserPage = () => {
   const user = useAuthStore(s => s.user);
-
   const [userInfo, setUserInfo] = useState<Required<User> | null>(null);
 
   useEffect(() => {

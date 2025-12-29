@@ -69,7 +69,9 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
             )}
             {user === 'user' && (
               <>
-                <S.Button href={PROFILE_ROUTES.ROOT('testUserId')}></S.Button>
+                <S.Button href={PROFILE_ROUTES.ROOT('testUserId')}>
+                  내 프로필
+                </S.Button>
                 <S.Button href={AUTH_ROUTES.SIGN_UP}>로그아웃</S.Button>
                 <S.NotificationButton onClick={openNotification}>
                   <Image

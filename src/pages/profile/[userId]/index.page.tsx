@@ -6,6 +6,7 @@ import { GetUserInfo } from '@/lib/services/userService';
 import useAuthStore from '@/stores/useAuthStore';
 import { User } from '@/types/api/user';
 
+import AppliedJobListSection from './_components/AppliedJobListSection';
 import EmptyStateSection from './_components/EmptyStateSection';
 import MyProfileSection from './_components/MyProfileSection';
 import * as S from './index.style';
@@ -21,9 +22,9 @@ const ProfileUserPage = () => {
       try {
         const data = await GetUserInfo(user.id);
 
-        if (data?.item?.name) {
-          setUserInfo(data.item as Required<User>);
-        }
+        if (!data.item.name) return;
+
+        setUserInfo(data.item as Required<User>);
       } catch (e) {
         if (isAxiosError(e)) {
           alert(e.response?.data.message ?? '잠시후에 다시 시도해 주세요');
@@ -51,6 +52,7 @@ const ProfileUserPage = () => {
           href={PROFILE_ROUTES.ADD_PROFILE(user?.id as string)}
         />
       )}
+      <AppliedJobListSection userInfo={userInfo} userId={user?.id ?? null} />
     </S.ProfileLayout>
   );
 };

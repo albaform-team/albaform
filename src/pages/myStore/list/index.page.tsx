@@ -2,9 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import StoreImg from '@/assets/img/storeimg.png';
-import NavIcon from '@/assets/svg/navicon.svg';
 
 import * as S from './index.style';
+import { MY_STORE_ROUTES } from '@/constants/routes';
 
 const StoreListPage = () => {
   return (
@@ -24,7 +24,7 @@ const StoreListPage = () => {
                 <S.CardTitle>도토리식당</S.CardTitle>
               </S.CardTitleWrap>
               <S.CardNavWrap>
-                <Image src={NavIcon} alt="NavIcon" />
+                <S.TopNavIcon />
                 <S.CardNavText>서울시 송파구</S.CardNavText>
               </S.CardNavWrap>
               <S.CardTextArea>
@@ -47,7 +47,7 @@ const StoreListPage = () => {
           </S.TitleWrap>
           <S.CardJobs>
             <S.CardJobsText>공고를 등록해 보세요.</S.CardJobsText>
-            <Link href="/myStore/jobs/new">
+            <Link href={MY_STORE_ROUTES.STORE.NEW}>
               <S.JobsButton>공고 등록하기</S.JobsButton>
             </Link>
           </S.CardJobs>

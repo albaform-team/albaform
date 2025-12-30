@@ -1,7 +1,6 @@
 import Image from 'next/image';
 
 import StoreImg from '@/assets/img/storeimg.png';
-import NavIcon from '@/assets/svg/navicon.svg';
 
 import * as S from './index.style';
 
@@ -23,7 +22,7 @@ const StoreListIdPage = () => {
                 <S.CardTitle>도토리식당</S.CardTitle>
               </S.CardTitleWrap>
               <S.CardNavWrap>
-                <Image src={NavIcon} alt="NavIcon" />
+                <S.TopNavIcon />
                 <S.CardNavText>서울시 송파구</S.CardNavText>
               </S.CardNavWrap>
               <S.CardTextArea>

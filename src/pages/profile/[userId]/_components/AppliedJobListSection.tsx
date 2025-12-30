@@ -1,15 +1,21 @@
 import { isAxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import TablePagination, {
   Column,
 } from '@/components/tablePagination/TablePagination';
 import { STORE_ROUTES } from '@/constants/routes';
 import { GetUserApplications } from '@/lib/services/userService';
+import { media } from '@/styles/media';
 import { User } from '@/types/api/user';
 import { ApplicationStatus } from '@/types/api/userAppliedJobList';
 
-import { AppliedJobListItem } from '../_utils/mapper';
+import { useResponsiveColumns } from '../../../../hooks/useApplicantColumns';
+import {
+  AppliedJobListItem,
+  getStatusLabel,
+  mapAppliedJobToApplicantRow,
+} from '../_utils/mapper';
 
 import * as S from './AppliedJobListSection.style';
 import EmptyStateSection from './EmptyStateSection';
@@ -22,11 +28,11 @@ interface Props {
 type Applicant = {
   shop: string;
   date: string;
-  pay: number;
+  pay: string;
   status: ApplicationStatus;
 };
 
-const columns = [
+const allColumns = [
   {
     key: 'shop',
     header: '가게',
@@ -40,13 +46,15 @@ const columns = [
   {
     key: 'pay',
     header: '시급',
-    render: (row: Applicant) => row.pay.toLocaleString(),
+    render: (row: Applicant) => row.pay,
   },
   {
     key: 'status',
     header: '상태',
     render: (row: Applicant) => (
-      <span>{row.status === 'accepted' ? '승인' : '대기'}</span>
+      <S.StatusTag status={row.status}>
+        {getStatusLabel(row.status)}
+      </S.StatusTag>
     ),
   },
 ] satisfies Column<Applicant>[];
@@ -54,6 +62,15 @@ const columns = [
 const AppliedJobListSection = ({ userId, userInfo }: Props) => {
   const [appliedJobList, setAppliedJobList] = useState<AppliedJobListItem[]>(
     []
+  );
+  const { columns, isTabletUp } = useResponsiveColumns(
+    allColumns,
+    {
+      mobile: ['shop', 'status'],
+      tablet: ['shop', 'date', 'status'],
+      desktop: ['shop', 'date', 'pay', 'status'],
+    },
+    media
   );
 
   useEffect(() => {
@@ -74,14 +91,12 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
     fetchUserInfo();
   }, [userId]);
 
-  if (!userInfo) return;
+  const rows = useMemo(
+    () => appliedJobList.map(mapAppliedJobToApplicantRow),
+    [appliedJobList]
+  );
 
-  const rows: Applicant[] = appliedJobList.map(job => ({
-    shop: job.shop.name,
-    date: job.notice.startsAt,
-    pay: job.notice.hourlyPay,
-    status: job.status,
-  }));
+  if (!userInfo) return;
 
   return (
     <S.AppliedJobListSection>
@@ -89,7 +104,7 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
         <>
           <S.Title>신청 내역</S.Title>
           <TablePagination
-            paginationConfig={{ count: 100, visibleCount: 7 }}
+            paginationConfig={{ count: 100, visibleCount: isTabletUp ? 7 : 5 }}
             columns={columns}
             rows={rows}
             getRowId={row => row.shop + row.date}

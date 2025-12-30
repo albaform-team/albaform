@@ -4,6 +4,7 @@ import {
   NoticeItem,
   ShopItem,
 } from '@/types/api/userAppliedJobList';
+import { formatDateTimeRange } from '@/utils/date';
 
 export interface AppliedJobListItem {
   id: string;
@@ -33,3 +34,32 @@ export const appliedJobListMapper = (
 
   return { ...data, items };
 };
+
+const STATUS_LABEL: Record<ApplicationStatus, string> = {
+  pending: '대기중',
+  accepted: '승인 완료',
+  rejected: '거절',
+  canceled: '취소',
+};
+
+export const getStatusLabel = (status: ApplicationStatus): string => {
+  return STATUS_LABEL[status];
+};
+
+export interface ApplicantRowVM {
+  shop: string;
+  date: string;
+  pay: string;
+  status: ApplicationStatus;
+}
+
+export const mapAppliedJobToApplicantRow = (
+  job: AppliedJobListItem
+): ApplicantRowVM => ({
+  shop: job.shop.name,
+  date: formatDateTimeRange(job.notice.startsAt, {
+    durationHours: job.notice.workhour,
+  }),
+  pay: job.notice.hourlyPay.toLocaleString(),
+  status: job.status,
+});

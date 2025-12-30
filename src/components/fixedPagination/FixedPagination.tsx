@@ -27,7 +27,7 @@ const FixedPagination = ({
   const visiblePages = getVisiblePages(page, count, visibleCount);
 
   return (
-    <S.FixedPaginationWrapper direction="row" spacing={1}>
+    <S.FixedPaginationWrapper direction="row">
       {items
         .filter(item => {
           if (item.type === 'previous' || item.type === 'next') {

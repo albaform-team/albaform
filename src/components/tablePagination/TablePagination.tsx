@@ -33,7 +33,7 @@ const TablePagination = <Row,>({
   return (
     <S.TablePaginationWapper>
       <TableContainer>
-        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+        <Table sx={{ minWidth: 320 }} aria-label="custom pagination table">
           <S.TableHeader>
             <S.TableRowWrapper>
               {columns.map(col => (

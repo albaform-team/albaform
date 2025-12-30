@@ -54,9 +54,14 @@ const ProfileUserPage = () => {
           />
         )}
       </S.ProfileWrapper>
-      <S.AppliedJobListWrapper>
-        <AppliedJobListSection userInfo={userInfo} userId={user?.id ?? null} />
-      </S.AppliedJobListWrapper>
+      {userInfo && (
+        <S.AppliedJobListWrapper>
+          <AppliedJobListSection
+            userInfo={userInfo}
+            userId={user?.id ?? null}
+          />
+        </S.AppliedJobListWrapper>
+      )}
     </S.ProfileLayout>
   );
 };

@@ -37,22 +37,26 @@ const ProfileUserPage = () => {
 
   return (
     <S.ProfileLayout>
-      {userInfo ? (
-        <MyProfileSection
-          address={userInfo.address}
-          bio={userInfo.bio}
-          name={userInfo.name}
-          phone={userInfo.phone}
-        />
-      ) : (
-        <EmptyStateSection
-          title="내 프로필"
-          description="내 프로필을 등록하고 원하는 가게에 지원해 보세요."
-          actionLabel="내 프로필 등록하기"
-          href={PROFILE_ROUTES.ADD_PROFILE(user?.id as string)}
-        />
-      )}
-      <AppliedJobListSection userInfo={userInfo} userId={user?.id ?? null} />
+      <S.ProfileWrapper>
+        {userInfo ? (
+          <MyProfileSection
+            address={userInfo.address}
+            bio={userInfo.bio}
+            name={userInfo.name}
+            phone={userInfo.phone}
+          />
+        ) : (
+          <EmptyStateSection
+            title="내 프로필"
+            description="내 프로필을 등록하고 원하는 가게에 지원해 보세요."
+            actionLabel="내 프로필 등록하기"
+            href={PROFILE_ROUTES.ADD_PROFILE(user?.id as string)}
+          />
+        )}
+      </S.ProfileWrapper>
+      <S.AppliedJobListWrapper>
+        <AppliedJobListSection userInfo={userInfo} userId={user?.id ?? null} />
+      </S.AppliedJobListWrapper>
     </S.ProfileLayout>
   );
 };

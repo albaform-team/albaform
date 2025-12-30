@@ -46,9 +46,7 @@ const columns = [
     key: 'status',
     header: '상태',
     render: (row: Applicant) => (
-      <span style={{ fontWeight: 700 }}>
-        {row.status === 'accepted' ? '승인' : '대기'}
-      </span>
+      <span>{row.status === 'accepted' ? '승인' : '대기'}</span>
     ),
   },
 ] satisfies Column<Applicant>[];
@@ -63,7 +61,7 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
 
     const fetchUserInfo = async () => {
       try {
-        const appliedJobList = await GetUserApplications(userId, 0, 10);
+        const appliedJobList = await GetUserApplications(userId, 0, 5);
 
         setAppliedJobList(appliedJobList.items as AppliedJobListItem[]);
       } catch (e) {
@@ -77,7 +75,6 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
   }, [userId]);
 
   if (!userInfo) return;
-  console.log(appliedJobList);
 
   const rows: Applicant[] = appliedJobList.map(job => ({
     shop: job.shop.name,
@@ -87,11 +84,12 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
   }));
 
   return (
-    <section>
+    <S.AppliedJobListSection>
       {appliedJobList.length !== 0 ? (
         <>
           <S.Title>신청 내역</S.Title>
           <TablePagination
+            paginationConfig={{ count: 100, visibleCount: 7 }}
             columns={columns}
             rows={rows}
             getRowId={row => row.shop + row.date}
@@ -105,7 +103,7 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
           href={STORE_ROUTES.ROOT}
         />
       )}
-    </section>
+    </S.AppliedJobListSection>
   );
 };
 

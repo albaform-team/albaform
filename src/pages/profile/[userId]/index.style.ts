@@ -1,13 +1,29 @@
 import styled from '@emotion/styled';
 
+import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
 
 export const ProfileLayout = styled.main`
   display: flex;
   flex-direction: column;
-  gap: 80px;
   min-height: calc(100vh - 180px);
-  padding: 40px 12px 80px;
+
+  /* padding: 40px 12px 80px; */
+  margin: 0 auto;
+
+  @media ${media.tablet} {
+    /* width: 680px; */
+
+    /* padding: 60px 0; */
+  }
+
+  @media ${media.desktop} {
+    /* width: 964px; */
+  }
+`;
+
+export const ProfileWrapper = styled.div`
+  padding: 40px 12px;
   margin: 0 auto;
 
   @media ${media.tablet} {
@@ -18,5 +34,22 @@ export const ProfileLayout = styled.main`
 
   @media ${media.desktop} {
     width: 964px;
+  }
+`;
+
+export const AppliedJobListWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 40px 12px 80px;
+  background-color: ${colors.gray[5]};
+
+  @media ${media.tablet} {
+    /* width: 680px; */
+    padding: 60px 0;
+  }
+
+  @media ${media.desktop} {
+    /* width: 964px; */
+    padding-bottom: 120px;
   }
 `;

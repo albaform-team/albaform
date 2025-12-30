@@ -1,14 +1,9 @@
-import {
-  Pagination,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
-import Paper from '@mui/material/Paper';
-import { ReactNode } from 'react';
+import { Table, TableBody, TableContainer } from '@mui/material';
+import { ReactNode, useState } from 'react';
+
+import FixedPagination from '../fixedPagination/FixedPagination';
+
+import * as S from './TablePagination.style';
 
 export type Column<Row> = {
   key: string;
@@ -19,40 +14,50 @@ export type Column<Row> = {
 
 interface Props<Row> {
   columns: Column<Row>[];
+  paginationConfig: {
+    count: number;
+    visibleCount: number;
+  };
   rows: Row[];
   getRowId: (row: Row) => string;
 }
 
-const TablePagination = <Row,>({ columns, rows, getRowId }: Props<Row>) => {
+const TablePagination = <Row,>({
+  columns,
+  rows,
+  getRowId,
+  paginationConfig,
+}: Props<Row>) => {
+  const [page, setPage] = useState(1);
+
   return (
-    <div>
-      <TableContainer component={Paper}>
+    <S.TablePaginationWapper>
+      <TableContainer>
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-          <TableHead>
-            <TableRow>
+          <S.TableHeader>
+            <S.TableRowWrapper>
               {columns.map(col => (
-                <TableCell key={col.key} align={col.align}>
+                <S.TableCellWrapper key={col.key} align={col.align}>
                   {col.header}
-                </TableCell>
+                </S.TableCellWrapper>
               ))}
-            </TableRow>
-          </TableHead>
+            </S.TableRowWrapper>
+          </S.TableHeader>
           <TableBody>
-            {rows?.map(row => (
-              <TableRow key={getRowId(row)}>
+            {rows.map(row => (
+              <S.TableRowWrapper key={getRowId(row)}>
                 {columns.map(col => (
-                  <TableCell key={col.key} align={col.align}>
-                    {' '}
+                  <S.TableCellWrapper key={col.key} align={col.align}>
                     {col.render(row)}
-                  </TableCell>
+                  </S.TableCellWrapper>
                 ))}
-              </TableRow>
+              </S.TableRowWrapper>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Pagination count={10} shape="rounded" />
-    </div>
+      <FixedPagination page={page} {...paginationConfig} onChange={setPage} />
+    </S.TablePaginationWapper>
   );
 };
 

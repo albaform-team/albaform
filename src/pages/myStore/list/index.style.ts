@@ -530,6 +530,15 @@ export const ClockIconDisable = styled(ClockIconComponent)`
   }
 `;
 
+export const TopNavIcon = styled(NavIconComponent)`
+  min-width: 13px;
+  min-height: 16px;
+
+  path {
+    fill: ${colors.red[30]};
+  }
+`;
+
 export const NavIcon = styled(NavIconComponent)`
   min-width: 13px;
   min-height: 16px;

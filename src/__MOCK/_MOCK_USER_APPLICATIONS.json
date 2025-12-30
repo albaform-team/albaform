@@ -4,28 +4,22 @@
     "status": "pending",
     "createdAt": "2025-12-29T12:27:59.533Z",
     "shop": {
-      "item": {
-        "id": "4490151c-5217-4157-b072-9c37b05bed47",
-        "name": "진주회관",
-        "category": "한식",
-        "address1": "서울시 중구",
-        "address2": "세종대로11길 26",
-        "description": "콩국수 맛집 인정따리",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/1bdb43c8-ff08-4a46-81b0-7f91efced98c-jinju4.png",
-        "originalHourlyPay": 10000
-      },
-      "href": "/api/0-1/the-julge/shops/4490151c-5217-4157-b072-9c37b05bed47"
+      "id": "4490151c-5217-4157-b072-9c37b05bed47",
+      "name": "진주회관",
+      "category": "한식",
+      "address1": "서울시 중구",
+      "address2": "세종대로11길 26",
+      "description": "콩국수 맛집 인정따리",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/1bdb43c8-ff08-4a46-81b0-7f91efced98c-jinju4.png",
+      "originalHourlyPay": 10000
     },
     "notice": {
-      "item": {
-        "id": "99996477-82db-4bda-aae1-4044f11d9a8b",
-        "hourlyPay": 30000,
-        "description": "도와주세요",
-        "startsAt": "2025-12-30T03:00:00.000Z",
-        "workhour": 2,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/4490151c-5217-4157-b072-9c37b05bed47/notices/99996477-82db-4bda-aae1-4044f11d9a8b"
+      "id": "99996477-82db-4bda-aae1-4044f11d9a8b",
+      "hourlyPay": 30000,
+      "description": "도와주세요",
+      "startsAt": "2025-12-30T03:00:00.000Z",
+      "workhour": 2,
+      "closed": false
     }
   },
   {
@@ -33,28 +27,22 @@
     "status": "approved",
     "createdAt": "2025-12-01T02:15:10.120Z",
     "shop": {
-      "item": {
-        "id": "2a2f3f2d-0a4e-4a7b-a4b8-3e7d5f1f1a01",
-        "name": "카페 모카",
-        "category": "카페",
-        "address1": "서울시 마포구",
-        "address2": "월드컵북로 12",
-        "description": "조용한 동네 카페, 디저트 맛집",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/8b9a7a3b-3a2a-4b9b-9a9a-3c3c3c3c3c3c-cafe-mocha.png",
-        "originalHourlyPay": 11000
-      },
-      "href": "/api/0-1/the-julge/shops/2a2f3f2d-0a4e-4a7b-a4b8-3e7d5f1f1a01"
+      "id": "2a2f3f2d-0a4e-4a7b-a4b8-3e7d5f1f1a01",
+      "name": "카페 모카",
+      "category": "카페",
+      "address1": "서울시 마포구",
+      "address2": "월드컵북로 12",
+      "description": "조용한 동네 카페, 디저트 맛집",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/8b9a7a3b-3a2a-4b9b-9a9a-3c3c3c3c3c3c-cafe-mocha.png",
+      "originalHourlyPay": 11000
     },
     "notice": {
-      "item": {
-        "id": "4d0e3f32-7e43-4a1a-9f4a-0c2f1b3a9a02",
-        "hourlyPay": 12000,
-        "description": "오픈 준비 및 음료 제조 보조",
-        "startsAt": "2025-12-02T00:00:00.000Z",
-        "workhour": 4,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/2a2f3f2d-0a4e-4a7b-a4b8-3e7d5f1f1a01/notices/4d0e3f32-7e43-4a1a-9f4a-0c2f1b3a9a02"
+      "id": "4d0e3f32-7e43-4a1a-9f4a-0c2f1b3a9a02",
+      "hourlyPay": 12000,
+      "description": "오픈 준비 및 음료 제조 보조",
+      "startsAt": "2025-12-02T00:00:00.000Z",
+      "workhour": 4,
+      "closed": false
     }
   },
   {
@@ -62,28 +50,22 @@
     "status": "rejected",
     "createdAt": "2025-12-02T08:40:00.000Z",
     "shop": {
-      "item": {
-        "id": "b9a8c7d6-2222-4b33-c444-555566667777",
-        "name": "홍콩반점 강남점",
-        "category": "중식",
-        "address1": "서울시 강남구",
-        "address2": "테헤란로 45",
-        "description": "점심 러시가 빡센 편",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/11112222-3333-4444-5555-666677778888-hongkong.png",
-        "originalHourlyPay": 10500
-      },
-      "href": "/api/0-1/the-julge/shops/b9a8c7d6-2222-4b33-c444-555566667777"
+      "id": "b9a8c7d6-2222-4b33-c444-555566667777",
+      "name": "홍콩반점 강남점",
+      "category": "중식",
+      "address1": "서울시 강남구",
+      "address2": "테헤란로 45",
+      "description": "점심 러시가 빡센 편",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/11112222-3333-4444-5555-666677778888-hongkong.png",
+      "originalHourlyPay": 10500
     },
     "notice": {
-      "item": {
-        "id": "aa11bb22-3333-4c44-8d55-ee66ff778899",
-        "hourlyPay": 13000,
-        "description": "홀 서빙 및 계산 보조",
-        "startsAt": "2025-12-03T09:00:00.000Z",
-        "workhour": 5,
-        "closed": true
-      },
-      "href": "/api/0-1/the-julge/shops/b9a8c7d6-2222-4b33-c444-555566667777/notices/aa11bb22-3333-4c44-8d55-ee66ff778899"
+      "id": "aa11bb22-3333-4c44-8d55-ee66ff778899",
+      "hourlyPay": 13000,
+      "description": "홀 서빙 및 계산 보조",
+      "startsAt": "2025-12-03T09:00:00.000Z",
+      "workhour": 5,
+      "closed": true
     }
   },
   {
@@ -91,28 +73,22 @@
     "status": "pending",
     "createdAt": "2025-12-03T13:12:45.000Z",
     "shop": {
-      "item": {
-        "id": "5e4d3c2b-1a09-4f8e-9d7c-6b5a4c3d2e1f",
-        "name": "피자마루 송파점",
-        "category": "양식",
-        "address1": "서울시 송파구",
-        "address2": "백제고분로 20",
-        "description": "포장/배달 위주 매장",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/aaaa1111-bbbb-2222-cccc-3333dddd4444-pizza.png",
-        "originalHourlyPay": 12000
-      },
-      "href": "/api/0-1/the-julge/shops/5e4d3c2b-1a09-4f8e-9d7c-6b5a4c3d2e1f"
+      "id": "5e4d3c2b-1a09-4f8e-9d7c-6b5a4c3d2e1f",
+      "name": "피자마루 송파점",
+      "category": "양식",
+      "address1": "서울시 송파구",
+      "address2": "백제고분로 20",
+      "description": "포장/배달 위주 매장",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/aaaa1111-bbbb-2222-cccc-3333dddd4444-pizza.png",
+      "originalHourlyPay": 12000
     },
     "notice": {
-      "item": {
-        "id": "0f1e2d3c-4b5a-6978-8899-aabbccddeeff",
-        "hourlyPay": 14000,
-        "description": "포장/배달 접수 및 주방 보조",
-        "startsAt": "2025-12-04T08:00:00.000Z",
-        "workhour": 3,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/5e4d3c2b-1a09-4f8e-9d7c-6b5a4c3d2e1f/notices/0f1e2d3c-4b5a-6978-8899-aabbccddeeff"
+      "id": "0f1e2d3c-4b5a-6978-8899-aabbccddeeff",
+      "hourlyPay": 14000,
+      "description": "포장/배달 접수 및 주방 보조",
+      "startsAt": "2025-12-04T08:00:00.000Z",
+      "workhour": 3,
+      "closed": false
     }
   },
   {
@@ -120,28 +96,22 @@
     "status": "approved",
     "createdAt": "2025-12-04T05:05:05.000Z",
     "shop": {
-      "item": {
-        "id": "10aa20bb-30cc-40dd-50ee-60ff70aa80bb",
-        "name": "이자카야 하나",
-        "category": "일식",
-        "address1": "서울시 용산구",
-        "address2": "이태원로 15",
-        "description": "저녁 장사 중심, 분위기 좋은 술집",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/12345678-90ab-cdef-1234-567890abcdef-izakaya.png",
-        "originalHourlyPay": 13000
-      },
-      "href": "/api/0-1/the-julge/shops/10aa20bb-30cc-40dd-50ee-60ff70aa80bb"
+      "id": "10aa20bb-30cc-40dd-50ee-60ff70aa80bb",
+      "name": "이자카야 하나",
+      "category": "일식",
+      "address1": "서울시 용산구",
+      "address2": "이태원로 15",
+      "description": "저녁 장사 중심, 분위기 좋은 술집",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/12345678-90ab-cdef-1234-567890abcdef-izakaya.png",
+      "originalHourlyPay": 13000
     },
     "notice": {
-      "item": {
-        "id": "90ff80ee-70dd-60cc-50bb-40aa30dd20cc",
-        "hourlyPay": 16000,
-        "description": "주방 보조 및 설거지",
-        "startsAt": "2025-12-05T10:00:00.000Z",
-        "workhour": 6,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/10aa20bb-30cc-40dd-50ee-60ff70aa80bb/notices/90ff80ee-70dd-60cc-50bb-40aa30dd20cc"
+      "id": "90ff80ee-70dd-60cc-50bb-40aa30dd20cc",
+      "hourlyPay": 16000,
+      "description": "주방 보조 및 설거지",
+      "startsAt": "2025-12-05T10:00:00.000Z",
+      "workhour": 6,
+      "closed": false
     }
   },
   {
@@ -149,28 +119,22 @@
     "status": "pending",
     "createdAt": "2025-12-05T09:30:18.000Z",
     "shop": {
-      "item": {
-        "id": "d2b1c0a9-7e6d-4c3b-2a1f-0e9d8c7b6a5f",
-        "name": "분식천국",
-        "category": "분식",
-        "address1": "서울시 종로구",
-        "address2": "율곡로 8",
-        "description": "떡볶이/순대/튀김",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/0a0b0c0d-0e0f-1111-2222-333344445555-bunsik.png",
-        "originalHourlyPay": 9800
-      },
-      "href": "/api/0-1/the-julge/shops/d2b1c0a9-7e6d-4c3b-2a1f-0e9d8c7b6a5f"
+      "id": "d2b1c0a9-7e6d-4c3b-2a1f-0e9d8c7b6a5f",
+      "name": "분식천국",
+      "category": "분식",
+      "address1": "서울시 종로구",
+      "address2": "율곡로 8",
+      "description": "떡볶이/순대/튀김",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/0a0b0c0d-0e0f-1111-2222-333344445555-bunsik.png",
+      "originalHourlyPay": 9800
     },
     "notice": {
-      "item": {
-        "id": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809",
-        "hourlyPay": 11500,
-        "description": "튀김 보조 및 포장",
-        "startsAt": "2025-12-06T02:00:00.000Z",
-        "workhour": 4,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/d2b1c0a9-7e6d-4c3b-2a1f-0e9d8c7b6a5f/notices/1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809"
+      "id": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809",
+      "hourlyPay": 11500,
+      "description": "튀김 보조 및 포장",
+      "startsAt": "2025-12-06T02:00:00.000Z",
+      "workhour": 4,
+      "closed": false
     }
   },
   {
@@ -178,28 +142,22 @@
     "status": "approved",
     "createdAt": "2025-12-06T16:22:10.000Z",
     "shop": {
-      "item": {
-        "id": "0d1e2f3a-4b5c-6d7e-8f90-a1b2c3d4e5f6",
-        "name": "버거하우스",
-        "category": "패스트푸드",
-        "address1": "서울시 서초구",
-        "address2": "서초대로 77",
-        "description": "버거/감자튀김/음료",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/9999aaaa-bbbb-cccc-dddd-eeeeffff0000-burger.png",
-        "originalHourlyPay": 12000
-      },
-      "href": "/api/0-1/the-julge/shops/0d1e2f3a-4b5c-6d7e-8f90-a1b2c3d4e5f6"
+      "id": "0d1e2f3a-4b5c-6d7e-8f90-a1b2c3d4e5f6",
+      "name": "버거하우스",
+      "category": "패스트푸드",
+      "address1": "서울시 서초구",
+      "address2": "서초대로 77",
+      "description": "버거/감자튀김/음료",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/9999aaaa-bbbb-cccc-dddd-eeeeffff0000-burger.png",
+      "originalHourlyPay": 12000
     },
     "notice": {
-      "item": {
-        "id": "6e5d4c3b-2a1f-0e9d-8c7b-6a5f4e3d2c1b",
-        "hourlyPay": 12500,
-        "description": "카운터 및 주방 라인 보조",
-        "startsAt": "2025-12-07T04:00:00.000Z",
-        "workhour": 5,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/0d1e2f3a-4b5c-6d7e-8f90-a1b2c3d4e5f6/notices/6e5d4c3b-2a1f-0e9d-8c7b-6a5f4e3d2c1b"
+      "id": "6e5d4c3b-2a1f-0e9d-8c7b-6a5f4e3d2c1b",
+      "hourlyPay": 12500,
+      "description": "카운터 및 주방 라인 보조",
+      "startsAt": "2025-12-07T04:00:00.000Z",
+      "workhour": 5,
+      "closed": false
     }
   },
   {
@@ -207,28 +165,22 @@
     "status": "rejected",
     "createdAt": "2025-12-07T07:10:40.000Z",
     "shop": {
-      "item": {
-        "id": "13572468-2468-4ace-8bdf-13572468ace0",
-        "name": "스시노미야",
-        "category": "일식",
-        "address1": "서울시 성동구",
-        "address2": "왕십리로 100",
-        "description": "회전초밥, 저녁 피크 많음",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/abcd1234-abcd-1234-abcd-1234abcd1234-sushi.png",
-        "originalHourlyPay": 12500
-      },
-      "href": "/api/0-1/the-julge/shops/13572468-2468-4ace-8bdf-13572468ace0"
+      "id": "13572468-2468-4ace-8bdf-13572468ace0",
+      "name": "스시노미야",
+      "category": "일식",
+      "address1": "서울시 성동구",
+      "address2": "왕십리로 100",
+      "description": "회전초밥, 저녁 피크 많음",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/abcd1234-abcd-1234-abcd-1234abcd1234-sushi.png",
+      "originalHourlyPay": 12500
     },
     "notice": {
-      "item": {
-        "id": "02468ace-1357-4bdf-8ace-02468ace1357",
-        "hourlyPay": 15000,
-        "description": "홀 정리 및 접시 회수",
-        "startsAt": "2025-12-08T11:00:00.000Z",
-        "workhour": 3,
-        "closed": true
-      },
-      "href": "/api/0-1/the-julge/shops/13572468-2468-4ace-8bdf-13572468ace0/notices/02468ace-1357-4bdf-8ace-02468ace1357"
+      "id": "02468ace-1357-4bdf-8ace-02468ace1357",
+      "hourlyPay": 15000,
+      "description": "홀 정리 및 접시 회수",
+      "startsAt": "2025-12-08T11:00:00.000Z",
+      "workhour": 3,
+      "closed": true
     }
   },
   {
@@ -236,28 +188,22 @@
     "status": "pending",
     "createdAt": "2025-12-08T03:55:12.000Z",
     "shop": {
-      "item": {
-        "id": "55667788-99aa-4bbb-8ccc-ddeeff001122",
-        "name": "국밥명가",
-        "category": "한식",
-        "address1": "서울시 동대문구",
-        "address2": "천호대로 31",
-        "description": "해장국/국밥 전문",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/11223344-5566-7788-99aa-bbccddeeff00-gukbap.png",
-        "originalHourlyPay": 10200
-      },
-      "href": "/api/0-1/the-julge/shops/55667788-99aa-4bbb-8ccc-ddeeff001122"
+      "id": "55667788-99aa-4bbb-8ccc-ddeeff001122",
+      "name": "국밥명가",
+      "category": "한식",
+      "address1": "서울시 동대문구",
+      "address2": "천호대로 31",
+      "description": "해장국/국밥 전문",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/11223344-5566-7788-99aa-bbccddeeff00-gukbap.png",
+      "originalHourlyPay": 10200
     },
     "notice": {
-      "item": {
-        "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
-        "hourlyPay": 12000,
-        "description": "점심 서빙 및 상차림",
-        "startsAt": "2025-12-09T02:00:00.000Z",
-        "workhour": 4,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/55667788-99aa-4bbb-8ccc-ddeeff001122/notices/a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"
+      "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+      "hourlyPay": 12000,
+      "description": "점심 서빙 및 상차림",
+      "startsAt": "2025-12-09T02:00:00.000Z",
+      "workhour": 4,
+      "closed": false
     }
   },
   {
@@ -265,28 +211,22 @@
     "status": "approved",
     "createdAt": "2025-12-09T12:00:00.000Z",
     "shop": {
-      "item": {
-        "id": "7c6d5e4f-3a2b-4c1d-8e0f-9a8b7c6d5e4f",
-        "name": "빵굽는집",
-        "category": "베이커리",
-        "address1": "서울시 강서구",
-        "address2": "공항대로 220",
-        "description": "아침 빵 굽는 시간대",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/55aa66bb-77cc-88dd-99ee-00ff11aa22bb-bakery.png",
-        "originalHourlyPay": 11500
-      },
-      "href": "/api/0-1/the-julge/shops/7c6d5e4f-3a2b-4c1d-8e0f-9a8b7c6d5e4f"
+      "id": "7c6d5e4f-3a2b-4c1d-8e0f-9a8b7c6d5e4f",
+      "name": "빵굽는집",
+      "category": "베이커리",
+      "address1": "서울시 강서구",
+      "address2": "공항대로 220",
+      "description": "아침 빵 굽는 시간대",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/55aa66bb-77cc-88dd-99ee-00ff11aa22bb-bakery.png",
+      "originalHourlyPay": 11500
     },
     "notice": {
-      "item": {
-        "id": "1f0e2d3c-4b5a-4c6d-8e7f-9a0b1c2d3e4f",
-        "hourlyPay": 13500,
-        "description": "진열 및 포장",
-        "startsAt": "2025-12-10T01:00:00.000Z",
-        "workhour": 5,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/7c6d5e4f-3a2b-4c1d-8e0f-9a8b7c6d5e4f/notices/1f0e2d3c-4b5a-4c6d-8e7f-9a0b1c2d3e4f"
+      "id": "1f0e2d3c-4b5a-4c6d-8e7f-9a0b1c2d3e4f",
+      "hourlyPay": 13500,
+      "description": "진열 및 포장",
+      "startsAt": "2025-12-10T01:00:00.000Z",
+      "workhour": 5,
+      "closed": false
     }
   },
   {
@@ -294,28 +234,22 @@
     "status": "rejected",
     "createdAt": "2025-12-10T18:44:21.000Z",
     "shop": {
-      "item": {
-        "id": "4f3e2d1c-0b9a-4c8b-7d6e-5f4a3b2c1d0e",
-        "name": "치킨마을",
-        "category": "치킨",
-        "address1": "서울시 노원구",
-        "address2": "노해로 88",
-        "description": "배달/포장 많음",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/ee11dd22-cc33-bb44-aa55-009988776655-chicken.png",
-        "originalHourlyPay": 11000
-      },
-      "href": "/api/0-1/the-julge/shops/4f3e2d1c-0b9a-4c8b-7d6e-5f4a3b2c1d0e"
+      "id": "4f3e2d1c-0b9a-4c8b-7d6e-5f4a3b2c1d0e",
+      "name": "치킨마을",
+      "category": "치킨",
+      "address1": "서울시 노원구",
+      "address2": "노해로 88",
+      "description": "배달/포장 많음",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/ee11dd22-cc33-bb44-aa55-009988776655-chicken.png",
+      "originalHourlyPay": 11000
     },
     "notice": {
-      "item": {
-        "id": "5a4b3c2d-1e0f-4d9c-8b7a-6f5e4d3c2b1a",
-        "hourlyPay": 14500,
-        "description": "포장 및 배달 정리",
-        "startsAt": "2025-12-11T08:00:00.000Z",
-        "workhour": 4,
-        "closed": true
-      },
-      "href": "/api/0-1/the-julge/shops/4f3e2d1c-0b9a-4c8b-7d6e-5f4a3b2c1d0e/notices/5a4b3c2d-1e0f-4d9c-8b7a-6f5e4d3c2b1a"
+      "id": "5a4b3c2d-1e0f-4d9c-8b7a-6f5e4d3c2b1a",
+      "hourlyPay": 14500,
+      "description": "포장 및 배달 정리",
+      "startsAt": "2025-12-11T08:00:00.000Z",
+      "workhour": 4,
+      "closed": true
     }
   },
   {
@@ -323,28 +257,22 @@
     "status": "pending",
     "createdAt": "2025-12-11T01:20:00.000Z",
     "shop": {
-      "item": {
-        "id": "22223333-4444-4bbb-8ccc-ddddeeee0002",
-        "name": "샐러드랩",
-        "category": "샐러드",
-        "address1": "서울시 성북구",
-        "address2": "동소문로 12",
-        "description": "건강식, 포장 손님 많음",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/33334444-5555-6666-7777-888899990000-salad.png",
-        "originalHourlyPay": 12000
-      },
-      "href": "/api/0-1/the-julge/shops/22223333-4444-4bbb-8ccc-ddddeeee0002"
+      "id": "22223333-4444-4bbb-8ccc-ddddeeee0002",
+      "name": "샐러드랩",
+      "category": "샐러드",
+      "address1": "서울시 성북구",
+      "address2": "동소문로 12",
+      "description": "건강식, 포장 손님 많음",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/33334444-5555-6666-7777-888899990000-salad.png",
+      "originalHourlyPay": 12000
     },
     "notice": {
-      "item": {
-        "id": "33334444-5555-4ccc-8ddd-eeeeffff0003",
-        "hourlyPay": 15000,
-        "description": "재료 손질 및 포장",
-        "startsAt": "2025-12-12T02:30:00.000Z",
-        "workhour": 3,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/22223333-4444-4bbb-8ccc-ddddeeee0002/notices/33334444-5555-4ccc-8ddd-eeeeffff0003"
+      "id": "33334444-5555-4ccc-8ddd-eeeeffff0003",
+      "hourlyPay": 15000,
+      "description": "재료 손질 및 포장",
+      "startsAt": "2025-12-12T02:30:00.000Z",
+      "workhour": 3,
+      "closed": false
     }
   },
   {
@@ -352,28 +280,22 @@
     "status": "approved",
     "createdAt": "2025-12-12T09:10:11.000Z",
     "shop": {
-      "item": {
-        "id": "55556666-7777-4eee-8fff-000011112222",
-        "name": "라멘집 하루",
-        "category": "일식",
-        "address1": "서울시 관악구",
-        "address2": "봉천로 55",
-        "description": "라멘/돈부리",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/12121212-3434-5656-7878-909090909090-ramen.png",
-        "originalHourlyPay": 12500
-      },
-      "href": "/api/0-1/the-julge/shops/55556666-7777-4eee-8fff-000011112222"
+      "id": "55556666-7777-4eee-8fff-000011112222",
+      "name": "라멘집 하루",
+      "category": "일식",
+      "address1": "서울시 관악구",
+      "address2": "봉천로 55",
+      "description": "라멘/돈부리",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/12121212-3434-5656-7878-909090909090-ramen.png",
+      "originalHourlyPay": 12500
     },
     "notice": {
-      "item": {
-        "id": "66667777-8888-4fff-8000-111122223333",
-        "hourlyPay": 15500,
-        "description": "홀 정리 및 서빙",
-        "startsAt": "2025-12-13T10:00:00.000Z",
-        "workhour": 6,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/55556666-7777-4eee-8fff-000011112222/notices/66667777-8888-4fff-8000-111122223333"
+      "id": "66667777-8888-4fff-8000-111122223333",
+      "hourlyPay": 15500,
+      "description": "홀 정리 및 서빙",
+      "startsAt": "2025-12-13T10:00:00.000Z",
+      "workhour": 6,
+      "closed": false
     }
   },
   {
@@ -381,28 +303,22 @@
     "status": "rejected",
     "createdAt": "2025-12-13T15:45:00.000Z",
     "shop": {
-      "item": {
-        "id": "88889999-aaaa-4bbb-8ccc-ddddeeee2222",
-        "name": "도넛팩토리",
-        "category": "디저트",
-        "address1": "서울시 광진구",
-        "address2": "아차산로 120",
-        "description": "디저트/커피",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/abababab-cdcd-efef-1212-343434343434-donut.png",
-        "originalHourlyPay": 11000
-      },
-      "href": "/api/0-1/the-julge/shops/88889999-aaaa-4bbb-8ccc-ddddeeee2222"
+      "id": "88889999-aaaa-4bbb-8ccc-ddddeeee2222",
+      "name": "도넛팩토리",
+      "category": "디저트",
+      "address1": "서울시 광진구",
+      "address2": "아차산로 120",
+      "description": "디저트/커피",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/abababab-cdcd-efef-1212-343434343434-donut.png",
+      "originalHourlyPay": 11000
     },
     "notice": {
-      "item": {
-        "id": "9999aaaa-bbbb-4ccc-8ddd-eeeeffff3333",
-        "hourlyPay": 13000,
-        "description": "진열 및 계산 보조",
-        "startsAt": "2025-12-14T01:00:00.000Z",
-        "workhour": 4,
-        "closed": true
-      },
-      "href": "/api/0-1/the-julge/shops/88889999-aaaa-4bbb-8ccc-ddddeeee2222/notices/9999aaaa-bbbb-4ccc-8ddd-eeeeffff3333"
+      "id": "9999aaaa-bbbb-4ccc-8ddd-eeeeffff3333",
+      "hourlyPay": 13000,
+      "description": "진열 및 계산 보조",
+      "startsAt": "2025-12-14T01:00:00.000Z",
+      "workhour": 4,
+      "closed": true
     }
   },
   {
@@ -410,28 +326,22 @@
     "status": "pending",
     "createdAt": "2025-12-14T06:06:06.000Z",
     "shop": {
-      "item": {
-        "id": "1e2d3c4b-5a69-4877-8899-aabbccdde010",
-        "name": "김밥나라",
-        "category": "분식",
-        "address1": "서울시 강동구",
-        "address2": "천호대로 102",
-        "description": "김밥/라면/돈까스",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/01010101-0202-0303-0404-050505050505-gimbap.png",
-        "originalHourlyPay": 10000
-      },
-      "href": "/api/0-1/the-julge/shops/1e2d3c4b-5a69-4877-8899-aabbccdde010"
+      "id": "1e2d3c4b-5a69-4877-8899-aabbccdde010",
+      "name": "김밥나라",
+      "category": "분식",
+      "address1": "서울시 강동구",
+      "address2": "천호대로 102",
+      "description": "김밥/라면/돈까스",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/01010101-0202-0303-0404-050505050505-gimbap.png",
+      "originalHourlyPay": 10000
     },
     "notice": {
-      "item": {
-        "id": "2d3c4b5a-6978-4a88-99aa-bbccddeeff10",
-        "hourlyPay": 11800,
-        "description": "주방 보조 및 설거지",
-        "startsAt": "2025-12-15T03:00:00.000Z",
-        "workhour": 5,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/1e2d3c4b-5a69-4877-8899-aabbccdde010/notices/2d3c4b5a-6978-4a88-99aa-bbccddeeff10"
+      "id": "2d3c4b5a-6978-4a88-99aa-bbccddeeff10",
+      "hourlyPay": 11800,
+      "description": "주방 보조 및 설거지",
+      "startsAt": "2025-12-15T03:00:00.000Z",
+      "workhour": 5,
+      "closed": false
     }
   },
   {
@@ -439,28 +349,22 @@
     "status": "approved",
     "createdAt": "2025-12-15T20:30:00.000Z",
     "shop": {
-      "item": {
-        "id": "22340000-2222-4b33-8c44-555566667778",
-        "name": "파스타룸",
-        "category": "양식",
-        "address1": "서울시 서대문구",
-        "address2": "신촌로 29",
-        "description": "파스타/리조또",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/fe12dc34-ba56-7890-ab12-cd34ef567890-pasta.png",
-        "originalHourlyPay": 13000
-      },
-      "href": "/api/0-1/the-julge/shops/22340000-2222-4b33-8c44-555566667778"
+      "id": "22340000-2222-4b33-8c44-555566667778",
+      "name": "파스타룸",
+      "category": "양식",
+      "address1": "서울시 서대문구",
+      "address2": "신촌로 29",
+      "description": "파스타/리조또",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/fe12dc34-ba56-7890-ab12-cd34ef567890-pasta.png",
+      "originalHourlyPay": 13000
     },
     "notice": {
-      "item": {
-        "id": "32340000-3333-4c44-8d55-666677778889",
-        "hourlyPay": 17000,
-        "description": "서빙 및 테이블 정리",
-        "startsAt": "2025-12-16T09:00:00.000Z",
-        "workhour": 6,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/22340000-2222-4b33-8c44-555566667778/notices/32340000-3333-4c44-8d55-666677778889"
+      "id": "32340000-3333-4c44-8d55-666677778889",
+      "hourlyPay": 17000,
+      "description": "서빙 및 테이블 정리",
+      "startsAt": "2025-12-16T09:00:00.000Z",
+      "workhour": 6,
+      "closed": false
     }
   },
   {
@@ -468,28 +372,22 @@
     "status": "rejected",
     "createdAt": "2025-12-16T10:10:10.000Z",
     "shop": {
-      "item": {
-        "id": "bcdef012-3456-4bcd-8ef0-123456789abc",
-        "name": "고기굽는날",
-        "category": "한식",
-        "address1": "서울시 영등포구",
-        "address2": "여의대방로 40",
-        "description": "삼겹살/목살 전문",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/0f9e8d7c-6b5a-4938-8271-0a1b2c3d4e5f-meat.png",
-        "originalHourlyPay": 12000
-      },
-      "href": "/api/0-1/the-julge/shops/bcdef012-3456-4bcd-8ef0-123456789abc"
+      "id": "bcdef012-3456-4bcd-8ef0-123456789abc",
+      "name": "고기굽는날",
+      "category": "한식",
+      "address1": "서울시 영등포구",
+      "address2": "여의대방로 40",
+      "description": "삼겹살/목살 전문",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/0f9e8d7c-6b5a-4938-8271-0a1b2c3d4e5f-meat.png",
+      "originalHourlyPay": 12000
     },
     "notice": {
-      "item": {
-        "id": "cdef0123-4567-4cde-8f01-23456789abcd",
-        "hourlyPay": 16000,
-        "description": "홀 서빙 및 숯/불판 정리",
-        "startsAt": "2025-12-17T09:00:00.000Z",
-        "workhour": 5,
-        "closed": true
-      },
-      "href": "/api/0-1/the-julge/shops/bcdef012-3456-4bcd-8ef0-123456789abc/notices/cdef0123-4567-4cde-8f01-23456789abcd"
+      "id": "cdef0123-4567-4cde-8f01-23456789abcd",
+      "hourlyPay": 16000,
+      "description": "홀 서빙 및 숯/불판 정리",
+      "startsAt": "2025-12-17T09:00:00.000Z",
+      "workhour": 5,
+      "closed": true
     }
   },
   {
@@ -497,28 +395,22 @@
     "status": "pending",
     "createdAt": "2025-12-17T04:40:00.000Z",
     "shop": {
-      "item": {
-        "id": "1b2c3d4e-5555-4e66-8f77-8899aabbccdd",
-        "name": "샌드위치랩",
-        "category": "샌드위치",
-        "address1": "서울시 중랑구",
-        "address2": "망우로 12",
-        "description": "샌드위치/커피 테이크아웃",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/aaaa0000-bbbb-1111-cccc-2222dddd3333-sandwich.png",
-        "originalHourlyPay": 11500
-      },
-      "href": "/api/0-1/the-julge/shops/1b2c3d4e-5555-4e66-8f77-8899aabbccdd"
+      "id": "1b2c3d4e-5555-4e66-8f77-8899aabbccdd",
+      "name": "샌드위치랩",
+      "category": "샌드위치",
+      "address1": "서울시 중랑구",
+      "address2": "망우로 12",
+      "description": "샌드위치/커피 테이크아웃",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/aaaa0000-bbbb-1111-cccc-2222dddd3333-sandwich.png",
+      "originalHourlyPay": 11500
     },
     "notice": {
-      "item": {
-        "id": "2c3d4e5f-6666-4f77-8000-99aabbccddee",
-        "hourlyPay": 13500,
-        "description": "재료 준비 및 포장",
-        "startsAt": "2025-12-18T01:30:00.000Z",
-        "workhour": 4,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/1b2c3d4e-5555-4e66-8f77-8899aabbccdd/notices/2c3d4e5f-6666-4f77-8000-99aabbccddee"
+      "id": "2c3d4e5f-6666-4f77-8000-99aabbccddee",
+      "hourlyPay": 13500,
+      "description": "재료 준비 및 포장",
+      "startsAt": "2025-12-18T01:30:00.000Z",
+      "workhour": 4,
+      "closed": false
     }
   },
   {
@@ -526,28 +418,22 @@
     "status": "approved",
     "createdAt": "2025-12-18T11:11:11.000Z",
     "shop": {
-      "item": {
-        "id": "27182818-2845-4b90-8b52-360287471352",
-        "name": "마라탕집",
-        "category": "중식",
-        "address1": "서울시 금천구",
-        "address2": "가산디지털1로 19",
-        "description": "마라탕/마라샹궈",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/1234aaaa-5678-bbbb-90ab-ccccdef01234-malatang.png",
-        "originalHourlyPay": 12000
-      },
-      "href": "/api/0-1/the-julge/shops/27182818-2845-4b90-8b52-360287471352"
+      "id": "27182818-2845-4b90-8b52-360287471352",
+      "name": "마라탕집",
+      "category": "중식",
+      "address1": "서울시 금천구",
+      "address2": "가산디지털1로 19",
+      "description": "마라탕/마라샹궈",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/1234aaaa-5678-bbbb-90ab-ccccdef01234-malatang.png",
+      "originalHourlyPay": 12000
     },
     "notice": {
-      "item": {
-        "id": "16180339-8874-4c98-8b62-028841971693",
-        "hourlyPay": 15500,
-        "description": "재료 진열 및 홀 정리",
-        "startsAt": "2025-12-19T10:00:00.000Z",
-        "workhour": 5,
-        "closed": false
-      },
-      "href": "/api/0-1/the-julge/shops/27182818-2845-4b90-8b52-360287471352/notices/16180339-8874-4c98-8b62-028841971693"
+      "id": "16180339-8874-4c98-8b62-028841971693",
+      "hourlyPay": 15500,
+      "description": "재료 진열 및 홀 정리",
+      "startsAt": "2025-12-19T10:00:00.000Z",
+      "workhour": 5,
+      "closed": false
     }
   },
   {
@@ -555,28 +441,22 @@
     "status": "rejected",
     "createdAt": "2025-12-19T19:20:30.000Z",
     "shop": {
-      "item": {
-        "id": "feedc0de-0002-4bcd-8ef0-1234567890ab",
-        "name": "떡볶이연구소",
-        "category": "분식",
-        "address1": "서울시 은평구",
-        "address2": "통일로 700",
-        "description": "매운맛 단계 선택 가능",
-        "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/0abc1def-2345-6789-abcd-ef0123456789-tteokbokki.png",
-        "originalHourlyPay": 10000
-      },
-      "href": "/api/0-1/the-julge/shops/feedc0de-0002-4bcd-8ef0-1234567890ab"
+      "id": "feedc0de-0002-4bcd-8ef0-1234567890ab",
+      "name": "떡볶이연구소",
+      "category": "분식",
+      "address1": "서울시 은평구",
+      "address2": "통일로 700",
+      "description": "매운맛 단계 선택 가능",
+      "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/0abc1def-2345-6789-abcd-ef0123456789-tteokbokki.png",
+      "originalHourlyPay": 10000
     },
     "notice": {
-      "item": {
-        "id": "c0ffee00-0003-4cde-8f01-2345678901bc",
-        "hourlyPay": 12500,
-        "description": "홀 정리 및 포장",
-        "startsAt": "2025-12-20T02:00:00.000Z",
-        "workhour": 3,
-        "closed": true
-      },
-      "href": "/api/0-1/the-julge/shops/feedc0de-0002-4bcd-8ef0-1234567890ab/notices/c0ffee00-0003-4cde-8f01-2345678901bc"
+      "id": "c0ffee00-0003-4cde-8f01-2345678901bc",
+      "hourlyPay": 12500,
+      "description": "홀 정리 및 포장",
+      "startsAt": "2025-12-20T02:00:00.000Z",
+      "workhour": 3,
+      "closed": true
     }
   },
   {

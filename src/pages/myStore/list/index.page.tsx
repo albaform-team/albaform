@@ -2,9 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import StoreImg from '@/assets/img/storeimg.png';
+import { MY_STORE_ROUTES } from '@/constants/routes';
 
 import * as S from './index.style';
-import { MY_STORE_ROUTES } from '@/constants/routes';
 
 const StoreListPage = () => {
   return (

@@ -1,7 +1,8 @@
 import { Global } from '@emotion/react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import ListCard from '@/components/ListCard/ListCard';
+import ListCard from '@/pages/store/_components/ListCard/ListCard';
+import { mockNotices } from '@/pages/store/_components/ListCard/types/mockNotices';
 import { sortSelectStyle } from '@/pages/store/_components/SelectBox.style';
 import * as S from '@/pages/store/storelist.page.style';
 
@@ -19,12 +20,9 @@ const StoreList = () => {
           <S.JobSuggestTitle>맞춤 공고</S.JobSuggestTitle>
           <div>
             <S.JobSuggestList>
-              <ListCard />
-              <ListCard />
-              <ListCard />
-              <ListCard />
-              <ListCard />
-              <ListCard />
+              {mockNotices.items.map(({ item }) => (
+                <ListCard key={item.id} notice={item} />
+              ))}
             </S.JobSuggestList>
           </div>
         </div>
@@ -41,12 +39,9 @@ const StoreList = () => {
         </S.JobListHeader>
         <S.AllJobListContainer>
           <S.AllJobList>
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
+            {mockNotices.items.map(({ item }) => (
+              <ListCard key={item.id} notice={item} />
+            ))}
           </S.AllJobList>
         </S.AllJobListContainer>
         <PaginationRounded></PaginationRounded>

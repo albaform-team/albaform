@@ -29,7 +29,7 @@ const ListCard = ({ notice }: ListCardProps) => {
         <S.CardContent>
           <S.JobImage>
             <S.JobImageMedia>
-              <Image src={imageUrl} alt="가게 이미지" fill />
+              <Image src={FoodImage} alt="가게 이미지" fill />
             </S.JobImageMedia>
             {closed && <S.ExpiredOverlay>지난 공고</S.ExpiredOverlay>}
           </S.JobImage>

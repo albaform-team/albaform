@@ -1,7 +1,8 @@
 import { Global } from '@emotion/react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import ListCard from '@/components/ListCard/ListCard';
+import ListCard from '@/pages/store/_components/ListCard/ListCard';
+import { mockNotices } from '@/pages/store/_components/ListCard/types/mockNotices';
 import { sortSelectStyle } from '@/pages/store/_components/SelectBox.style';
 import * as S from '@/pages/store/search.page.style';
 
@@ -25,12 +26,9 @@ const Search = () => {
         </S.JobFilterContainer>
       </S.SearchHeader>
       <S.JobSearchSection>
-        <ListCard />
-        <ListCard />
-        <ListCard />
-        <ListCard />
-        <ListCard />
-        <ListCard />
+        {mockNotices.items.map(({ item }) => (
+          <ListCard key={item.id} notice={item} />
+        ))}
       </S.JobSearchSection>
       <PaginationRounded></PaginationRounded>
     </S.SearchContainer>

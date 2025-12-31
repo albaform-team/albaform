@@ -1,5 +1,5 @@
 import { Table, TableBody, TableContainer } from '@mui/material';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 
 import FixedPagination from '../fixedPagination/FixedPagination';
 
@@ -18,18 +18,20 @@ interface Props<Row> {
     count: number;
     visibleCount: number;
   };
+  page: number;
   rows: Row[];
+  onChange: (page: number) => void;
   getRowId: (row: Row) => string;
 }
 
 const TablePagination = <Row,>({
   columns,
   rows,
-  getRowId,
+  page,
   paginationConfig,
+  getRowId,
+  onChange,
 }: Props<Row>) => {
-  const [page, setPage] = useState(1);
-
   return (
     <S.TablePaginationWapper>
       <TableContainer>
@@ -56,7 +58,7 @@ const TablePagination = <Row,>({
           </TableBody>
         </Table>
       </TableContainer>
-      <FixedPagination page={page} {...paginationConfig} onChange={setPage} />
+      <FixedPagination page={page} {...paginationConfig} onChange={onChange} />
     </S.TablePaginationWapper>
   );
 };

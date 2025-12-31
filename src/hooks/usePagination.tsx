@@ -1,26 +1,48 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-const usePagination = (initialPageSize = 10) => {
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(initialPageSize);
+interface PaginationMeta {
+  titalPage: number;
+  offset: number;
+  hasNext: boolean;
+}
 
-  const handleChangePage = (_: unknown, nextPage: number) => {
-    setPage(nextPage);
-  };
+interface UsePaginationOptions {
+  limit: number;
+  initialPage?: number;
+}
 
-  const handleChangePageSize = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPageSize(Number(e.target.value));
-    setPage(0);
-  };
+export const usePagination = ({
+  limit,
+  initialPage = 1,
+}: UsePaginationOptions) => {
+  const [page, setPage] = useState(initialPage);
+  const [meta, setMeta] = useState<PaginationMeta>({
+    titalPage: 0,
+    offset: 0,
+    hasNext: false,
+  });
+
+  const offset = useMemo(() => {
+    return limit * (page - 1);
+  }, [limit, page]);
+
+  const updateMeta = useCallback(
+    (count: number, hasNext: boolean, offset: number) => {
+      setMeta({
+        titalPage: Math.ceil(count / limit),
+        hasNext: hasNext,
+        offset: offset,
+      });
+    },
+    [limit]
+  );
 
   return {
     page,
-    pageSize,
     setPage,
-    setPageSize,
-    handleChangePage,
-    handleChangePageSize,
+    limit,
+    offset,
+    meta,
+    updateMeta,
   };
 };
-
-export default usePagination;

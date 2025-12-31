@@ -5,6 +5,7 @@ import TablePagination, {
   Column,
 } from '@/components/tablePagination/TablePagination';
 import { STORE_ROUTES } from '@/constants/routes';
+import { usePagination } from '@/hooks/usePagination';
 import { GetUserApplications } from '@/lib/services/userService';
 import { media } from '@/styles/media';
 import { User } from '@/types/api/user';
@@ -13,6 +14,7 @@ import { ApplicationStatus } from '@/types/api/userAppliedJobList';
 import { useResponsiveColumns } from '../../../../hooks/useApplicantColumns';
 import {
   AppliedJobListItem,
+  AppliedJobListViewModel,
   getStatusLabel,
   mapAppliedJobToApplicantRow,
 } from '../_utils/mapper';
@@ -63,6 +65,10 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
   const [appliedJobList, setAppliedJobList] = useState<AppliedJobListItem[]>(
     []
   );
+  const { page, setPage, limit, offset, meta, updateMeta } = usePagination({
+    limit: 5,
+  });
+
   const { columns, isTabletUp } = useResponsiveColumns(
     allColumns,
     {
@@ -78,9 +84,13 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
 
     const fetchUserInfo = async () => {
       try {
-        const appliedJobList = await GetUserApplications(userId, 0, 5);
-
-        setAppliedJobList(appliedJobList.items as AppliedJobListItem[]);
+        const res: AppliedJobListViewModel = await GetUserApplications(
+          userId,
+          offset,
+          limit
+        );
+        setAppliedJobList(res.items as AppliedJobListItem[]);
+        updateMeta(res.count, res.hasNext, res.offset);
       } catch (e) {
         if (isAxiosError(e)) {
           alert(e.response?.data.message ?? '잠시후에 다시 시도해 주세요');
@@ -89,7 +99,7 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
     };
 
     fetchUserInfo();
-  }, [userId]);
+  }, [userId, offset, limit, updateMeta]);
 
   const rows = useMemo(
     () => appliedJobList.map(mapAppliedJobToApplicantRow),
@@ -104,9 +114,14 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
         <>
           <S.Title>신청 내역</S.Title>
           <TablePagination
-            paginationConfig={{ count: 100, visibleCount: isTabletUp ? 7 : 5 }}
+            paginationConfig={{
+              count: meta.titalPage,
+              visibleCount: isTabletUp ? 7 : 5,
+            }}
             columns={columns}
             rows={rows}
+            page={page}
+            onChange={setPage}
             getRowId={row => row.shop + row.date}
           />
         </>

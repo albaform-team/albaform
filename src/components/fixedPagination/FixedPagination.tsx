@@ -20,7 +20,7 @@ const FixedPagination = ({
   const { items } = usePagination({
     page,
     count,
-    boundaryCount: count / 2,
+    boundaryCount: count,
     onChange: (_, p) => onChange(p),
   });
 

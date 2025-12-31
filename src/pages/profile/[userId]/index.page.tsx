@@ -1,7 +1,9 @@
+import { useRouter } from 'next/navigation';
+
 import { isAxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
-import { PROFILE_ROUTES } from '@/constants/routes';
+import { PROFILE_ROUTES, STORE_ROUTES } from '@/constants/routes';
 import { GetUserInfo } from '@/lib/services/userService';
 import useAuthStore from '@/stores/useAuthStore';
 import { User } from '@/types/api/user';
@@ -9,11 +11,13 @@ import { User } from '@/types/api/user';
 import AppliedJobListSection from './_components/AppliedJobListSection';
 import EmptyStateSection from './_components/EmptyStateSection';
 import MyProfileSection from './_components/MyProfileSection';
-import * as S from './index.style';
+import * as S from './index.page.style';
 
 const ProfileUserPage = () => {
   const user = useAuthStore(s => s.user);
+  const accessToken = useAuthStore(s => s.accessToken);
   const [userInfo, setUserInfo] = useState<Required<User> | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (!user?.id) return;
@@ -34,6 +38,8 @@ const ProfileUserPage = () => {
 
     fetchUserInfo();
   }, [user?.id]);
+
+  if (!accessToken) router.push(STORE_ROUTES.ROOT);
 
   return (
     <S.ProfileLayout>

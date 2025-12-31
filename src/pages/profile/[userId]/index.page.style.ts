@@ -7,19 +7,7 @@ export const ProfileLayout = styled.main`
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 180px);
-
-  /* padding: 40px 12px 80px; */
   margin: 0 auto;
-
-  @media ${media.tablet} {
-    /* width: 680px; */
-
-    /* padding: 60px 0; */
-  }
-
-  @media ${media.desktop} {
-    /* width: 964px; */
-  }
 `;
 
 export const ProfileWrapper = styled.div`
@@ -44,12 +32,10 @@ export const AppliedJobListWrapper = styled.div`
   background-color: ${colors.gray[5]};
 
   @media ${media.tablet} {
-    /* width: 680px; */
     padding: 60px 0;
   }
 
   @media ${media.desktop} {
-    /* width: 964px; */
     padding-bottom: 120px;
   }
 `;

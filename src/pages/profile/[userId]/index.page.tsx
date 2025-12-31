@@ -16,10 +16,15 @@ import * as S from './index.page.style';
 const ProfileUserPage = () => {
   const user = useAuthStore(s => s.user);
   const accessToken = useAuthStore(s => s.accessToken);
+  const rehydrated = useAuthStore(s => s.rehydrated);
   const [userInfo, setUserInfo] = useState<Required<User> | null>(null);
   const router = useRouter();
 
   useEffect(() => {
+    if (!rehydrated) return;
+    if (!accessToken) {
+      router.push(STORE_ROUTES.ROOT);
+    }
     if (!user?.id) return;
 
     const fetchUserInfo = async () => {
@@ -37,9 +42,11 @@ const ProfileUserPage = () => {
     };
 
     fetchUserInfo();
-  }, [user?.id]);
+  }, [accessToken, router, user, rehydrated]);
 
-  if (!accessToken) router.push(STORE_ROUTES.ROOT);
+  if (!accessToken) {
+    return null;
+  }
 
   return (
     <S.ProfileLayout>

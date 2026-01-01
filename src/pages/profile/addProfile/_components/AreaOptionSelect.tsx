@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import * as React from 'react';
+import { useState } from 'react';
 
 const AREAS = [
   '서울특별시 송파구',
@@ -13,7 +13,7 @@ const AREAS = [
 ];
 
 const AreaOptionSelect = () => {
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = useState('');
 
   return (
     <Box>
@@ -75,7 +75,7 @@ const AreaOptionSelect = () => {
           },
         }}
       >
-        {AREAS.map((area, index) => (
+        {AREAS.map(area => (
           <MenuItem
             key={area}
             value={area}

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import styled from '@emotion/styled';
-import { Button, Input, Select, TextField } from '@mui/material';
+import { Input, Select, TextField } from '@mui/material';
 
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';

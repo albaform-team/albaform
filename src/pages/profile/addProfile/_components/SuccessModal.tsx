@@ -1,13 +1,10 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import { useState } from 'react';
 
 import * as S from '@/pages/profile/addProfile/_components/SuccessModal.style';
 
 const SuccessModal = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 import CloseIcon from '@/assets/svg/close.svg';
 import * as S from '@/pages/profile/addProfile/index.page.style';
-import OptionSection from '@/pages/store/_components/DetailFilter/OptionSection';
 
 import AreaOptionSelect from './_components/AreaOptionSelect';
 import SuccessModal from './_components/SuccessModal';

@@ -1,5 +1,4 @@
 import { _MOCK_SHOP_NOTICES_APPLICATIONS } from '@/__MOCK/_MOCK_SHOP_NOTICES_APPLICATIONS';
-import _MOCK_SHOP_NOTICES_DEATIL from '@/__MOCK/_MOCK_SHOP_NOTICES_DEATIL.json';
 import { APPLICATIONS_API, NOTICES_API } from '@/constants/api';
 import {
   ApplicationStatus,
@@ -14,8 +13,7 @@ export const getShopNoticeDetail = async (shopId: string, noticeId: string) => {
   const { data } = await services.get<ShopNoticeDetailResponse>(
     NOTICES_API.SHOP_DETAIL(shopId, noticeId)
   );
-  console.log(data);
-  return _MOCK_SHOP_NOTICES_DEATIL;
+  return data;
 };
 
 export const getShopNoticeApplications = async (

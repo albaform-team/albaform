@@ -11,8 +11,9 @@ import {
   PROFILE_ROUTES,
 } from '@/constants/routes';
 
+import NotificationModal from './_components/notificationModal/NotificationModal';
+import SearchForm from './_components/Search/SearchForm';
 import * as S from './Header.styles';
-import NotificationModal from './notificationModal/NotificationModal';
 
 type UserType = 'unlogin' | 'owner' | 'user';
 
@@ -41,10 +42,7 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
             </S.LogoLink>
           </S.HeaderLeft>
 
-          <S.SearchBox>
-            <Image src={SearchImage} alt="검색" width={20} height={20} />
-            <input type="text" placeholder="가게 이름으로 찾아보세요"></input>
-          </S.SearchBox>
+          <SearchForm />
 
           <S.HeaderRight>
             {user === 'unlogin' && (

@@ -31,7 +31,7 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
       <S.HeaderContainer>
         <S.HeaderContent>
           <S.HeaderLeft>
-            <S.LogoLink href="/">
+            <S.LogoLink href={'/store'}>
               <S.LogoImage
                 src={LogoImage}
                 alt="메인로고"

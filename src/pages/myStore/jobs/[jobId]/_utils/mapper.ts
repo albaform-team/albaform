@@ -1,3 +1,4 @@
+import { ShopNoticeApplicationsItem } from '@/types/api/shopNoticeApplications';
 import {
   ApplicationStatus,
   ShopNoticeDetailResponse,
@@ -43,3 +44,29 @@ export const mapJobResponseToJob = (
     currentUserApplication: item.currentUserApplication?.item,
   };
 };
+
+export interface ApplicantRowVM {
+  user: string;
+  Introduction: string;
+  phone: string;
+  status: {
+    status: ApplicationStatus;
+    shopId: string;
+    noticeId: string;
+    applicationId: string;
+  };
+}
+
+export const applicantListMapper = (
+  data: ShopNoticeApplicationsItem
+): ApplicantRowVM => ({
+  user: data.item.user.item.name as string,
+  Introduction: data.item.user.item.bio as string,
+  phone: data.item.user.item.phone as string,
+  status: {
+    status: data.item.status,
+    shopId: data.item.shop.item.id,
+    noticeId: data.item.notice.item.id,
+    applicationId: data.item.user.item.id,
+  },
+});

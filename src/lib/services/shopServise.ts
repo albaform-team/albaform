@@ -27,7 +27,10 @@ export const getShopNoticeApplications = async (
     { params: { offset, limit } }
   );
   console.log(data);
-  return _MOCK_SHOP_NOTICES_APPLICATIONS;
+  return {
+    ..._MOCK_SHOP_NOTICES_APPLICATIONS,
+    items: [..._MOCK_SHOP_NOTICES_APPLICATIONS.items].splice(offset, limit),
+  };
 };
 
 export const updateJobApplicationStatus = async (

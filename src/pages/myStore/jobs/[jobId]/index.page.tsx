@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getShopNoticeDetail } from '@/lib/services/shopServise';
 import { formatDateTimeRange } from '@/utils/date';
 
+import NoticeApplicantSection from './_components/NoticeApplicantSection';
 import ShopDetailSection from './_components/ShopDetailSection';
 import { mapJobResponseToJob, NoticeDetail } from './_utils/mapper';
 import { getPayIncreaseRate } from './_utils/number';
@@ -33,7 +34,7 @@ const JobDetailPage = () => {
   if (!noticeDetail) {
     return null;
   }
-  console.log(noticeDetail);
+
   return (
     <S.JobDetailLayout>
       <ShopDetailSection
@@ -51,6 +52,10 @@ const JobDetailPage = () => {
         address={noticeDetail.shop.address1}
         shopDescription={noticeDetail.shop.description}
         noticeDescription={noticeDetail.description}
+        jobId={noticeDetail.id}
+      />
+      <NoticeApplicantSection
+        shopId={noticeDetail.shop.id}
         jobId={noticeDetail.id}
       />
     </S.JobDetailLayout>

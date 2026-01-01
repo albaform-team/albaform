@@ -22,12 +22,8 @@ export const _MOCK_SHOP_NOTICES_APPLICATIONS: ShopNoticeApplicationsResponse = {
             email: `employee${index + 1}@test.com`,
             type: 'employee',
             name: `알바생${index + 1}`,
-            phone:
-              index % 2 === 0
-                ? `010-12${index.toString().padStart(2, '0')}-5678`
-                : undefined,
-            bio:
-              index % 3 === 0 ? '성실하게 오래 일할 수 있습니다.' : undefined,
+            phone: `010-12${index.toString().padStart(2, '0')}-5678`,
+            bio: '성실하게 오래 일할 수 있습니다.',
           },
           href: `/users/user-${String(index + 1).padStart(3, '0')}`,
         },

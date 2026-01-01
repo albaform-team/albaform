@@ -1,17 +1,43 @@
 import { isAxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
-import { getShopNoticeDetail } from '@/lib/services/shopServise';
+import {
+  getShopNoticeDetail,
+  updateJobApplicationStatus,
+} from '@/lib/services/shopServise';
 import { formatDateTimeRange } from '@/utils/date';
 
 import NoticeApplicantSection from './_components/NoticeApplicantSection';
 import ShopDetailSection from './_components/ShopDetailSection';
+import StatusModal from './_components/StatusModal';
 import { mapJobResponseToJob, NoticeDetail } from './_utils/mapper';
 import { getPayIncreaseRate } from './_utils/number';
 import * as S from './index.page.style';
 
+export interface Payload {
+  shopId: string;
+  noticeId: string;
+  applicationId: string;
+  status: 'accepted' | 'rejected';
+}
+export interface ModalState {
+  open: boolean;
+  message: string;
+  payload: Payload;
+}
+
 const JobDetailPage = () => {
   const [noticeDetail, setNoticeDetail] = useState<NoticeDetail | null>(null);
+  const [modalState, setModalState] = useState<ModalState>({
+    open: false,
+    message: '',
+    payload: {
+      shopId: '',
+      noticeId: '',
+      applicationId: '',
+      status: 'rejected',
+    },
+  });
 
   useEffect(() => {
     const fetch = async () => {
@@ -30,6 +56,62 @@ const JobDetailPage = () => {
     };
     fetch();
   }, []);
+
+  const handleOpen = async (
+    message: string,
+    payload: {
+      shopId: string;
+      noticeId: string;
+      applicationId: string;
+      status: 'accepted' | 'rejected';
+    }
+  ) => {
+    setModalState({ open: true, message, payload });
+  };
+
+  const handleConfirm = async (payload: {
+    shopId: string;
+    noticeId: string;
+    applicationId: string;
+    status: 'accepted' | 'rejected';
+  }) => {
+    try {
+      await updateJobApplicationStatus(
+        payload.shopId,
+        payload.noticeId,
+        payload.applicationId,
+        payload.status
+      );
+    } catch (e) {
+      if (isAxiosError(e)) {
+        alert(e.response?.data.message ?? '잠시후에 다시 시도해 주세요');
+      }
+    }
+
+    setModalState({
+      open: false,
+      message: '',
+      payload: {
+        shopId: '',
+        noticeId: '',
+        applicationId: '',
+        status: 'rejected',
+      },
+    });
+  };
+
+  const handleClose = () => {
+    setModalState({
+      open: false,
+      message: '',
+      payload: {
+        shopId: '',
+        noticeId: '',
+        applicationId: '',
+        status: 'rejected',
+      },
+    });
+  };
 
   if (!noticeDetail) {
     return null;
@@ -57,6 +139,12 @@ const JobDetailPage = () => {
       <NoticeApplicantSection
         shopId={noticeDetail.shop.id}
         jobId={noticeDetail.id}
+        onClick={handleOpen}
+      />
+      <StatusModal
+        modalState={modalState}
+        handleClose={handleClose}
+        handleConfirm={handleConfirm}
       />
     </S.JobDetailLayout>
   );

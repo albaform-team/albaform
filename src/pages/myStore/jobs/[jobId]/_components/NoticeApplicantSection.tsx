@@ -1,15 +1,12 @@
 import { isAxiosError } from 'axios';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import TablePagination, {
   Column,
 } from '@/components/tablePagination/TablePagination';
 import { useResponsiveColumns } from '@/hooks/useApplicantColumns';
 import { usePagination } from '@/hooks/usePagination';
-import {
-  getShopNoticeApplications,
-  updateJobApplicationStatus,
-} from '@/lib/services/shopServise';
+import { getShopNoticeApplications } from '@/lib/services/shopServise';
 import { media } from '@/styles/media';
 import { ShopNoticeApplicationsItem } from '@/types/api/shopNoticeApplications';
 
@@ -21,6 +18,15 @@ import * as S from './NoticeApplicantSection.style';
 interface Props {
   shopId: string;
   jobId: string;
+  onClick: (
+    message: string,
+    paylod: {
+      shopId: string;
+      noticeId: string;
+      applicationId: string;
+      status: 'accepted' | 'rejected';
+    }
+  ) => void;
 }
 
 const key = {
@@ -29,7 +35,7 @@ const key = {
   desktop: ['user', 'Introduction', 'phone', 'status'],
 } as const;
 
-const NoticeApplicantSection = ({ shopId, jobId }: Props) => {
+const NoticeApplicantSection = ({ shopId, jobId, onClick }: Props) => {
   const [appliedJobList, setAppliedJobList] = useState<
     ShopNoticeApplicationsItem[]
   >([]);
@@ -37,16 +43,17 @@ const NoticeApplicantSection = ({ shopId, jobId }: Props) => {
     limit: 5,
   });
 
-  const fetchApplicants = useCallback(async () => {
-    const res = await getShopNoticeApplications(shopId, jobId, offset, limit);
-    setAppliedJobList(res.items as ShopNoticeApplicationsItem[]);
-    updateMeta(res.count, res.hasNext, res.offset);
-  }, [shopId, jobId, offset, limit, updateMeta]);
-
   useEffect(() => {
     const fetch = async () => {
       try {
-        await fetchApplicants();
+        const res = await getShopNoticeApplications(
+          shopId,
+          jobId,
+          offset,
+          limit
+        );
+        setAppliedJobList(res.items as ShopNoticeApplicationsItem[]);
+        updateMeta(res.count, res.hasNext, res.offset);
       } catch (e) {
         if (isAxiosError(e)) {
           alert(e.response?.data.message ?? '잠시후에 다시 시도해 주세요');
@@ -55,38 +62,11 @@ const NoticeApplicantSection = ({ shopId, jobId }: Props) => {
     };
 
     fetch();
-  }, [fetchApplicants]);
+  }, [jobId, limit, offset, shopId, updateMeta]);
 
   const rows = useMemo(
     () => appliedJobList.map(applicantListMapper),
     [appliedJobList]
-  );
-
-  const handleUpdateStatus = useCallback(
-    async (
-      payload: {
-        shopId: string;
-        noticeId: string;
-        applicationId: string;
-      },
-      nextStatus: 'accepted' | 'rejected'
-    ) => {
-      try {
-        await updateJobApplicationStatus(
-          payload.shopId,
-          payload.noticeId,
-          payload.applicationId,
-          nextStatus
-        );
-
-        await fetchApplicants();
-      } catch (e) {
-        if (isAxiosError(e)) {
-          alert(e.response?.data.message ?? '잠시후에 다시 시도해 주세요');
-        }
-      }
-    },
-    [fetchApplicants]
   );
 
   const allColumns = useMemo(
@@ -95,12 +75,12 @@ const NoticeApplicantSection = ({ shopId, jobId }: Props) => {
         {
           key: 'user',
           header: '신청자',
-          render: (row: ApplicantRowVM) => <div>{row.user}</div>,
+          render: (row: ApplicantRowVM) => row.user,
         },
         {
           key: 'Introduction',
           header: '소개',
-          render: (row: ApplicantRowVM) => <div>{row.Introduction}</div>,
+          render: (row: ApplicantRowVM) => row.Introduction,
         },
         {
           key: 'phone',
@@ -111,11 +91,11 @@ const NoticeApplicantSection = ({ shopId, jobId }: Props) => {
           key: 'status',
           header: '상태',
           render: ({ status }: ApplicantRowVM) => (
-            <ApplicantStatusCell status={status} onClick={handleUpdateStatus} />
+            <ApplicantStatusCell status={status} onClick={onClick} />
           ),
         },
       ] satisfies Column<ApplicantRowVM>[],
-    [handleUpdateStatus]
+    [onClick]
   );
 
   const { columns, isTabletUp } = useResponsiveColumns(allColumns, key, media);
@@ -125,7 +105,7 @@ const NoticeApplicantSection = ({ shopId, jobId }: Props) => {
       <S.Title>신청자 목록</S.Title>
       <TablePagination
         paginationConfig={{
-          count: meta.titalPage,
+          count: meta.totalPage,
           visibleCount: isTabletUp ? 7 : 5,
         }}
         columns={columns}

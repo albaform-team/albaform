@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { useState } from 'react';
 
@@ -23,6 +24,8 @@ type HeaderType = {
 
 const Header = ({ user = 'unlogin' }: HeaderType) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const { q } = router.query;
 
   const openNotification = () => setIsOpen(true);
   const closeNotification = () => setIsOpen(false);
@@ -42,7 +45,7 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
             </S.LogoLink>
           </S.HeaderLeft>
 
-          <SearchForm />
+          <SearchForm initialValue={q} />
 
           <S.HeaderRight>
             {user === 'unlogin' && (

@@ -1,15 +1,29 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import SearchImage from '@/assets/svg/search.svg';
 import * as S from '@/components/layout/header/_components/Search/SearchForm.style';
 
-const SearchForm = () => {
-  const [value, setValue] = useState<string>('');
+type Props = {
+  initialValue?: string | string[] | undefined;
+};
+
+const SearchForm = ({ initialValue }: Props) => {
+  const [value, setValue] = useState<string>(
+    typeof initialValue === 'string' ? initialValue : ''
+  );
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof initialValue === 'string') {
+      setValue(initialValue);
+    } else {
+      setValue('');
+    }
+  }, [initialValue]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -17,6 +31,10 @@ const SearchForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!value) {
+      router.push('/store');
+    }
     router.push(`/store/search?q=${value}`);
   };
 

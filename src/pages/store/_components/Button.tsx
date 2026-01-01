@@ -1,5 +1,3 @@
-import Button from '@mui/material/Button';
-
 import * as S from '@/pages/store/_components/Button.style';
 
 type ButtonVariant = 'text' | 'contained' | 'outlined';

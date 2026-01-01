@@ -5,7 +5,6 @@ import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 
 import { colors } from '@/styles/colors';
-import { media } from '@/styles/media';
 
 export const FilterButton = styled(Button)`
   width: 79px;

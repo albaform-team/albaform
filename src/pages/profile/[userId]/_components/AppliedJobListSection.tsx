@@ -113,7 +113,7 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
           <S.Title>신청 내역</S.Title>
           <TablePagination
             paginationConfig={{
-              count: meta.titalPage,
+              count: meta.totalPage,
               visibleCount: isTabletUp ? 7 : 5,
             }}
             columns={columns}

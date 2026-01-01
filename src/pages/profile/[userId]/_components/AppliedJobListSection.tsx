@@ -61,6 +61,12 @@ const allColumns = [
   },
 ] satisfies Column<Applicant>[];
 
+const key = {
+  mobile: ['shop', 'status'],
+  tablet: ['shop', 'date', 'status'],
+  desktop: ['shop', 'date', 'pay', 'status'],
+};
+
 const AppliedJobListSection = ({ userId, userInfo }: Props) => {
   const [appliedJobList, setAppliedJobList] = useState<AppliedJobListItem[]>(
     []
@@ -69,15 +75,7 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
     limit: 5,
   });
 
-  const { columns, isTabletUp } = useResponsiveColumns(
-    allColumns,
-    {
-      mobile: ['shop', 'status'],
-      tablet: ['shop', 'date', 'status'],
-      desktop: ['shop', 'date', 'pay', 'status'],
-    },
-    media
-  );
+  const { columns, isTabletUp } = useResponsiveColumns(allColumns, key, media);
 
   useEffect(() => {
     if (!userId) return;
@@ -115,7 +113,7 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
           <S.Title>신청 내역</S.Title>
           <TablePagination
             paginationConfig={{
-              count: meta.titalPage,
+              count: meta.totalPage,
               visibleCount: isTabletUp ? 7 : 5,
             }}
             columns={columns}

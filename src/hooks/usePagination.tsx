@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 interface PaginationMeta {
-  titalPage: number;
+  totalPage: number;
   offset: number;
   hasNext: boolean;
 }
@@ -17,7 +17,7 @@ export const usePagination = ({
 }: UsePaginationOptions) => {
   const [page, setPage] = useState(initialPage);
   const [meta, setMeta] = useState<PaginationMeta>({
-    titalPage: 0,
+    totalPage: 0,
     offset: 0,
     hasNext: false,
   });
@@ -29,7 +29,7 @@ export const usePagination = ({
   const updateMeta = useCallback(
     (count: number, hasNext: boolean, offset: number) => {
       setMeta({
-        titalPage: Math.ceil(count / limit),
+        totalPage: Math.ceil(count / limit),
         hasNext: hasNext,
         offset: offset,
       });

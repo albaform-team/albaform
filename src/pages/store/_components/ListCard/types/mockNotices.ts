@@ -76,7 +76,7 @@ export const mockNotices: NoticesResponse = {
       item: {
         id: 'notice-002',
         hourlyPay: 12000,
-        startsAt: '2026-01-05',
+        startsAt: '2026-01-01',
         workhour: 4,
         description: '감성적인 디저트 카페에서 즐겁게 일해요!',
         closed: true,
@@ -148,7 +148,7 @@ export const mockNotices: NoticesResponse = {
       item: {
         id: 'notice-002',
         hourlyPay: 12000,
-        startsAt: '2026-01-05',
+        startsAt: '2026-01-15',
         workhour: 4,
         description: '감성적인 디저트 카페에서 즐겁게 일해요!',
         closed: false,
@@ -172,7 +172,7 @@ export const mockNotices: NoticesResponse = {
       item: {
         id: 'notice-002',
         hourlyPay: 12000,
-        startsAt: '2026-01-05',
+        startsAt: '2026-01-27',
         workhour: 4,
         description: '감성적인 디저트 카페에서 즐겁게 일해요!',
         closed: false,

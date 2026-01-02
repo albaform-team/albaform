@@ -1,15 +1,15 @@
 import Image from 'next/image';
 
 import Modal from '@mui/material/Modal';
+import axios from 'axios';
 import * as React from 'react';
 import { useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
 import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
+import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
-import axios from 'axios';
-import useAuthStore from '@/stores/useAuthStore';
 
 const StoreRegisterPage = () => {
   const [open, setOpen] = useState(false);

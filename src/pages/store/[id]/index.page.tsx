@@ -1,10 +1,14 @@
 import Image from 'next/image';
 
-import ArrowIcon from '@/assets/svg/ListCard/arrow-up.svg';
-import ClockIcon from '@/assets/svg/ListCard/clock.svg';
-import FoodImage from '@/assets/svg/ListCard/food.png';
-import LocationIcon from '@/assets/svg/ListCard/location.svg';
+import ArrowIcon from '@/assets/svg/arrow-up.svg';
+import ClockIcon from '@/assets/svg/clock.svg';
+import FoodImage from '@/assets/svg/food.png';
+import LocationIcon from '@/assets/svg/location.svg';
 import * as S from '@/pages/store/[id]/index.page.style';
+import ListCard from '@/pages/store/_components/ListCard/ListCard';
+
+import CancelModal from '../_components/Modal/CancelModal';
+import ProfileRegisterModal from '../_components/Modal/ProfileRegisterModal';
 
 const StoreDetailPage = () => {
   return (

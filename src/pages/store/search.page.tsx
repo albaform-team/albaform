@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import { Global } from '@emotion/react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -13,11 +15,15 @@ import BasicSelect from './_components/SelectBox';
 
 const Search = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
+
+  const router = useRouter();
+  const { q } = router.query;
+
   return (
     <S.SearchContainer>
       <S.SearchHeader>
         <S.SearchTitle>
-          <S.SearchQuery>맛집</S.SearchQuery>에 대한 공고 목록
+          <S.SearchQuery>{q}</S.SearchQuery>에 대한 공고 목록
         </S.SearchTitle>
         <S.JobFilterContainer>
           <Global styles={sortSelectStyle} />

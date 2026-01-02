@@ -32,8 +32,8 @@ export const Form = styled.form`
   flex-direction: column;
   gap: 8px;
   align-items: center;
-  margin: 0 auto;
   width: 100%;
+  margin: 0 auto;
 
   @media ${media.tablet} {
     gap: 32px;

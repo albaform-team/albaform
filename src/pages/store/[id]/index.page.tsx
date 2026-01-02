@@ -5,6 +5,11 @@ import ClockIcon from '@/assets/svg/ListCard/clock.svg';
 import FoodImage from '@/assets/svg/ListCard/food.png';
 import LocationIcon from '@/assets/svg/ListCard/location.svg';
 import * as S from '@/pages/store/[id]/index.page.style';
+import ListCard from '@/pages/store/_components/ListCard/ListCard';
+import { mockNotices } from '@/pages/store/_components/ListCard/types/mockNotices';
+
+import CancelModal from '../_components/Modal/CancelModal';
+import ProfileRegisterModal from '../_components/Modal/ProfileRegisterModal';
 
 const StoreDetailPage = () => {
   return (
@@ -62,7 +67,11 @@ const StoreDetailPage = () => {
       </S.JobSummarySection>
       <S.RecentViewSection>
         <S.RecentViewTitle>최근에 본 공고</S.RecentViewTitle>
-        <S.RecentViewList></S.RecentViewList>
+        <S.RecentViewList>
+          {mockNotices.items.map(({ item }) => (
+            <ListCard key={item.id} notice={item} />
+          ))}
+        </S.RecentViewList>
       </S.RecentViewSection>
     </S.DetailContainer>
   );

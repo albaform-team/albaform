@@ -82,6 +82,7 @@ export const SummaryCardContainer = styled.div`
 `;
 
 export const SummaryCardImage = styled.div`
+  position: relative;
   width: 311px;
   height: 177px;
   overflow: hidden;
@@ -281,7 +282,6 @@ export const RecentViewSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  align-items: flex-start;
 
   @media ${media.tablet} {
     gap: 32px;

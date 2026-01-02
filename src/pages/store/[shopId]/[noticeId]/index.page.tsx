@@ -55,8 +55,8 @@ const StoreDetailPage = () => {
             <Image
               src={notice.shop.item.imageUrl}
               alt="식당 이미지"
-              width={311}
-              height={177}
+              fill
+              style={{ objectFit: 'cover' }}
             />
           </S.SummaryCardImage>
           <S.SummaryCardInfo>
@@ -88,15 +88,15 @@ const StoreDetailPage = () => {
               />
               <S.WorkInfo>{notice.shop.item.address1}</S.WorkInfo>
             </S.InfoList>
-            <S.StoreDescription>{notice.description}</S.StoreDescription>
+            <S.StoreDescription>
+              {notice.shop.item.description}
+            </S.StoreDescription>
             <S.ApplyButton>신청하기</S.ApplyButton>
           </S.SummaryCardInfo>
         </S.SummaryCardContainer>
         <S.JobDescription>
           <S.JobTitle>공고 설명</S.JobTitle>
-          <S.DetailJobDescription>
-            {notice.shop.item.description}
-          </S.DetailJobDescription>
+          <S.DetailJobDescription>{notice.description}</S.DetailJobDescription>
         </S.JobDescription>
       </S.JobSummarySection>
       <S.RecentViewSection>

@@ -4,11 +4,7 @@ import ArrowIcon from '@/assets/svg/ListCard/arrow-up.svg';
 import ClockIcon from '@/assets/svg/ListCard/clock.svg';
 import FoodImage from '@/assets/svg/ListCard/food.png';
 import LocationIcon from '@/assets/svg/ListCard/location.svg';
-import ListCard from '@/components/ListCard/ListCard';
 import * as S from '@/pages/store/[id]/index.page.style';
-
-import CancelModal from '../_components/Modal/CancelModal';
-import ProfileRegisterModal from '../_components/Modal/ProfileRegisterModal';
 
 const StoreDetailPage = () => {
   return (
@@ -66,14 +62,7 @@ const StoreDetailPage = () => {
       </S.JobSummarySection>
       <S.RecentViewSection>
         <S.RecentViewTitle>최근에 본 공고</S.RecentViewTitle>
-        <S.RecentViewList>
-          <ListCard />
-          <ListCard />
-          <ListCard />
-          <ListCard />
-          <ListCard />
-          <ListCard />
-        </S.RecentViewList>
+        <S.RecentViewList></S.RecentViewList>
       </S.RecentViewSection>
     </S.DetailContainer>
   );

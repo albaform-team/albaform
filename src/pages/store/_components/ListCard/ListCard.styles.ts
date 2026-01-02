@@ -5,8 +5,6 @@ import styled from '@emotion/styled';
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
 
-import { NoticeItem } from './types/mockNotices';
-
 export const CardContainer = styled.div`
   width: 171px;
   height: 260px;

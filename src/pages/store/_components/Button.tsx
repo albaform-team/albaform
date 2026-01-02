@@ -1,5 +1,3 @@
-import Button from '@mui/material/Button';
-
 import * as S from '@/pages/store/_components/Button.style';
 
 type ButtonVariant = 'text' | 'contained' | 'outlined';
@@ -9,9 +7,11 @@ type BasicButtonType = {
   text: string;
 };
 
-export default function BasicButtons({ variant, text }: BasicButtonType) {
+const BasicButtons = ({ variant, text }: BasicButtonType) => {
   return (
     // variant : Text, contained, outlined
     <S.BoxContainer variant={variant}>{text}</S.BoxContainer>
   );
-}
+};
+
+export default BasicButtons;

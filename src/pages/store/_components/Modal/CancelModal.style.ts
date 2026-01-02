@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 
 import { colors } from '@/styles/colors';
-import { media } from '@/styles/media';
 
 export const ModalContainer = styled.div`
   position: absolute;

@@ -16,3 +16,11 @@ export const getMyProfile = async (userId: string) => {
   const res = await services.get<MyProfileResponse>(`/users/${userId}`);
   return res.data.item;
 };
+
+export const applyNotice = async (shopId: string, noticeId: string) => {
+  const res = await services.post(
+    `/shops/${shopId}/notices/${noticeId}/applications`
+  );
+
+  return res.data.item;
+};

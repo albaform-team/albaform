@@ -9,6 +9,7 @@ import FoodImage from '@/assets/svg/food.png';
 import LocationIcon from '@/assets/svg/location.svg';
 import { getNoticeDetail } from '@/lib/services/noticeService';
 import { getMyProfile } from '@/lib/services/noticeService';
+import { applyNotice } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
 import useAuthStore from '@/stores/useAuthStore';
 import { MyProfile } from '@/types/user/myProfile';
@@ -27,6 +28,7 @@ const StoreDetailPage = () => {
 
   const [notice, setNotice] = useState<NoticeItem | null>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [isApply, setIsApply] = useState<boolean>(false);
 
   useEffect(() => {
     if (!shopId || !noticeId) return;
@@ -46,20 +48,22 @@ const StoreDetailPage = () => {
   }, [shopId, noticeId]);
 
   const handleClick = async () => {
-    try {
-      if (!user?.id) return;
-      const res = await getMyProfile(user.id);
+    if (!user?.id) return;
+    const res = await getMyProfile(user.id);
 
-      const isProfileEmpty =
-        !res.name || !res.phone || !res.address || !res.bio;
+    const isProfileEmpty = !res.name || !res.phone || !res.address || !res.bio;
+    if (isProfileEmpty) {
+      setModalOpen(true);
+      return;
+    }
 
-      if (isProfileEmpty) {
-        setModalOpen(true);
-      } else {
-        // 공고 신청
+    if (typeof shopId === 'string' && typeof noticeId === 'string') {
+      try {
+        await applyNotice(shopId, noticeId);
+        setIsApply(true);
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -115,7 +119,11 @@ const StoreDetailPage = () => {
             <S.StoreDescription>
               {notice.shop.item.description}
             </S.StoreDescription>
-            <S.ApplyButton onClick={handleClick}>신청하기</S.ApplyButton>
+            {isApply ? (
+              <S.CancelButton onClick={handleClick}>취소하기</S.CancelButton>
+            ) : (
+              <S.ApplyButton onClick={handleClick}>신청하기</S.ApplyButton>
+            )}
             {modalOpen && (
               <ProfileRegisterModal
                 open={modalOpen}

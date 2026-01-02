@@ -1,14 +1,14 @@
 import Image from 'next/image';
 
 import Modal from '@mui/material/Modal';
+import axios from 'axios';
 import * as React from 'react';
 import { useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
+import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
-import useAuthStore from '@/stores/useAuthStore';
-import axios from 'axios';
 
 const JobRegisterPage = () => {
   const [open, setOpen] = React.useState(false);

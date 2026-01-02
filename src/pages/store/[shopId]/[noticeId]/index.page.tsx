@@ -10,6 +10,7 @@ import LocationIcon from '@/assets/svg/location.svg';
 import { getNoticeDetail } from '@/lib/services/noticeService';
 import { getMyProfile } from '@/lib/services/noticeService';
 import { applyNotice } from '@/lib/services/noticeService';
+import { cancelApplication } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
 import useAuthStore from '@/stores/useAuthStore';
 import { MyProfile } from '@/types/user/myProfile';
@@ -24,11 +25,11 @@ const StoreDetailPage = () => {
   const router = useRouter();
   const { shopId, noticeId } = router.query;
   const { user } = useAuthStore.getState();
-  const userId = user?.id;
 
   const [notice, setNotice] = useState<NoticeItem | null>(null);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const [isApply, setIsApply] = useState<boolean>(false);
+  const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!shopId || !noticeId) return;
@@ -53,7 +54,7 @@ const StoreDetailPage = () => {
 
     const isProfileEmpty = !res.name || !res.phone || !res.address || !res.bio;
     if (isProfileEmpty) {
-      setModalOpen(true);
+      setProfileModalOpen(true);
       return;
     }
 
@@ -61,6 +62,24 @@ const StoreDetailPage = () => {
       try {
         await applyNotice(shopId, noticeId);
         setIsApply(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const handleCancel = () => {
+    setCancelModalOpen(true);
+  };
+
+  const handleConfirmCancel = async () => {
+    if (!shopId || !noticeId) return;
+
+    if (typeof shopId === 'string' && typeof noticeId === 'string') {
+      try {
+        await cancelApplication(shopId, noticeId);
+        setIsApply(false);
+        setCancelModalOpen(false);
       } catch (error) {
         console.log(error);
       }
@@ -120,14 +139,21 @@ const StoreDetailPage = () => {
               {notice.shop.item.description}
             </S.StoreDescription>
             {isApply ? (
-              <S.CancelButton onClick={handleClick}>취소하기</S.CancelButton>
+              <S.CancelButton onClick={handleCancel}>취소하기</S.CancelButton>
             ) : (
               <S.ApplyButton onClick={handleClick}>신청하기</S.ApplyButton>
             )}
-            {modalOpen && (
+            {profileModalOpen && (
               <ProfileRegisterModal
-                open={modalOpen}
-                onClose={() => setModalOpen(false)}
+                open={profileModalOpen}
+                onClose={() => setProfileModalOpen(false)}
+              />
+            )}
+            {cancelModalOpen && (
+              <CancelModal
+                open={cancelModalOpen}
+                onClose={() => setCancelModalOpen(false)}
+                onConfirm={handleConfirmCancel}
               />
             )}
           </S.SummaryCardInfo>

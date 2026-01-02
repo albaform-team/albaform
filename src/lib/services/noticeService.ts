@@ -24,3 +24,11 @@ export const applyNotice = async (shopId: string, noticeId: string) => {
 
   return res.data.item;
 };
+
+export const cancelApplication = async (shopId: string, noticeId: string) => {
+  const res = await services.delete(
+    `/shops/${shopId}/notices/${noticeId}/applications`
+  );
+
+  return res.data.item;
+};

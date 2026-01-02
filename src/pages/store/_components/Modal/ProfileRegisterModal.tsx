@@ -1,6 +1,5 @@
 import Image from 'next/image';
 
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
 

@@ -8,7 +8,10 @@ import ClockIcon from '@/assets/svg/clock.svg';
 import FoodImage from '@/assets/svg/food.png';
 import LocationIcon from '@/assets/svg/location.svg';
 import { getNoticeDetail } from '@/lib/services/noticeService';
+import { getMyProfile } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
+import useAuthStore from '@/stores/useAuthStore';
+import { MyProfile } from '@/types/user/myProfile';
 import { NoticeItem } from '@/types/user/notice';
 
 import CancelModal from '../../_components/Modal/CancelModal';
@@ -19,8 +22,11 @@ import * as S from './index.page.style';
 const StoreDetailPage = () => {
   const router = useRouter();
   const { shopId, noticeId } = router.query;
+  const { user } = useAuthStore.getState();
+  const userId = user?.id;
 
   const [notice, setNotice] = useState<NoticeItem | null>(null);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!shopId || !noticeId) return;
@@ -38,6 +44,24 @@ const StoreDetailPage = () => {
 
     fetchNotice();
   }, [shopId, noticeId]);
+
+  const handleClick = async () => {
+    try {
+      if (!user?.id) return;
+      const res = await getMyProfile(user.id);
+
+      const isProfileEmpty =
+        !res.name || !res.phone || !res.address || !res.bio;
+
+      if (isProfileEmpty) {
+        setModalOpen(true);
+      } else {
+        // 공고 신청
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (!notice) {
     return <div>로딩 중...</div>;
@@ -91,7 +115,13 @@ const StoreDetailPage = () => {
             <S.StoreDescription>
               {notice.shop.item.description}
             </S.StoreDescription>
-            <S.ApplyButton>신청하기</S.ApplyButton>
+            <S.ApplyButton onClick={handleClick}>신청하기</S.ApplyButton>
+            {modalOpen && (
+              <ProfileRegisterModal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+              />
+            )}
           </S.SummaryCardInfo>
         </S.SummaryCardContainer>
         <S.JobDescription>

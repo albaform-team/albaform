@@ -1,31 +1,68 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+
+import { useEffect, useState } from 'react';
 
 import ArrowIcon from '@/assets/svg/arrow-up.svg';
 import ClockIcon from '@/assets/svg/clock.svg';
 import FoodImage from '@/assets/svg/food.png';
 import LocationIcon from '@/assets/svg/location.svg';
-import * as S from '@/pages/store/[id]/index.page.style';
+import { getNoticeDetail } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
+import { NoticeItem } from '@/types/user/notice';
 
-import CancelModal from '../_components/Modal/CancelModal';
-import ProfileRegisterModal from '../_components/Modal/ProfileRegisterModal';
+import CancelModal from '../../_components/Modal/CancelModal';
+import ProfileRegisterModal from '../../_components/Modal/ProfileRegisterModal';
+
+import * as S from './index.page.style';
 
 const StoreDetailPage = () => {
+  const router = useRouter();
+  const { shopId, noticeId } = router.query;
+
+  const [notice, setNotice] = useState<NoticeItem | null>(null);
+
+  useEffect(() => {
+    if (!shopId || !noticeId) return;
+
+    const fetchNotice = async () => {
+      try {
+        if (typeof shopId === 'string' && typeof noticeId === 'string') {
+          const data = await getNoticeDetail(shopId, noticeId);
+          setNotice(data);
+        }
+      } catch (error) {
+        console.error('공고 상세 불러오기 실패:', error);
+      }
+    };
+
+    fetchNotice();
+  }, [shopId, noticeId]);
+
+  if (!notice) {
+    return <div>로딩 중...</div>;
+  }
+
   return (
     <S.DetailContainer>
       <S.JobSummarySection>
         <S.JobSummaryTitle>
-          <S.SubTitle>식당</S.SubTitle>
-          <S.MainTitle>도토리 식당</S.MainTitle>
+          <S.SubTitle>{notice.shop.item.category}</S.SubTitle>
+          <S.MainTitle>{notice.shop.item.name}</S.MainTitle>
         </S.JobSummaryTitle>
         <S.SummaryCardContainer>
           <S.SummaryCardImage>
-            <Image src={FoodImage} alt="식당 이미지" width={311} height={177} />
+            <Image
+              src={notice.shop.item.imageUrl}
+              alt="식당 이미지"
+              width={311}
+              height={177}
+            />
           </S.SummaryCardImage>
           <S.SummaryCardInfo>
             <S.HourlyPay>시급</S.HourlyPay>
             <S.PayInfo>
-              <S.Pay>15,000원</S.Pay>
+              <S.Pay>{notice.hourlyPay.toLocaleString()}원</S.Pay>
               <S.PayIncrease>
                 기존 시급보다 50%
                 <S.ArrowIcon
@@ -38,7 +75,9 @@ const StoreDetailPage = () => {
             </S.PayInfo>
             <S.InfoList>
               <Image src={ClockIcon} alt="근무 시간" width={16} height={16} />
-              <S.WorkInfo>2023-01-02 15:00~18:00 (3시간)</S.WorkInfo>
+              <S.WorkInfo>
+                {notice.startsAt} ({notice.workhour}시간)
+              </S.WorkInfo>
             </S.InfoList>
             <S.InfoList>
               <Image
@@ -47,20 +86,16 @@ const StoreDetailPage = () => {
                 width={16}
                 height={16}
               />
-              <S.WorkInfo>서울시 송파구</S.WorkInfo>
+              <S.WorkInfo>{notice.shop.item.address1}</S.WorkInfo>
             </S.InfoList>
-            <S.StoreDescription>
-              알바하기 편한 너구리네 라면집! 라면 올려두고 끓이기만 하면 되어서
-              쉬운 편에 속하는 가게입니다.
-            </S.StoreDescription>
+            <S.StoreDescription>{notice.description}</S.StoreDescription>
             <S.ApplyButton>신청하기</S.ApplyButton>
           </S.SummaryCardInfo>
         </S.SummaryCardContainer>
         <S.JobDescription>
           <S.JobTitle>공고 설명</S.JobTitle>
           <S.DetailJobDescription>
-            기존 알바 친구가 그만둬서 새로운 친구를 구했는데, 그 사이에 하루가
-            비네요. 급해서 시급도 높였고 그렇게 바쁜 날이 아니라서 괜찮을거예요.
+            {notice.shop.item.description}
           </S.DetailJobDescription>
         </S.JobDescription>
       </S.JobSummarySection>

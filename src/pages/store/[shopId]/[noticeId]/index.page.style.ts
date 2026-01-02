@@ -281,6 +281,7 @@ export const RecentViewSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: flex-start;
 
   @media ${media.tablet} {
     gap: 32px;

@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['stylelint-config-standard'],
+  extends: ['stylelint-config-standard', 'stylelint-config-recess-order'],
   plugins: ['stylelint-order'],
 
   overrides: [
@@ -20,67 +20,12 @@ module.exports = {
     'property-no-unknown': true,
     'length-zero-no-unit': true,
 
-    'order/properties-order': [
-      [
-        {
-          groupName: 'layout',
-          properties: [
-            'position',
-            'top',
-            'right',
-            'bottom',
-            'left',
-            'z-index',
-            'display',
-            'flex',
-            'flex-direction',
-            'flex-wrap',
-            'gap',
-            'align-items',
-            'justify-content',
-          ],
-        },
-        {
-          groupName: 'box-model',
-          properties: ['box-sizing', 'width', 'height', 'margin', 'padding'],
-        },
-        {
-          groupName: 'border-background',
-          properties: [
-            'border',
-            'border-radius',
-            'background',
-            'background-color',
-          ],
-        },
-        {
-          groupName: 'visual',
-          properties: ['box-shadow', 'opacity'],
-        },
-        {
-          groupName: 'typography',
-          properties: [
-            'color',
-            'font-size',
-            'font-weight',
-            'line-height',
-            'text-align',
-          ],
-        },
-        {
-          groupName: 'interaction-animation',
-          properties: ['cursor', 'transition', 'animation'],
-        },
-      ],
-      {
-        unspecified: 'bottom',
-        emptyLineBeforeUnspecified: 'always',
-      },
-    ],
-
     // CSS-in-JS 오탐 제거
+    'nesting-selector-no-missing-scoping-root': null,
     'no-descending-specificity': null,
     'selector-class-pattern': null,
     'selector-id-pattern': null,
+    'media-query-no-invalid': null,
+    'nesting-selector-no-missing-scoping-root': null,
   },
 };

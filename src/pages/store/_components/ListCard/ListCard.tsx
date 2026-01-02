@@ -4,29 +4,37 @@ import ArrowIcon from '@/assets/svg/ListCard/arrow-up.svg';
 import ClockIcon from '@/assets/svg/ListCard/clock.svg';
 import FoodImage from '@/assets/svg/ListCard/food.png';
 import LocationIcon from '@/assets/svg/ListCard/location.svg';
-import * as S from '@/components/ListCard/ListCard.styles';
+import * as S from '@/pages/store/_components/ListCard/ListCard.styles';
+
+import { NoticeItem } from './types/mockNotices';
 
 type ListCardProps = {
-  title?: string;
-  isExpired?: boolean;
+  notice: NoticeItem;
 };
 
-const ListCard = ({
-  title = '너굴 상점',
-  isExpired = false,
-}: ListCardProps) => {
+const ListCard = ({ notice }: ListCardProps) => {
+  const {
+    hourlyPay,
+    startsAt,
+    workhour,
+    closed,
+    shop: {
+      item: { name, address1, imageUrl },
+    },
+  } = notice;
+
   return (
     <>
       <S.CardContainer>
         <S.CardContent>
           <S.JobImage>
             <S.JobImageMedia>
-              <Image src={FoodImage} alt="음식" fill />
+              <Image src={FoodImage} alt="가게 이미지" fill />
             </S.JobImageMedia>
-            {isExpired && <S.ExpiredOverlay>지난 공고</S.ExpiredOverlay>}
+            {closed && <S.ExpiredOverlay>지난 공고</S.ExpiredOverlay>}
           </S.JobImage>
           <S.JobSummary>
-            <S.JobTitle $isExpired={isExpired}>{title}</S.JobTitle>
+            <S.JobTitle isClosed={closed}>{name}</S.JobTitle>
             <S.JobMetaSection>
               <S.JobMetaIcon
                 src={ClockIcon}
@@ -34,8 +42,8 @@ const ListCard = ({
                 width={16}
                 height={16}
               />
-              <S.JobMetaInfo $isExpired={isExpired}>
-                2026-01-02 15:00~18:00 (3시간)
+              <S.JobMetaInfo isClosed={closed}>
+                {startsAt} 15:00~18:00 ({workhour}시간)
               </S.JobMetaInfo>
             </S.JobMetaSection>
             <S.JobMetaSection>
@@ -45,15 +53,13 @@ const ListCard = ({
                 width={16}
                 height={16}
               />
-              <S.JobMetaInfo $isExpired={isExpired}>
-                서울시 송파구
-              </S.JobMetaInfo>
+              <S.JobMetaInfo isClosed={closed}>{address1}</S.JobMetaInfo>
             </S.JobMetaSection>
           </S.JobSummary>
           <S.PaySection>
-            <S.HourlyPay $isExpired={isExpired}>15,000원</S.HourlyPay>
-            <S.PayIncreaseBadgeSection $isExpired={isExpired}>
-              <S.PayIncreaseBadge $isExpired={isExpired}>
+            <S.HourlyPay isClosed={closed}>{hourlyPay}원</S.HourlyPay>
+            <S.PayIncreaseBadgeSection isClosed={closed}>
+              <S.PayIncreaseBadge isClosed={closed}>
                 기존 시급보다 100%️️
               </S.PayIncreaseBadge>
               <S.JobMetaIcon

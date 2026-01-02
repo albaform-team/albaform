@@ -73,11 +73,11 @@ export const JobSummary = styled.div`
   gap: 8px;
 `;
 
-export const JobTitle = styled.div<{ $isExpired: boolean }>`
+export const JobTitle = styled.div<{ isClosed: boolean }>`
   font-size: 16px;
   font-weight: 700;
   line-height: 20px;
-  color: ${({ $isExpired }) => ($isExpired ? colors.gray[30] : colors.black)};
+  color: ${({ isClosed }) => (isClosed ? colors.gray[30] : colors.black)};
 
   @media ${media.tablet} {
     font-size: 20px;
@@ -103,12 +103,11 @@ export const JobMetaIcon = styled(Image)`
   }
 `;
 
-export const JobMetaInfo = styled.div<{ $isExpired: boolean }>`
+export const JobMetaInfo = styled.div<{ isClosed: boolean }>`
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
-  color: ${({ $isExpired }) =>
-    $isExpired ? colors.gray[30] : colors.gray[50]};
+  color: ${({ isClosed }) => (isClosed ? colors.gray[30] : colors.gray[50])};
 
   @media ${media.tablet} {
     font-size: 14px;
@@ -129,22 +128,22 @@ export const PaySection = styled.div`
   }
 `;
 
-export const HourlyPay = styled.div<{ $isExpired: boolean }>`
+export const HourlyPay = styled.div<{ isClosed: boolean }>`
   font-size: 18px;
   font-weight: 700;
   line-height: 100%;
-  color: ${({ $isExpired }) => ($isExpired ? colors.gray[30] : colors.black)};
+  color: ${({ isClosed }) => (isClosed ? colors.gray[30] : colors.black)};
 
   @media ${media.tablet} {
     font-size: 24px;
   }
 `;
 
-export const PayIncreaseBadge = styled.div<{ $isExpired: boolean }>`
+export const PayIncreaseBadge = styled.div<{ isClosed: boolean }>`
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
-  color: ${({ $isExpired }) => ($isExpired ? colors.gray[20] : colors.red[40])};
+  color: ${({ isClosed }) => (isClosed ? colors.gray[20] : colors.red[40])};
 
   @media ${media.tablet} {
     font-size: 14px;
@@ -154,7 +153,7 @@ export const PayIncreaseBadge = styled.div<{ $isExpired: boolean }>`
   }
 `;
 
-export const PayIncreaseBadgeSection = styled.div<{ $isExpired: boolean }>`
+export const PayIncreaseBadgeSection = styled.div<{ isClosed: boolean }>`
   display: flex;
   gap: 2px;
   align-items: center;
@@ -166,8 +165,8 @@ export const PayIncreaseBadgeSection = styled.div<{ $isExpired: boolean }>`
     font-weight: 700;
     line-height: 100%;
     color: ${colors.white};
-    background-color: ${({ $isExpired }) =>
-      $isExpired ? colors.gray[20] : colors.red[40]};
+    background-color: ${({ isClosed }) =>
+      isClosed ? colors.gray[20] : colors.red[40]};
     border-radius: 20px;
   }
 `;

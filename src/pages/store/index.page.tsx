@@ -1,9 +1,10 @@
 import { Global } from '@emotion/react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import ListCard from '@/components/ListCard/ListCard';
+import ListCard from '@/pages/store/_components/ListCard/ListCard';
+import { mockNotices } from '@/pages/store/_components/ListCard/types/mockNotices';
 import { sortSelectStyle } from '@/pages/store/_components/SelectBox.style';
-import * as S from '@/pages/store/storelist.page.style';
+import * as S from '@/pages/store/index.page.style';
 
 import RightDrawer from './_components/DetailFilter/Drawer';
 import BasicPopover from './_components/DetailFilter/Popover';
@@ -12,6 +13,11 @@ import BasicSelect from './_components/SelectBox';
 
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
+
+  const sortedByDeadline = mockNotices.items.sort(
+    (a, b) =>
+      new Date(a.item.startsAt).getTime() - new Date(b.item.startsAt).getTime()
+  );
   return (
     <>
       <S.JobSuggestSection>
@@ -19,12 +25,9 @@ const StoreList = () => {
           <S.JobSuggestTitle>맞춤 공고</S.JobSuggestTitle>
           <div>
             <S.JobSuggestList>
-              <ListCard />
-              <ListCard />
-              <ListCard />
-              <ListCard />
-              <ListCard />
-              <ListCard />
+              {mockNotices.items.map(({ item }) => (
+                <ListCard key={item.id} notice={item} />
+              ))}
             </S.JobSuggestList>
           </div>
         </div>
@@ -41,12 +44,9 @@ const StoreList = () => {
         </S.JobListHeader>
         <S.AllJobListContainer>
           <S.AllJobList>
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
-            <ListCard />
+            {sortedByDeadline.map(({ item }) => (
+              <ListCard key={item.id} notice={item} />
+            ))}
           </S.AllJobList>
         </S.AllJobListContainer>
         <PaginationRounded></PaginationRounded>

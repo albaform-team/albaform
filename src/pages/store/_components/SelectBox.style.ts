@@ -2,11 +2,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-
-import { colors } from '@/styles/colors';
 
 export const BoxContainer = styled(Box)`
   width: 105px;

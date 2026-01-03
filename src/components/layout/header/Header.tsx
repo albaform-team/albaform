@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { useState } from 'react';
 
@@ -11,8 +12,9 @@ import {
   PROFILE_ROUTES,
 } from '@/constants/routes';
 
+import NotificationModal from './_components/notificationModal/NotificationModal';
+import SearchForm from './_components/Search/SearchForm';
 import * as S from './Header.styles';
-import NotificationModal from './notificationModal/NotificationModal';
 
 type UserType = 'unlogin' | 'owner' | 'user';
 
@@ -22,6 +24,8 @@ type HeaderType = {
 
 const Header = ({ user = 'unlogin' }: HeaderType) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const { q } = router.query;
 
   const openNotification = () => setIsOpen(true);
   const closeNotification = () => setIsOpen(false);
@@ -31,7 +35,7 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
       <S.HeaderContainer>
         <S.HeaderContent>
           <S.HeaderLeft>
-            <S.LogoLink href="/">
+            <S.LogoLink href={'/store'}>
               <S.LogoImage
                 src={LogoImage}
                 alt="메인로고"
@@ -41,10 +45,7 @@ const Header = ({ user = 'unlogin' }: HeaderType) => {
             </S.LogoLink>
           </S.HeaderLeft>
 
-          <S.SearchBox>
-            <Image src={SearchImage} alt="검색" width={20} height={20} />
-            <input type="text" placeholder="가게 이름으로 찾아보세요"></input>
-          </S.SearchBox>
+          <SearchForm initialValue={q} />
 
           <S.HeaderRight>
             {user === 'unlogin' && (

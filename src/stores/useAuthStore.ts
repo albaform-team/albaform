@@ -6,9 +6,11 @@ import type { LoginUser } from '@/types/api/auth';
 interface AuthState {
   accessToken: string | null;
   user: LoginUser | null;
+  rehydrated: boolean;
 
   setAuth: (payload: { accessToken: string; user: LoginUser }) => void;
   setUser: (user: LoginUser | null) => void;
+  setRehydrated: () => void;
   clearAuth: () => void;
 }
 
@@ -17,6 +19,7 @@ const useAuthStore = create<AuthState>()(
     set => ({
       accessToken: null,
       user: null,
+      rehydrated: false,
 
       setAuth: ({ accessToken, user }) =>
         set({
@@ -25,6 +28,8 @@ const useAuthStore = create<AuthState>()(
         }),
 
       setUser: user => set({ user }),
+
+      setRehydrated: () => set({ rehydrated: true }),
 
       clearAuth: () =>
         set({
@@ -35,10 +40,13 @@ const useAuthStore = create<AuthState>()(
     {
       name: 'auth-storage',
       storage: createJSONStorage(() => sessionStorage),
-      partialize: AuthStore => ({
-        accessToken: AuthStore.accessToken,
-        user: AuthStore.user,
+      partialize: s => ({
+        accessToken: s.accessToken,
+        user: s.user,
       }),
+      onRehydrateStorage: () => (state, error) => {
+        if (!error) state?.setRehydrated();
+      },
     }
   )
 );

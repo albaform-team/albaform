@@ -57,18 +57,3 @@ export const ModalButton = styled(Button)`
     font-size: 16px;
   }
 `;
-
-export const AddButton = styled(Button)`
-  width: 100%;
-  height: 48px;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 20px;
-  color: ${colors.white};
-  background-color: #ea3c12;
-  border-radius: 6px;
-
-  @media ${media.tablet} {
-    width: 312px;
-  }
-`;

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import styled from '@emotion/styled';
-import { Input, Select, TextField } from '@mui/material';
+import { Button, Input, Select, TextField } from '@mui/material';
 
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
@@ -151,5 +151,20 @@ export const TextInputBox = styled(TextField)`
 
   & textarea {
     padding: 0;
+  }
+`;
+
+export const AddButton = styled(Button)`
+  width: 100%;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  color: ${colors.white};
+  background-color: #ea3c12;
+  border-radius: 6px;
+
+  @media ${media.tablet} {
+    width: 312px;
   }
 `;

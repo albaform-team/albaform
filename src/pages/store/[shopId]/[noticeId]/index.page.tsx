@@ -27,6 +27,7 @@ const StoreDetailPage = () => {
   const { user } = useAuthStore.getState();
 
   const [notice, setNotice] = useState<NoticeItem | null>(null);
+  const [closed, setClosed] = useState<boolean>(false);
   const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const [isApply, setIsApply] = useState<boolean>(false);
   const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
@@ -40,6 +41,9 @@ const StoreDetailPage = () => {
         if (typeof shopId === 'string' && typeof noticeId === 'string') {
           const data = await getNoticeDetail(shopId, noticeId);
           setNotice(data);
+          if (data.closed) {
+            setClosed(true);
+          }
         }
       } catch (error) {
         console.error('공고 상세 불러오기 실패:', error);
@@ -82,13 +86,35 @@ const StoreDetailPage = () => {
 
     if (typeof shopId === 'string' && typeof noticeId === 'string') {
       try {
+        console.log('실패 전');
         await cancelApplication(shopId, noticeId);
+        console.log('실패');
         setIsApply(false);
         setCancelModalOpen(false);
       } catch (error) {
         console.log(error);
       }
     }
+  };
+
+  const formatDateWithWorkTime = (startsAt: string, workhour: number) => {
+    const date = new Date(startsAt);
+
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+
+    const startHour = date.getUTCHours();
+    const startMinute = date.getUTCMinutes();
+
+    const endHour = startHour + workhour;
+    const endMinute = startMinute;
+
+    const pad = (n: number) => String(n).padStart(2, '0');
+
+    return `${year}.${month}.${day} ${pad(startHour)}:${pad(
+      startMinute
+    )} ~ ${pad(endHour)}:${pad(endMinute)} (${workhour}시간)`;
   };
 
   if (!notice) {
@@ -104,6 +130,7 @@ const StoreDetailPage = () => {
         </S.JobSummaryTitle>
         <S.SummaryCardContainer>
           <S.SummaryCardImage>
+            {closed && <S.ExpiredOverlay>마감 완료</S.ExpiredOverlay>}
             <Image
               src={notice.shop.item.imageUrl}
               alt="식당 이미지"
@@ -128,7 +155,7 @@ const StoreDetailPage = () => {
             <S.InfoList>
               <Image src={ClockIcon} alt="근무 시간" width={16} height={16} />
               <S.WorkInfo>
-                {notice.startsAt} ({notice.workhour}시간)
+                {formatDateWithWorkTime(notice.startsAt, notice.workhour)}
               </S.WorkInfo>
             </S.InfoList>
             <S.InfoList>
@@ -143,7 +170,9 @@ const StoreDetailPage = () => {
             <S.StoreDescription>
               {notice.shop.item.description}
             </S.StoreDescription>
-            {isApply ? (
+            {closed ? (
+              <S.EndButton>신청 불가</S.EndButton>
+            ) : isApply ? (
               <S.CancelButton onClick={handleCancel}>취소하기</S.CancelButton>
             ) : (
               <S.ApplyButton onClick={handleClick}>신청하기</S.ApplyButton>

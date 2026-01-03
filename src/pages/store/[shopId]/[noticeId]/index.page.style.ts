@@ -100,6 +100,19 @@ export const SummaryCardImage = styled.div`
   }
 `;
 
+export const ExpiredOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: ${colors.gray[30]};
+  background: rgb(0 0 0 / 70%);
+`;
+
 export const SummaryCardInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -214,6 +227,24 @@ export const StoreDescription = styled.div`
   @media ${media.tablet} {
     font-size: 16px;
     line-height: 26px;
+  }
+`;
+
+export const EndButton = styled(Button)`
+  width: 100%;
+  height: 38px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 100%;
+  color: ${colors.white};
+  cursor: not-allowed;
+  background-color: ${colors.gray[40]};
+  border-radius: 6px;
+
+  @media ${media.tablet} {
+    height: 48px;
+    font-size: 16px;
+    line-height: 20px;
   }
 `;
 

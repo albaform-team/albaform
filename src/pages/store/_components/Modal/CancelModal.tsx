@@ -1,7 +1,6 @@
 import Image from 'next/image';
 
 import Modal from '@mui/material/Modal';
-import * as React from 'react';
 
 import CheckIcon from '@/assets/svg/check.svg';
 import * as S from '@/pages/store/_components/Modal/CancelModal.style';

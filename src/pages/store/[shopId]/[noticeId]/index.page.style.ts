@@ -82,6 +82,7 @@ export const SummaryCardContainer = styled.div`
 `;
 
 export const SummaryCardImage = styled.div`
+  position: relative;
   width: 311px;
   height: 177px;
   overflow: hidden;
@@ -224,6 +225,24 @@ export const ApplyButton = styled(Button)`
   line-height: 100%;
   color: ${colors.white};
   background-color: #ea3c12;
+  border-radius: 6px;
+
+  @media ${media.tablet} {
+    height: 48px;
+    font-size: 16px;
+    line-height: 20px;
+  }
+`;
+
+export const CancelButton = styled(Button)`
+  width: 100%;
+  height: 38px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 100%;
+  color: #ea3c12;
+  background-color: ${colors.white};
+  border: 1px solid #ea3c12;
   border-radius: 6px;
 
   @media ${media.tablet} {

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
@@ -9,7 +10,6 @@ import CloseIcon from '@/assets/svg/closeicon.svg';
 import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from '../new.style';
-import { useRouter } from 'next/router';
 
 const JobRegisterIdPage = () => {
   const [open, setOpen] = React.useState(false);

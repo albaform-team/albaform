@@ -16,6 +16,7 @@ import useAuthStore from '@/stores/useAuthStore';
 import { NoticeItem } from '@/types/user/notice';
 
 import CancelModal from '../../_components/Modal/CancelModal';
+import LoginModal from '../../_components/Modal/LoginModal';
 import ProfileRegisterModal from '../../_components/Modal/ProfileRegisterModal';
 
 import * as S from './index.page.style';
@@ -29,6 +30,7 @@ const StoreDetailPage = () => {
   const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const [isApply, setIsApply] = useState<boolean>(false);
   const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
+  const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!shopId || !noticeId) return;
@@ -48,7 +50,11 @@ const StoreDetailPage = () => {
   }, [shopId, noticeId]);
 
   const handleClick = async () => {
-    if (!user?.id) return;
+    if (!user?.id) {
+      setLoginModalOpen(true);
+      return;
+    }
+
     const res = await getMyProfile(user.id);
 
     const isProfileEmpty = !res.name || !res.phone || !res.address || !res.bio;
@@ -153,6 +159,12 @@ const StoreDetailPage = () => {
                 open={cancelModalOpen}
                 onClose={() => setCancelModalOpen(false)}
                 onConfirm={handleConfirmCancel}
+              />
+            )}
+            {loginModalOpen && (
+              <LoginModal
+                open={loginModalOpen}
+                onClose={() => setLoginModalOpen(false)}
               />
             )}
           </S.SummaryCardInfo>

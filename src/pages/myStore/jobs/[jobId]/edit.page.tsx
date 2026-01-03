@@ -9,11 +9,15 @@ import CloseIcon from '@/assets/svg/closeicon.svg';
 import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from '../new.style';
+import { useRouter } from 'next/router';
 
 const JobRegisterIdPage = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const router = useRouter();
+  const jobId = router.query.jobId;
 
   // 시급
   const [pay, setPay] = useState('');
@@ -58,7 +62,17 @@ const JobRegisterIdPage = () => {
         `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`
       );
 
-      const getPay = getNotice.data.items[0].item.hourlyPay;
+      interface FindItem {
+        item?: {
+          id?: number | string;
+        };
+      }
+      const findId = getNotice.data.items.find(
+        (i: FindItem) => i.item?.id?.toString() === jobId
+      );
+      if (!findId) return;
+
+      const getPay = findId.item.hourlyPay;
       setPay(getPay);
 
       const toDatetimeLocal = (date: Date) => {
@@ -66,19 +80,19 @@ const JobRegisterIdPage = () => {
         const localDate = new Date(date.getTime() - offset);
         return localDate.toISOString().slice(0, 16);
       };
-      const getTime = getNotice.data.items[0].item.startsAt;
+      const getTime = findId.item.startsAt;
       const changeTime = toDatetimeLocal(new Date(getTime));
       setTime(changeTime);
 
-      const getWorkTime = getNotice.data.items[0].item.workhour;
+      const getWorkTime = findId.item.workhour;
       setWorkTime(getWorkTime);
 
-      const getJobExplain = getNotice.data.items[0].item.description;
+      const getJobExplain = findId.item.description;
       setJobExplain(getJobExplain);
     };
 
     importData();
-  }, []);
+  }, [jobId]);
 
   // submit 관련
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -99,7 +113,18 @@ const JobRegisterIdPage = () => {
       `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`
     );
 
-    const noticeId = getNotice.data.items[0].item.id;
+    interface FindItem {
+      item?: {
+        id?: number | string;
+      };
+    }
+
+    const findId = getNotice.data.items.find(
+      (i: FindItem) => i.item?.id?.toString() === jobId
+    );
+    if (!findId) return;
+
+    const noticeId = findId.item.id;
 
     try {
       await axios.put(
@@ -123,9 +148,9 @@ const JobRegisterIdPage = () => {
       }
 
       handleOpen();
-      console.log('수정이 완료되었습니다.');
+      console.log('편집이 완료되었습니다.');
     } catch (error) {
-      console.log('수정에 실패하였습니다.', error);
+      console.log('편집에 실패하였습니다.', error);
     }
   };
 

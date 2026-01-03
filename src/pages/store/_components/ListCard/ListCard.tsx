@@ -18,9 +18,34 @@ const ListCard = ({ notice }: ListCardProps) => {
     workhour,
     closed,
     shop: {
-      item: { name, address1, imageUrl },
+      item: { name, address1, imageUrl, originalHourlyPay },
     },
   } = notice;
+
+  const formatDateWithWorkTime = (startsAt: string, workhour: number) => {
+    const date = new Date(startsAt);
+
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+
+    const startHour = date.getUTCHours();
+    const startMinute = date.getUTCMinutes();
+
+    const endHour = startHour + workhour;
+    const endMinute = startMinute;
+
+    const pad = (n: number) => String(n).padStart(2, '0');
+
+    return `${year}.${month}.${day} ${pad(startHour)}:${pad(
+      startMinute
+    )} ~ ${pad(endHour)}:${pad(endMinute)} (${workhour}시간)`;
+  };
+
+  const increaseRatePercent =
+    Math.floor((hourlyPay - originalHourlyPay) / originalHourlyPay) * 100;
+
+  const isIncrease = increaseRatePercent > 0;
 
   return (
     <>
@@ -42,7 +67,7 @@ const ListCard = ({ notice }: ListCardProps) => {
                 height={16}
               />
               <S.JobMetaInfo isClosed={closed}>
-                {startsAt} 15:00~18:00 ({workhour}시간)
+                {formatDateWithWorkTime(startsAt, workhour)}{' '}
               </S.JobMetaInfo>
             </S.JobMetaSection>
             <S.JobMetaSection>
@@ -57,17 +82,19 @@ const ListCard = ({ notice }: ListCardProps) => {
           </S.JobSummary>
           <S.PaySection>
             <S.HourlyPay isClosed={closed}>{hourlyPay}원</S.HourlyPay>
-            <S.PayIncreaseBadgeSection isClosed={closed}>
-              <S.PayIncreaseBadge isClosed={closed}>
-                기존 시급보다 100%️️
-              </S.PayIncreaseBadge>
-              <S.JobMetaIcon
-                src={ArrowIcon}
-                alt="상승"
-                width={16}
-                height={16}
-              />
-            </S.PayIncreaseBadgeSection>
+            {isIncrease && (
+              <S.PayIncreaseBadgeSection isClosed={closed}>
+                <S.PayIncreaseBadge isClosed={closed}>
+                  기존 시급보다 {increaseRatePercent}%️️
+                </S.PayIncreaseBadge>
+                <S.JobMetaIcon
+                  src={ArrowIcon}
+                  alt="상승"
+                  width={16}
+                  height={16}
+                />
+              </S.PayIncreaseBadgeSection>
+            )}
           </S.PaySection>
         </S.CardContent>
       </S.CardContainer>

@@ -25,6 +25,10 @@ export const CardContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  @media ${media.tablet} {
+    gap: 17px;
+  }
 `;
 
 export const JobImage = styled.div`

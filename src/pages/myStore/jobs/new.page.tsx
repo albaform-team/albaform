@@ -11,7 +11,7 @@ import useAuthStore from '@/stores/useAuthStore';
 import * as S from './new.style';
 
 const JobRegisterPage = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -59,7 +59,7 @@ const JobRegisterPage = () => {
     const shopId = getShop.data.item.shop.item.id;
 
     try {
-      const res = await axios.post(
+      await axios.post(
         `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`,
         {
           hourlyPay: Number(pay),

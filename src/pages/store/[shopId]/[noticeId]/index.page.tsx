@@ -5,15 +5,14 @@ import { useEffect, useState } from 'react';
 
 import ArrowIcon from '@/assets/svg/arrow-up.svg';
 import ClockIcon from '@/assets/svg/clock.svg';
-import FoodImage from '@/assets/svg/food.png';
 import LocationIcon from '@/assets/svg/location.svg';
-import { getNoticeDetail } from '@/lib/services/noticeService';
-import { getMyProfile } from '@/lib/services/noticeService';
-import { applyNotice } from '@/lib/services/noticeService';
-import { cancelApplication } from '@/lib/services/noticeService';
-import ListCard from '@/pages/store/_components/ListCard/ListCard';
+import {
+  applyNotice,
+  cancelApplication,
+  getMyProfile,
+  getNoticeDetail,
+} from '@/lib/services/noticeService';
 import useAuthStore from '@/stores/useAuthStore';
-import { MyProfile } from '@/types/user/myProfile';
 import { NoticeItem } from '@/types/user/notice';
 
 import CancelModal from '../../_components/Modal/CancelModal';

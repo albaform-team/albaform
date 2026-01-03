@@ -25,10 +25,6 @@ export const CardContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-
-  @media ${media.tablet} {
-    gap: 20px;
-  }
 `;
 
 export const JobImage = styled.div`
@@ -119,11 +115,10 @@ export const PaySection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  justify-content: flex-start;
+  justify-content: space-between;
 
   @media ${media.tablet} {
     flex-direction: row;
-    gap: 9px;
     align-items: center;
   }
 `;

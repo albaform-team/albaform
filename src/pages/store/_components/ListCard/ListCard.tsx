@@ -2,7 +2,6 @@ import Image from 'next/image';
 
 import ArrowIcon from '@/assets/svg/arrow-up.svg';
 import ClockIcon from '@/assets/svg/clock.svg';
-import FoodImage from '@/assets/svg/food.png';
 import LocationIcon from '@/assets/svg/location.svg';
 import * as S from '@/pages/store/_components/ListCard/ListCard.styles';
 
@@ -29,7 +28,7 @@ const ListCard = ({ notice }: ListCardProps) => {
         <S.CardContent>
           <S.JobImage>
             <S.JobImageMedia>
-              <Image src={FoodImage} alt="가게 이미지" fill />
+              <Image src={imageUrl} alt="가게 이미지" fill />
             </S.JobImageMedia>
             {closed && <S.ExpiredOverlay>지난 공고</S.ExpiredOverlay>}
           </S.JobImage>
@@ -64,7 +63,7 @@ const ListCard = ({ notice }: ListCardProps) => {
               </S.PayIncreaseBadge>
               <S.JobMetaIcon
                 src={ArrowIcon}
-                alt="근무 장소"
+                alt="상승"
                 width={16}
                 height={16}
               />

@@ -118,7 +118,7 @@ export const CardTextWrap = styled.div`
 
   @media ${media.desktop} {
     gap: 18px;
-    justify-content: flex-end;
+    justify-content: space-between;
     width: 346px;
     height: 308px;
   }

@@ -18,6 +18,7 @@ import BasicSelect from './_components/SelectBox';
 const Search = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
   const [notice, setNotice] = useState<NoticeListResponse | null>(null);
+  const [isSearchEmpty, setIsSearchEmpty] = useState<boolean>(false);
 
   const router = useRouter();
   const { q } = router.query;
@@ -41,6 +42,8 @@ const Search = () => {
       return item.shop.item.name.includes(keyword);
     }) ?? [];
 
+  const showEmptyMessage = keyword.length > 0 && searchFilter.length === 0;
+
   return (
     <S.SearchContainer>
       <S.SearchHeader>
@@ -57,6 +60,7 @@ const Search = () => {
         {searchFilter.map(({ item }) => (
           <ListCard key={item.id} notice={item} />
         ))}
+        {showEmptyMessage && <div>검색값이 없습니다</div>}
       </S.JobSearchSection>
       <PaginationRounded></PaginationRounded>
     </S.SearchContainer>

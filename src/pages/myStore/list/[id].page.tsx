@@ -1,10 +1,11 @@
 import Image from 'next/image';
 
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+
 import StoreImg from '@/assets/img/storeimg.png';
 
 import * as S from './index.style';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const StoreListIdPage = () => {
   // 가게 이름

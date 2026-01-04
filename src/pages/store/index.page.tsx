@@ -7,6 +7,8 @@ import ListCard from '@/pages/store/_components/ListCard/ListCard';
 import { mockNotices } from '@/pages/store/_components/ListCard/types/mockNotices';
 import { sortSelectStyle } from '@/pages/store/_components/SelectBox.style';
 import * as S from '@/pages/store/index.page.style';
+import useAuthStore from '@/stores/useAuthStore';
+import { MyProfile } from '@/types/user/myProfile';
 import { NoticeListResponse } from '@/types/user/noticeList';
 
 import RightDrawer from './_components/DetailFilter/Drawer';
@@ -17,6 +19,8 @@ import BasicSelect from './_components/SelectBox';
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
   const [notice, setNotice] = useState<NoticeListResponse | null>(null);
+  const [profile, setProfile] = useState<MyProfile | null>(null);
+  const { user } = useAuthStore.getState();
 
   const sortedByDeadline = mockNotices.items.sort(
     (a, b) =>
@@ -34,6 +38,7 @@ const StoreList = () => {
     };
     fetchNotice();
   }, []);
+
   return (
     <>
       <S.JobSuggestSection>
@@ -41,7 +46,7 @@ const StoreList = () => {
           <S.JobSuggestTitle>맞춤 공고</S.JobSuggestTitle>
           <div>
             <S.JobSuggestList>
-              {mockNotices.items.map(({ item }) => (
+              {notice?.items.map(({ item }) => (
                 <ListCard key={item.id} notice={item} />
               ))}
             </S.JobSuggestList>

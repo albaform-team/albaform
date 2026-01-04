@@ -268,6 +268,7 @@ export const CardListWrap = styled.div`
 
   @media ${media.desktop} {
     gap: 12px;
+    justify-content: flex-start;
   }
 `;
 

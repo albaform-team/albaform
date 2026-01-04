@@ -1,11 +1,9 @@
-import { Global } from '@emotion/react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
 
 import { getNotice } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
 import { mockNotices } from '@/pages/store/_components/ListCard/types/mockNotices';
-import { sortSelectStyle } from '@/pages/store/_components/SelectBox.style';
 import * as S from '@/pages/store/index.page.style';
 import useAuthStore from '@/stores/useAuthStore';
 import { MyProfile } from '@/types/user/myProfile';
@@ -13,8 +11,8 @@ import { NoticeListResponse } from '@/types/user/noticeList';
 
 import RightDrawer from './_components/DetailFilter/Drawer';
 import BasicPopover from './_components/DetailFilter/Popover';
+import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
-import BasicSelect from './_components/SelectBox';
 
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
@@ -58,8 +56,7 @@ const StoreList = () => {
         <S.JobListHeader>
           <S.JobListTitle>전체 공고</S.JobListTitle>
           <S.JobFilterContainer>
-            <Global styles={sortSelectStyle} />
-            <BasicSelect />
+            <FilterOptionSelect />
             {isMobile ? <RightDrawer /> : <BasicPopover />}
           </S.JobFilterContainer>
         </S.JobListHeader>

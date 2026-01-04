@@ -3,8 +3,43 @@ import Image from 'next/image';
 import StoreImg from '@/assets/img/storeimg.png';
 
 import * as S from './index.style';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const StoreListIdPage = () => {
+  // 가게 이름
+  const [storeName, setStoreName] = useState('');
+
+  // 주소
+  const [addressSelected, setAddressSelected] = useState('');
+
+  // 가게 이미지
+  const [imgFile, setImgFile] = useState<string>('');
+
+  // 가게 설명
+  const [textExplain, setTextExplain] = useState('');
+
+  useEffect(() => {
+    const importData = async () => {
+      const getInfo = sessionStorage.getItem('auth-storage');
+      const getUser = JSON.parse(getInfo as string);
+      const getUserId = getUser.state.user.id;
+
+      const getShop = await axios.get(
+        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/${getUserId}`
+      );
+
+      const shopData = getShop.data.item.shop.item;
+
+      setStoreName(shopData.name);
+      setAddressSelected(shopData.address1);
+      setImgFile(shopData.imageUrl);
+      setTextExplain(shopData.description);
+    };
+
+    importData();
+  }, []);
+
   return (
     <>
       <S.Container>
@@ -14,22 +49,18 @@ const StoreListIdPage = () => {
           </S.TitleWrap>
           <S.Card>
             <S.CardImgWrap>
-              <Image src={StoreImg} fill alt="StoreImg" />
+              <Image src={imgFile} fill alt="StoreImg" priority />
             </S.CardImgWrap>
             <S.CardTextWrap>
               <S.CardTitleWrap>
                 <S.CardSmallTitle>식당</S.CardSmallTitle>
-                <S.CardTitle>도토리식당</S.CardTitle>
+                <S.CardTitle>{storeName}</S.CardTitle>
               </S.CardTitleWrap>
               <S.CardNavWrap>
                 <S.TopNavIcon />
-                <S.CardNavText>서울시 송파구</S.CardNavText>
+                <S.CardNavText>{addressSelected}</S.CardNavText>
               </S.CardNavWrap>
-              <S.CardTextArea>
-                알바하기 편한 너구리네 라면집!
-                <br /> 라면 올려두고 끓이기만 하면 되어서 쉬운 편에 속하는
-                가게입니다.
-              </S.CardTextArea>
+              <S.CardTextArea>{textExplain}</S.CardTextArea>
               <S.CardButtonWrap>
                 <S.CardEditButton>편집하기</S.CardEditButton>
                 <S.CardRegisterButton>공고 등록하기</S.CardRegisterButton>

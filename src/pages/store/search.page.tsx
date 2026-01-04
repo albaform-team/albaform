@@ -44,6 +44,14 @@ const Search = () => {
       return item.shop.item.name.includes(keyword);
     }) ?? [];
 
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    if (!keyword) {
+      router.push('/store');
+    }
+  }, [keyword, router.isReady]);
+
   const showEmptyMessage = keyword.length > 0 && searchFilter.length === 0;
 
   useEffect(() => {

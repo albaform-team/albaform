@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+
 import { MY_STORE_ROUTES } from '@/constants/routes';
 
 import * as S from './index.style';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const StoreListPage = () => {
   // 가게 이름

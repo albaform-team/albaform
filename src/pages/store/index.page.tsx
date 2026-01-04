@@ -3,10 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { getNotice } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
-import { mockNotices } from '@/pages/store/_components/ListCard/types/mockNotices';
 import * as S from '@/pages/store/index.page.style';
-import useAuthStore from '@/stores/useAuthStore';
-import { MyProfile } from '@/types/user/myProfile';
 import { NoticeListResponse } from '@/types/user/noticeList';
 
 import RightDrawer from './_components/DetailFilter/Drawer';
@@ -17,12 +14,9 @@ import PaginationRounded from './_components/Pagination';
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
   const [notice, setNotice] = useState<NoticeListResponse | null>(null);
-  const [profile, setProfile] = useState<MyProfile | null>(null);
-  const { user } = useAuthStore.getState();
-
-  const sortedByDeadline = mockNotices.items.sort(
-    (a, b) =>
-      new Date(a.item.startsAt).getTime() - new Date(b.item.startsAt).getTime()
+  const [sortValue, setSortValue] = useState('마감임박순');
+  const [sortedItems, setSortedItems] = useState<NoticeListResponse['items']>(
+    []
   );
 
   useEffect(() => {
@@ -30,12 +24,41 @@ const StoreList = () => {
       try {
         const data = await getNotice();
         setNotice(data);
+        setSortedItems(data.items);
       } catch (error) {
         console.error(error);
       }
     };
     fetchNotice();
   }, []);
+
+  useEffect(() => {
+    if (!notice) return;
+
+    const newItem = [...notice?.items];
+
+    switch (sortValue) {
+      case '마감임박순':
+        newItem.sort(
+          (a, b) =>
+            new Date(a.item.startsAt).getTime() -
+            new Date(b.item.startsAt).getTime()
+        );
+        break;
+      case '시급많은순':
+        newItem.sort((a, b) => b.item.hourlyPay - a.item.hourlyPay);
+        break;
+      case '시간적은순':
+        newItem.sort((a, b) => a.item.workhour - b.item.workhour);
+        break;
+      case '가나다순':
+        newItem.sort((a, b) =>
+          a.item.shop.item.name.localeCompare(b.item.shop.item.name)
+        );
+        break;
+    }
+    setSortedItems(newItem);
+  }, [sortValue, notice]);
 
   return (
     <>
@@ -56,13 +79,13 @@ const StoreList = () => {
         <S.JobListHeader>
           <S.JobListTitle>전체 공고</S.JobListTitle>
           <S.JobFilterContainer>
-            <FilterOptionSelect />
+            <FilterOptionSelect value={sortValue} onChange={setSortValue} />
             {isMobile ? <RightDrawer /> : <BasicPopover />}
           </S.JobFilterContainer>
         </S.JobListHeader>
         <S.AllJobListContainer>
           <S.AllJobList>
-            {notice?.items.map(({ item }) => (
+            {sortedItems.map(({ item }) => (
               <ListCard key={item.id} notice={item} />
             ))}
           </S.AllJobList>

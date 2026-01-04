@@ -17,6 +17,11 @@ export const FilterButton = styled(Button)`
   background-color: ${colors.red[30]};
   border-radius: 5px;
   box-shadow: none;
+
+  &:hover {
+    background-color: #fb5a32;
+    box-shadow: none;
+  }
 `;
 
 export const PopoverContainer = styled(Typography)`

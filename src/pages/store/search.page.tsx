@@ -1,24 +1,25 @@
 import { useRouter } from 'next/router';
 
-import { Global } from '@emotion/react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
 
 import { getNotice } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
-import { sortSelectStyle } from '@/pages/store/_components/SelectBox.style';
 import * as S from '@/pages/store/search.page.style';
 import { NoticeListResponse } from '@/types/user/noticeList';
 
 import RightDrawer from './_components/DetailFilter/Drawer';
 import BasicPopover from './_components/DetailFilter/Popover';
+import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
-import BasicSelect from './_components/SelectBox';
 
 const Search = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
   const [notice, setNotice] = useState<NoticeListResponse | null>(null);
-  const [isSearchEmpty, setIsSearchEmpty] = useState<boolean>(false);
+  const [sortValue, setSortValue] = useState('마감임박순');
+  const [sortedItems, setSortedItems] = useState<NoticeListResponse['items']>(
+    []
+  );
 
   const router = useRouter();
   const { q } = router.query;
@@ -28,6 +29,7 @@ const Search = () => {
       try {
         const data = await getNotice();
         setNotice(data);
+        setSortedItems(data.items);
       } catch (error) {
         console.log(error);
       }
@@ -44,6 +46,34 @@ const Search = () => {
 
   const showEmptyMessage = keyword.length > 0 && searchFilter.length === 0;
 
+  useEffect(() => {
+    if (!notice) return;
+
+    const newItem = [...searchFilter];
+
+    switch (sortValue) {
+      case '마감임박순':
+        newItem.sort(
+          (a, b) =>
+            new Date(a.item.startsAt).getTime() -
+            new Date(b.item.startsAt).getTime()
+        );
+        break;
+      case '시급많은순':
+        newItem.sort((a, b) => b.item.hourlyPay - a.item.hourlyPay);
+        break;
+      case '시간적은순':
+        newItem.sort((a, b) => a.item.workhour - b.item.workhour);
+        break;
+      case '가나다순':
+        newItem.sort((a, b) =>
+          a.item.shop.item.name.localeCompare(b.item.shop.item.name)
+        );
+        break;
+    }
+    setSortedItems(newItem);
+  }, [sortValue, notice]);
+
   return (
     <S.SearchContainer>
       <S.SearchHeader>
@@ -51,13 +81,12 @@ const Search = () => {
           <S.SearchQuery>{q}</S.SearchQuery>에 대한 공고 목록
         </S.SearchTitle>
         <S.JobFilterContainer>
-          <Global styles={sortSelectStyle} />
-          <BasicSelect />
+          <FilterOptionSelect value={sortValue} onChange={setSortValue} />
           {isMobile ? <RightDrawer /> : <BasicPopover />}
         </S.JobFilterContainer>
       </S.SearchHeader>
       <S.JobSearchSection>
-        {searchFilter.map(({ item }) => (
+        {sortedItems.map(({ item }) => (
           <ListCard key={item.id} notice={item} />
         ))}
         {showEmptyMessage && <div>검색값이 없습니다</div>}

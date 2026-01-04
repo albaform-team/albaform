@@ -78,7 +78,7 @@ const StoreListIdPage = () => {
           <S.CardListWrap>
             <S.CardList>
               <S.CardListImgWrap>
-                <Image src={StoreImg} fill alt="StoreImg" />
+                <Image src={StoreImg} fill alt="StoreImg" priority />
               </S.CardListImgWrap>
               <S.CardListTextWrap>
                 <S.CardListTitleWrap>
@@ -106,7 +106,7 @@ const StoreListIdPage = () => {
             <S.CardListDisable>
               <S.CardListImgWrap>
                 <div>마감 완료</div>
-                <Image src={StoreImg} fill alt="StoreImg" />
+                <Image src={StoreImg} fill alt="StoreImg" priority />
               </S.CardListImgWrap>
               <S.CardListTextWrap>
                 <S.CardListTitleWrap>
@@ -138,7 +138,7 @@ const StoreListIdPage = () => {
             <S.CardListDisable>
               <S.CardListImgWrap>
                 <div>마감 완료</div>
-                <Image src={StoreImg} fill alt="StoreImg" />
+                <Image src={StoreImg} fill alt="StoreImg" priority />
               </S.CardListImgWrap>
               <S.CardListTextWrap>
                 <S.CardListTitleWrap>
@@ -170,7 +170,7 @@ const StoreListIdPage = () => {
             <S.CardListDisable>
               <S.CardListImgWrap>
                 <div>마감 완료</div>
-                <Image src={StoreImg} fill alt="StoreImg" />
+                <Image src={StoreImg} fill alt="StoreImg" priority />
               </S.CardListImgWrap>
               <S.CardListTextWrap>
                 <S.CardListTitleWrap>

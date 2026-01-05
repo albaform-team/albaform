@@ -1,7 +1,8 @@
-import Image from 'next/image';
-
 import styled from '@emotion/styled';
 
+import ArrowIconComponent from '@/assets/svg/arrowicon';
+import ClockIconComponent from '@/assets/svg/clockicon';
+import NavIconComponent from '@/assets/svg/navicon';
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
 
@@ -96,10 +97,31 @@ export const JobMetaSection = styled.div`
   }
 `;
 
-export const JobMetaIcon = styled(Image)`
+export const ClockIcon = styled(ClockIconComponent)<{ isClosed: boolean }>`
+  color: ${({ isClosed }) => (isClosed ? colors.gray[30] : colors.red[30])};
+
   @media ${media.tablet} {
     width: 20px;
     height: 20px;
+  }
+`;
+
+export const NavIcon = styled(NavIconComponent)<{ isClosed: boolean }>`
+  color: ${({ isClosed }) => (isClosed ? colors.gray[30] : colors.red[30])};
+
+  @media ${media.tablet} {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const ArrowIcon = styled(ArrowIconComponent)`
+  color: ${colors.red[40]};
+
+  @media ${media.tablet} {
+    width: 13px;
+    height: 13px;
+    color: ${colors.white};
   }
 `;
 
@@ -154,7 +176,7 @@ export const PayIncreaseBadge = styled.div<{ isClosed: boolean }>`
 
 export const PayIncreaseBadgeSection = styled.div<{ isClosed: boolean }>`
   display: flex;
-  gap: 2px;
+  gap: 3px;
   align-items: center;
   justify-content: flex-start;
 

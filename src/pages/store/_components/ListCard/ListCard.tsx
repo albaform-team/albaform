@@ -1,7 +1,8 @@
 import Image from 'next/image';
 
 import ArrowIcon from '@/assets/svg/arrow-up.svg';
-import ClockIcon from '@/assets/svg/clock.svg';
+// import ClockIcon from '@/assets/svg/clock.svg';
+import ClockIconComponent from '@/assets/svg/clockicon';
 import LocationIcon from '@/assets/svg/location.svg';
 import * as S from '@/pages/store/_components/ListCard/ListCard.styles';
 
@@ -60,23 +61,25 @@ const ListCard = ({ notice }: ListCardProps) => {
           <S.JobSummary>
             <S.JobTitle isClosed={closed}>{name}</S.JobTitle>
             <S.JobMetaSection>
-              <S.JobMetaIcon
+              <S.ClockIcon isClosed={closed} />
+              {/* <S.JobMetaIcon
                 src={ClockIcon}
                 alt="근무 시간"
                 width={16}
                 height={16}
-              />
+              /> */}
               <S.JobMetaInfo isClosed={closed}>
                 {formatDateWithWorkTime(startsAt, workhour)}{' '}
               </S.JobMetaInfo>
             </S.JobMetaSection>
             <S.JobMetaSection>
-              <S.JobMetaIcon
+              <S.NavIcon isClosed={closed} />
+              {/* <S.JobMetaIcon
                 src={LocationIcon}
                 alt="근무 장소"
                 width={16}
                 height={16}
-              />
+              /> */}
               <S.JobMetaInfo isClosed={closed}>{address1}</S.JobMetaInfo>
             </S.JobMetaSection>
           </S.JobSummary>
@@ -87,12 +90,13 @@ const ListCard = ({ notice }: ListCardProps) => {
                 <S.PayIncreaseBadge isClosed={closed}>
                   기존 시급보다 {increaseRatePercent}%️️
                 </S.PayIncreaseBadge>
-                <S.JobMetaIcon
+                <S.ArrowIcon />
+                {/* <S.JobMetaIcon
                   src={ArrowIcon}
                   alt="상승"
                   width={16}
                   height={16}
-                />
+                /> */}
               </S.PayIncreaseBadgeSection>
             )}
           </S.PaySection>

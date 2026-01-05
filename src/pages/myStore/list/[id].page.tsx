@@ -1,15 +1,15 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useState, useEffect } from 'react';
 
 import StoreImg from '@/assets/img/storeimg.png';
-
-import * as S from './index.style';
-import Link from 'next/link';
+import { NOTICES_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
-import { NOTICES_API, USERS_API } from '@/constants/api';
+
+import * as S from './index.style';
 
 const StoreListIdPage = () => {
   // 가게 이름

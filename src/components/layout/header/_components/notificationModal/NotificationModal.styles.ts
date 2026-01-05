@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 export const NotificationContainer = styled.div`
   position: fixed;
   inset: 0;
+  z-index: 999;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

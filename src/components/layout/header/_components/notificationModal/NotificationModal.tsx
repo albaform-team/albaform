@@ -1,31 +1,51 @@
 import Image from 'next/image';
 
 import CloseIcon from '@/assets/svg/close.svg';
+import { ApiItem, UserAlertItem } from '@/types/api/alerts';
+import { formatDateTimeRange, getTimeAgo } from '@/utils/date';
 
 import NotificationItem from './NotificationItem';
 import * as S from './NotificationModal.styles';
 
 type NotificationModalProps = {
+  alertList: Array<ApiItem<UserAlertItem>>;
+  userId: string;
   onClose: () => void;
 };
 
-const NotificationModal = ({ onClose }: NotificationModalProps) => {
+const NotificationModal = ({ onClose, alertList }: NotificationModalProps) => {
+  // const [alertList, setAlertList] = useState<Array<ApiItem<UserAlertItem>>>([]);
+
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     const res = await getUserAlerts(userId);
+
+  //     setAlertList(res.items);
+  //   };
+  //   fetch();
+  // }, [userId]);
+
   return (
     <S.NotificationContainer onClick={e => e.stopPropagation()}>
       <S.NotificationHeader>
-        <S.NotificationTitle>알림 6개</S.NotificationTitle>
+        <S.NotificationTitle>알림 {alertList.length}개</S.NotificationTitle>
         <S.CloseButton as="button" onClick={onClose}>
           <Image src={CloseIcon} alt="창닫기" width={24} height={24} />
         </S.CloseButton>
       </S.NotificationHeader>
       <S.NotificationList>
-        <NotificationItem />
-        <NotificationItem />
-        <NotificationItem />
-        <NotificationItem />
-        <NotificationItem />
-        <NotificationItem />
-        <NotificationItem />
+        {alertList.map(({ item }) => (
+          <NotificationItem
+            key={item.id}
+            time={formatDateTimeRange(item.notice.item.startsAt, {
+              durationHours: item.notice.item.workhour,
+            })}
+            result={item.result}
+            read={item.read}
+            shopTitle={item.shop.item.name}
+            createdAt={getTimeAgo(item.createdAt)}
+          />
+        ))}
       </S.NotificationList>
     </S.NotificationContainer>
   );

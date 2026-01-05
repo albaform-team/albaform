@@ -6,11 +6,13 @@ import { AlertResult } from '@/types/api/alerts';
 import * as S from './NotificationItem.styles';
 
 interface Props {
+  alertId: string;
   time: string;
   result: AlertResult;
   read: boolean;
   shopTitle: string;
   createdAt: string;
+  onClick: (alertId: string) => void;
 }
 
 const STATUS_LABEL: Record<AlertResult, string> = {
@@ -23,14 +25,16 @@ export const getStatusLabel = (status: AlertResult): string => {
 };
 
 const NotificationItem = ({
+  alertId,
   time,
   result,
   read,
   shopTitle,
   createdAt,
+  onClick,
 }: Props) => {
   return (
-    <S.NotificationItem>
+    <S.NotificationItem onClick={() => onClick(alertId)}>
       {!read && (
         <Image src={AlarmButton} alt="알람 확인" width={5} height={5} />
       )}

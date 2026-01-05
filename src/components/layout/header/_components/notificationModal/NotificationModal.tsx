@@ -7,24 +7,13 @@ import { formatDateTimeRange, getTimeAgo } from '@/utils/date';
 import NotificationItem from './NotificationItem';
 import * as S from './NotificationModal.styles';
 
-type NotificationModalProps = {
+interface Props {
   alertList: Array<ApiItem<UserAlertItem>>;
-  userId: string;
   onClose: () => void;
-};
+  onRead: (alertId: string) => void;
+}
 
-const NotificationModal = ({ onClose, alertList }: NotificationModalProps) => {
-  // const [alertList, setAlertList] = useState<Array<ApiItem<UserAlertItem>>>([]);
-
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     const res = await getUserAlerts(userId);
-
-  //     setAlertList(res.items);
-  //   };
-  //   fetch();
-  // }, [userId]);
-
+const NotificationModal = ({ onClose, alertList, onRead }: Props) => {
   return (
     <S.NotificationContainer onClick={e => e.stopPropagation()}>
       <S.NotificationHeader>
@@ -37,6 +26,8 @@ const NotificationModal = ({ onClose, alertList }: NotificationModalProps) => {
         {alertList.map(({ item }) => (
           <NotificationItem
             key={item.id}
+            alertId={item.id}
+            onClick={onRead}
             time={formatDateTimeRange(item.notice.item.startsAt, {
               durationHours: item.notice.item.workhour,
             })}

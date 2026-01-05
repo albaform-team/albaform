@@ -1,23 +1,61 @@
-import { Global } from '@emotion/react';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import Link from 'next/link';
 
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useEffect, useState } from 'react';
+
+import { getMyProfile } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
-import { mockNotices } from '@/pages/store/_components/ListCard/types/mockNotices';
-import { sortSelectStyle } from '@/pages/store/_components/SelectBox.style';
 import * as S from '@/pages/store/index.page.style';
+import useAuthStore from '@/stores/useAuthStore';
+import { NoticeListResponse } from '@/types/user/noticeList';
 
 import RightDrawer from './_components/DetailFilter/Drawer';
 import BasicPopover from './_components/DetailFilter/Popover';
+import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
-import BasicSelect from './_components/SelectBox';
+import { useNotice } from './_hooks/useNotice';
 
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
+  const user = useAuthStore(state => state.user);
+  const [sortValue, setSortValue] = useState('마감임박순');
 
-  const sortedByDeadline = mockNotices.items.sort(
-    (a, b) =>
-      new Date(a.item.startsAt).getTime() - new Date(b.item.startsAt).getTime()
-  );
+  const { notice } = useNotice(sortValue);
+
+  const [personalItems, setPersonalItems] = useState<
+    NoticeListResponse['items']
+  >([]);
+
+  useEffect(() => {
+    if (!notice) return;
+
+    if (!user?.id) {
+      setPersonalItems(notice.items);
+      return;
+    }
+
+    const fetchPersonalNotice = async () => {
+      try {
+        const userData = await getMyProfile(user.id);
+
+        if (!userData.address) {
+          setPersonalItems(notice.items);
+          return;
+        }
+
+        const filtered = notice.items.filter(({ item }) =>
+          userData.address!.includes(item.shop.item.address1)
+        );
+
+        setPersonalItems(filtered.length > 0 ? filtered : notice.items);
+      } catch {
+        setPersonalItems(notice.items);
+      }
+    };
+
+    fetchPersonalNotice();
+  }, [user?.id, notice]);
+
   return (
     <>
       <S.JobSuggestSection>
@@ -25,8 +63,13 @@ const StoreList = () => {
           <S.JobSuggestTitle>맞춤 공고</S.JobSuggestTitle>
           <div>
             <S.JobSuggestList>
-              {mockNotices.items.map(({ item }) => (
-                <ListCard key={item.id} notice={item} />
+              {personalItems?.map(({ item }) => (
+                <Link
+                  key={item.id}
+                  href={`/store/${item.shop.item.id}/${item.id}`}
+                >
+                  <ListCard notice={item} />
+                </Link>
               ))}
             </S.JobSuggestList>
           </div>
@@ -37,15 +80,19 @@ const StoreList = () => {
         <S.JobListHeader>
           <S.JobListTitle>전체 공고</S.JobListTitle>
           <S.JobFilterContainer>
-            <Global styles={sortSelectStyle} />
-            <BasicSelect />
+            <FilterOptionSelect value={sortValue} onChange={setSortValue} />
             {isMobile ? <RightDrawer /> : <BasicPopover />}
           </S.JobFilterContainer>
         </S.JobListHeader>
         <S.AllJobListContainer>
           <S.AllJobList>
-            {sortedByDeadline.map(({ item }) => (
-              <ListCard key={item.id} notice={item} />
+            {notice?.items.map(({ item }) => (
+              <Link
+                key={item.id}
+                href={`/store/${item.shop.item.id}/${item.id}`}
+              >
+                <ListCard key={item.id} notice={item} />
+              </Link>
             ))}
           </S.AllJobList>
         </S.AllJobListContainer>

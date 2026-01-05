@@ -10,8 +10,8 @@ export const JobSuggestSection = styled.div`
   background-color: ${colors.red[10]};
 
   @media ${media.tablet} {
-    height: 535px;
-    padding: 60px 0;
+    height: 555px;
+    padding: 60px 0 35px;
   }
 
   @media ${media.desktop} {
@@ -23,14 +23,14 @@ export const JobSuggestSection = styled.div`
 `;
 
 export const JobSuggestTitle = styled.div`
-  margin: 0 0 16px 12px;
+  padding: 0 0 16px 12px;
   font-size: 20px;
   font-weight: 700;
   line-height: 100%;
   color: ${colors.black};
 
   @media ${media.tablet} {
-    margin: 0 0 32px 32px;
+    padding: 0 0 15px 32px;
     font-size: 28px;
     font-weight: 700;
     line-height: 100%;
@@ -43,7 +43,9 @@ export const JobSuggestList = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 0 12px;
+  padding: 12px 12px 24px;
   overflow: scroll;
+  overflow-y: visible;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 
@@ -53,7 +55,7 @@ export const JobSuggestList = styled.div`
 
   @media ${media.tablet} {
     gap: 14px;
-    padding: 0 32px;
+    padding: 20px 32px 32px;
   }
 
   @media ${media.desktop} {

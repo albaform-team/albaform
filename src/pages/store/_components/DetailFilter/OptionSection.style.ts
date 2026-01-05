@@ -1,5 +1,7 @@
+import Image from 'next/image';
+
 import styled from '@emotion/styled';
-import { Input } from '@mui/material';
+import { Chip, Input } from '@mui/material';
 
 import { colors } from '@/styles/colors';
 
@@ -61,8 +63,15 @@ export const LocationSelectOption = styled.div`
   gap: 30px 24px;
 `;
 
+export const OptionItem = styled.div`
+  cursor: pointer;
+`;
+
 export const SelectedLocation = styled.div`
-  height: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 export const StartSection = styled.div`

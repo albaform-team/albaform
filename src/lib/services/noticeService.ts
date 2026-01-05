@@ -1,13 +1,27 @@
-import axios from 'axios';
-
 import { MyProfileResponse } from '@/types/user/myProfile';
 import { NoticeDetailResponse } from '@/types/user/notice';
+import { NoticeListResponse } from '@/types/user/noticeList';
 
 import { services } from './servicesClient';
 
+type GetNoticeParams = {
+  offset?: number;
+  limit?: number;
+  sort?: 'time' | 'pay' | 'hour' | 'shop';
+  address?: string;
+  keyword?: string;
+};
+
+export const getNotice = async (params?: GetNoticeParams) => {
+  const res = await services.get<NoticeListResponse>('/notices', {
+    params,
+  });
+  return res.data;
+};
+
 export const getNoticeDetail = async (shopId: string, noticeId: string) => {
-  const res = await axios.get<NoticeDetailResponse>(
-    `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices/${noticeId}`
+  const res = await services.get<NoticeDetailResponse>(
+    `/shops/${shopId}/notices/${noticeId}`
   );
   return res.data.item;
 };

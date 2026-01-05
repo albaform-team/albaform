@@ -1,10 +1,8 @@
 import Image from 'next/image';
 
-import ArrowIcon from '@/assets/svg/arrow-up.svg';
-import ClockIcon from '@/assets/svg/clock.svg';
-import FoodImage from '@/assets/svg/food.png';
-import LocationIcon from '@/assets/svg/location.svg';
+// import ClockIcon from '@/assets/svg/clock.svg';
 import * as S from '@/pages/store/_components/ListCard/ListCard.styles';
+import { formatDateTimeRange } from '@/utils/date';
 
 import { NoticeItem } from './types/mockNotices';
 
@@ -19,9 +17,14 @@ const ListCard = ({ notice }: ListCardProps) => {
     workhour,
     closed,
     shop: {
-      item: { name, address1, imageUrl },
+      item: { name, address1, imageUrl, originalHourlyPay },
     },
   } = notice;
+
+  const increaseRatePercent =
+    Math.floor((hourlyPay - originalHourlyPay) / originalHourlyPay) * 100;
+
+  const isIncrease = increaseRatePercent > 0;
 
   return (
     <>
@@ -29,46 +32,35 @@ const ListCard = ({ notice }: ListCardProps) => {
         <S.CardContent>
           <S.JobImage>
             <S.JobImageMedia>
-              <Image src={FoodImage} alt="가게 이미지" fill />
+              <Image src={imageUrl} alt="가게 이미지" fill />
             </S.JobImageMedia>
             {closed && <S.ExpiredOverlay>지난 공고</S.ExpiredOverlay>}
           </S.JobImage>
           <S.JobSummary>
             <S.JobTitle isClosed={closed}>{name}</S.JobTitle>
             <S.JobMetaSection>
-              <S.JobMetaIcon
-                src={ClockIcon}
-                alt="근무 시간"
-                width={16}
-                height={16}
-              />
+              <S.ClockIcon isClosed={closed} />
               <S.JobMetaInfo isClosed={closed}>
-                {startsAt} 15:00~18:00 ({workhour}시간)
+                {formatDateTimeRange(startsAt, {
+                  durationHours: workhour,
+                })}{' '}
               </S.JobMetaInfo>
             </S.JobMetaSection>
             <S.JobMetaSection>
-              <S.JobMetaIcon
-                src={LocationIcon}
-                alt="근무 장소"
-                width={16}
-                height={16}
-              />
+              <S.NavIcon isClosed={closed} />
               <S.JobMetaInfo isClosed={closed}>{address1}</S.JobMetaInfo>
             </S.JobMetaSection>
           </S.JobSummary>
           <S.PaySection>
             <S.HourlyPay isClosed={closed}>{hourlyPay}원</S.HourlyPay>
-            <S.PayIncreaseBadgeSection isClosed={closed}>
-              <S.PayIncreaseBadge isClosed={closed}>
-                기존 시급보다 100%️️
-              </S.PayIncreaseBadge>
-              <S.JobMetaIcon
-                src={ArrowIcon}
-                alt="근무 장소"
-                width={16}
-                height={16}
-              />
-            </S.PayIncreaseBadgeSection>
+            {isIncrease && (
+              <S.PayIncreaseBadgeSection isClosed={closed}>
+                <S.PayIncreaseBadge isClosed={closed}>
+                  기존 시급보다 {increaseRatePercent}%️️
+                </S.PayIncreaseBadge>
+                <S.ArrowIcon />
+              </S.PayIncreaseBadgeSection>
+            )}
           </S.PaySection>
         </S.CardContent>
       </S.CardContainer>

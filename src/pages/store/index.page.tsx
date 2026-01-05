@@ -1,9 +1,10 @@
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
 
-import { getNotice } from '@/lib/services/noticeService';
+import { getMyProfile, getNotice } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
 import * as S from '@/pages/store/index.page.style';
+import useAuthStore from '@/stores/useAuthStore';
 import { NoticeListResponse } from '@/types/user/noticeList';
 
 import RightDrawer from './_components/DetailFilter/Drawer';
@@ -14,10 +15,14 @@ import PaginationRounded from './_components/Pagination';
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
   const [notice, setNotice] = useState<NoticeListResponse | null>(null);
+  const user = useAuthStore(state => state.user);
   const [sortValue, setSortValue] = useState('마감임박순');
   const [sortedItems, setSortedItems] = useState<NoticeListResponse['items']>(
     []
   );
+  const [personalItems, setPersonalItems] = useState<
+    NoticeListResponse['items']
+  >([]);
 
   useEffect(() => {
     const fetchNotice = async () => {
@@ -31,6 +36,43 @@ const StoreList = () => {
     };
     fetchNotice();
   }, []);
+
+  useEffect(() => {
+    if (!notice) return;
+
+    if (!user?.id) {
+      setPersonalItems(notice.items);
+      return;
+    }
+
+    const fetchPersonalNotice = async () => {
+      try {
+        const userData = await getMyProfile(user.id);
+
+        if (!userData.address) {
+          setPersonalItems(notice.items);
+          return;
+        }
+
+        const filtered = notice.items.filter(({ item }) =>
+          userData.address!.includes(item.shop.item.address1)
+        );
+
+        setPersonalItems(filtered.length > 0 ? filtered : notice.items);
+
+        if (filtered.length === 0) {
+          setPersonalItems(notice.items);
+          return;
+        }
+
+        setPersonalItems(filtered);
+      } catch (error) {
+        setPersonalItems(notice.items);
+      }
+    };
+
+    fetchPersonalNotice();
+  }, [user?.id, notice]);
 
   useEffect(() => {
     if (!notice) return;
@@ -67,7 +109,7 @@ const StoreList = () => {
           <S.JobSuggestTitle>맞춤 공고</S.JobSuggestTitle>
           <div>
             <S.JobSuggestList>
-              {notice?.items.map(({ item }) => (
+              {personalItems?.map(({ item }) => (
                 <ListCard key={item.id} notice={item} />
               ))}
             </S.JobSuggestList>

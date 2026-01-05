@@ -1,6 +1,40 @@
 import * as S from '@/pages/store/_components/DetailFilter/OptionSection.style';
 
+import AreaSelectedBadge from './SelectedBadge';
+
+export const AREAS = [
+  '서울시 종로구',
+  '서울시 중구',
+  '서울시 용산구',
+  '서울시 성동구',
+  '서울시 광진구',
+  '서울시 동대문구',
+  '서울시 중랑구',
+  '서울시 성북구',
+  '서울시 강북구',
+  '서울시 도봉구',
+  '서울시 노원구',
+  '서울시 은평구',
+  '서울시 서대문구',
+  '서울시 마포구',
+  '서울시 양천구',
+  '서울시 강서구',
+  '서울시 구로구',
+  '서울시 금천구',
+  '서울시 영등포구',
+  '서울시 동작구',
+  '서울시 관악구',
+  '서울시 서초구',
+  '서울시 강남구',
+  '서울시 송파구',
+  '서울시 강동구',
+];
+
 const OptionSection = () => {
+  const handleDelete = () => {
+    console.info('You clicked the delete icon.');
+  };
+
   return (
     <S.DetailOption>
       <S.LocationSection>
@@ -8,22 +42,15 @@ const OptionSection = () => {
         <S.LocationSelectBox>
           <S.LocationScrollArea>
             <S.LocationSelectOption>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
-              <div>경기도 군포시</div>
+              {AREAS.map(arr => (
+                <S.OptionItem key={arr}>{arr}</S.OptionItem>
+              ))}
             </S.LocationSelectOption>
           </S.LocationScrollArea>
         </S.LocationSelectBox>
-        <S.SelectedLocation></S.SelectedLocation>
+        <S.SelectedLocation>
+          <AreaSelectedBadge />{' '}
+        </S.SelectedLocation>
       </S.LocationSection>
       <S.StartSection>
         <S.DetailOptionTitle>시작일</S.DetailOptionTitle>

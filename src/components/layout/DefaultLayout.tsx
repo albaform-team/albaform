@@ -10,8 +10,8 @@ interface Props {
 const DefaultLayout = ({ children }: Props) => {
   return (
     <>
-      <Header user="user" />
-      {children}
+      <Header />
+      <main>{children}</main>
       <Footer />
     </>
   );

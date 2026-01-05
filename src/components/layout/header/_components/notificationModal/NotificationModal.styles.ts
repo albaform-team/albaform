@@ -48,6 +48,7 @@ export const NotificationList = styled.div`
   flex: 1;
   flex-direction: column;
   gap: 16px;
+  align-items: center;
   margin-top: 16px;
   overflow-y: auto;
   scrollbar-color: rgb(0 0 0 / 15%) transparent;

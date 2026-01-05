@@ -13,6 +13,7 @@ import BasicPopover from './_components/DetailFilter/Popover';
 import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
 import { useNotice } from './_hooks/useNotice';
+import { useSortedItems } from './_hooks/useSortedItems';
 
 const Search = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
@@ -21,7 +22,7 @@ const Search = () => {
   const router = useRouter();
   const { q } = router.query;
 
-  const { notice, setNotice, sortedItems, setSortedItems } = useNotice();
+  const { notice, setNotice } = useNotice();
 
   useEffect(() => {
     const fetchNotice = async () => {
@@ -53,33 +54,11 @@ const Search = () => {
 
   const showEmptyMessage = keyword.length > 0 && searchFilter.length === 0;
 
-  useEffect(() => {
-    if (!notice) return;
-
-    const newItem = [...searchFilter];
-
-    switch (sortValue) {
-      case '마감임박순':
-        newItem.sort(
-          (a, b) =>
-            new Date(a.item.startsAt).getTime() -
-            new Date(b.item.startsAt).getTime()
-        );
-        break;
-      case '시급많은순':
-        newItem.sort((a, b) => b.item.hourlyPay - a.item.hourlyPay);
-        break;
-      case '시간적은순':
-        newItem.sort((a, b) => a.item.workhour - b.item.workhour);
-        break;
-      case '가나다순':
-        newItem.sort((a, b) =>
-          a.item.shop.item.name.localeCompare(b.item.shop.item.name)
-        );
-        break;
-    }
-    setSortedItems(newItem);
-  }, [sortValue, notice]);
+  const searchItems = searchFilter;
+  const { sortedItems, setSortedItems } = useSortedItems(
+    searchItems,
+    sortValue
+  );
 
   return (
     <S.SearchContainer>

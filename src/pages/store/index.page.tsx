@@ -14,6 +14,7 @@ import BasicPopover from './_components/DetailFilter/Popover';
 import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
 import { useNotice } from './_hooks/useNotice';
+import { useSortedItems } from './_hooks/useSortedItems';
 
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
@@ -24,7 +25,9 @@ const StoreList = () => {
     NoticeListResponse['items']
   >([]);
 
-  const { notice, sortedItems, setSortedItems } = useNotice();
+  const { notice } = useNotice();
+
+  const { sortedItems } = useSortedItems(notice?.items ?? [], sortValue);
 
   useEffect(() => {
     if (!notice) return;
@@ -62,34 +65,6 @@ const StoreList = () => {
 
     fetchPersonalNotice();
   }, [user?.id, notice]);
-
-  useEffect(() => {
-    if (!notice) return;
-
-    const newItem = [...notice?.items];
-
-    switch (sortValue) {
-      case '마감임박순':
-        newItem.sort(
-          (a, b) =>
-            new Date(a.item.startsAt).getTime() -
-            new Date(b.item.startsAt).getTime()
-        );
-        break;
-      case '시급많은순':
-        newItem.sort((a, b) => b.item.hourlyPay - a.item.hourlyPay);
-        break;
-      case '시간적은순':
-        newItem.sort((a, b) => a.item.workhour - b.item.workhour);
-        break;
-      case '가나다순':
-        newItem.sort((a, b) =>
-          a.item.shop.item.name.localeCompare(b.item.shop.item.name)
-        );
-        break;
-    }
-    setSortedItems(newItem);
-  }, [sortValue, notice]);
 
   return (
     <>

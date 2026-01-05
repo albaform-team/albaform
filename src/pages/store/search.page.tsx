@@ -7,23 +7,21 @@ import { useEffect, useState } from 'react';
 import { getNotice } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
 import * as S from '@/pages/store/search.page.style';
-import { NoticeListResponse } from '@/types/user/noticeList';
 
 import RightDrawer from './_components/DetailFilter/Drawer';
 import BasicPopover from './_components/DetailFilter/Popover';
 import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
+import { useNotice } from './_hooks/useNotice';
 
 const Search = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
-  const [notice, setNotice] = useState<NoticeListResponse | null>(null);
   const [sortValue, setSortValue] = useState('마감임박순');
-  const [sortedItems, setSortedItems] = useState<NoticeListResponse['items']>(
-    []
-  );
 
   const router = useRouter();
   const { q } = router.query;
+
+  const { notice, setNotice, sortedItems, setSortedItems } = useNotice();
 
   useEffect(() => {
     const fetchNotice = async () => {

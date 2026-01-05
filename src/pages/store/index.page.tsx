@@ -3,7 +3,7 @@ import Link from 'next/link';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
 
-import { getMyProfile, getNotice } from '@/lib/services/noticeService';
+import { getMyProfile } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
 import * as S from '@/pages/store/index.page.style';
 import useAuthStore from '@/stores/useAuthStore';
@@ -13,31 +13,18 @@ import RightDrawer from './_components/DetailFilter/Drawer';
 import BasicPopover from './_components/DetailFilter/Popover';
 import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
+import { useNotice } from './_hooks/useNotice';
 
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
-  const [notice, setNotice] = useState<NoticeListResponse | null>(null);
   const user = useAuthStore(state => state.user);
   const [sortValue, setSortValue] = useState('마감임박순');
-  const [sortedItems, setSortedItems] = useState<NoticeListResponse['items']>(
-    []
-  );
+
   const [personalItems, setPersonalItems] = useState<
     NoticeListResponse['items']
   >([]);
 
-  useEffect(() => {
-    const fetchNotice = async () => {
-      try {
-        const data = await getNotice();
-        setNotice(data);
-        setSortedItems(data.items);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchNotice();
-  }, []);
+  const { notice, sortedItems, setSortedItems } = useNotice();
 
   useEffect(() => {
     if (!notice) return;

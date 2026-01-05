@@ -43,6 +43,7 @@ const StoreDetailPage = () => {
         if (typeof shopId === 'string' && typeof noticeId === 'string') {
           const data = await getNoticeDetail(shopId, noticeId);
           setNotice(data);
+          setIsApply(false);
           if (data.closed) {
             setClosed(true);
           } else {
@@ -86,20 +87,19 @@ const StoreDetailPage = () => {
   };
 
   const handleConfirmCancel = async () => {
-    if (!shopId || !noticeId) return;
-
-    if (typeof shopId === 'string' && typeof noticeId === 'string') {
-      try {
-        console.log('실패 전');
-        await cancelApplication(shopId, noticeId);
-        console.log('실패');
-        setIsApply(false);
-        setCancelModalOpen(false);
-      } catch (error) {
-        console.log(error);
-      }
+    if (typeof shopId !== 'string' || typeof noticeId !== 'string') return;
+    const applicationId = notice?.currentUserApplication?.item.id;
+    if (!applicationId) return;
+    try {
+      await cancelApplication(shopId, noticeId, applicationId);
+      setIsApply(false);
+      setCancelModalOpen(false);
+    } catch (error) {
+      console.log(error);
+      setCancelModalOpen(false);
     }
   };
+
   useEffect(() => {
     if (!notice) return;
 

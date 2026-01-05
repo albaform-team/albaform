@@ -14,6 +14,16 @@ export const CardContainer = styled.div`
   background-color: ${colors.white};
   border: 1px solid ${colors.gray[20]};
   border-radius: 12px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    border-color: ${colors.red[30]};
+    box-shadow: 0 10px 24px rgb(0 0 0 / 12%);
+    transform: translateY(-6px);
+  }
 
   @media ${media.tablet} {
     width: 312px;

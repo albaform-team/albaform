@@ -10,11 +10,16 @@ import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
 import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
+import { MY_STORE_ROUTES } from '@/constants/routes';
+import { useRouter } from 'next/router';
 
 const StoreRegisterPage = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const router = useRouter();
+  const jobId = router.query.jobId;
 
   // 가게 이름
   const [storeName, setStoreName] = useState('');
@@ -156,10 +161,24 @@ const StoreRegisterPage = () => {
       setPay(getNotice.data.item.originalHourlyPay);
       setImgFile(getNotice.data.item.imageUrl);
       setTextExplain(getNotice.data.item.description);
+
+      const getNotice2 = await axios.get(
+        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`
+      );
+
+      interface FindItem {
+        item?: {
+          id?: number | string;
+        };
+      }
+      const findId = getNotice2.data.items.find(
+        (i: FindItem) => i.item?.id?.toString() === jobId
+      );
+      if (!findId) return;
     };
 
     importData();
-  }, []);
+  }, [jobId]);
 
   // submit 관련
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -196,6 +215,7 @@ const StoreRegisterPage = () => {
       )
       .then(() => {
         handleOpen();
+        router.push(MY_STORE_ROUTES.JOBS.DETAIL(jobId as string));
       })
       .catch(error => {
         console.log('등록에 실패하였습니다.', error);
@@ -269,10 +289,14 @@ const StoreRegisterPage = () => {
                 </S.StoreImgBox>
               ) : (
                 <S.StoreImgBox>
-                  <img src={imgFile} alt="imgFile" />
+                  <Image src={imgFile} fill alt="imgFile" />
                 </S.StoreImgBox>
               )}
-              <input type="file" accept="image/*" onChange={handleImgInput} />
+              <S.FileInput
+                type="file"
+                accept="image/*"
+                onChange={handleImgInput}
+              />
             </S.InputWrapImg>
           </S.Wraps>
           <S.Wraps>

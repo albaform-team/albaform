@@ -3,18 +3,24 @@ import Image from 'next/image';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
 import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
+import StoreImgFileComponent from '@/pages/myStore/store/_components/storeimg2';
 import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
+import { MY_STORE_ROUTES } from '@/constants/routes';
+import { useRouter } from 'next/router';
 
 const StoreRegisterPage = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const router = useRouter();
+  const jobId = router.query.jobId;
 
   // 가게 이름
   const [storeName, setStoreName] = useState('');
@@ -134,6 +140,35 @@ const StoreRegisterPage = () => {
     setTextExplain(e.target.value);
   };
 
+  useEffect(() => {
+    const ImportData = async () => {
+      const getInfo = sessionStorage.getItem('auth-storage');
+      const getUser = JSON.parse(getInfo as string);
+      const getUserId = getUser.state.user.id;
+
+      const getShop = await axios.get(
+        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/${getUserId}`
+      );
+      const shopId = getShop.data.item.shop.item.id;
+
+      const getNotice2 = await axios.get(
+        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`
+      );
+
+      interface FindItem {
+        item?: {
+          id?: number | string;
+        };
+      }
+      const findId = getNotice2.data.items.find(
+        (i: FindItem) => i.item?.id?.toString() === jobId
+      );
+      if (!findId) return;
+    };
+
+    ImportData();
+  }, [jobId]);
+
   // submit 관련
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -160,6 +195,7 @@ const StoreRegisterPage = () => {
       )
       .then(() => {
         handleOpen();
+        router.push(MY_STORE_ROUTES.JOBS.DETAIL(jobId as string));
       })
       .catch(error => {
         console.log('등록에 실패하였습니다.', error);
@@ -233,10 +269,14 @@ const StoreRegisterPage = () => {
                 </S.StoreImgBox>
               ) : (
                 <S.StoreImgBox>
-                  <img src={imgFile} alt="imgFile" />
+                  <StoreImgFileComponent imgFile={imgFile} />
                 </S.StoreImgBox>
               )}
-              <input type="file" accept="image/*" onChange={handleImgInput} />
+              <S.FileInput
+                type="file"
+                accept="image/*"
+                onChange={handleImgInput}
+              />
             </S.InputWrapImg>
           </S.Wraps>
           <S.Wraps>

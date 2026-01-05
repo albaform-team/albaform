@@ -34,7 +34,7 @@ const ListCard = ({ notice }: ListCardProps) => {
             <S.JobImageMedia>
               <Image src={imageUrl} alt="가게 이미지" fill />
             </S.JobImageMedia>
-            {closed && <S.ExpiredOverlay>지난 공고</S.ExpiredOverlay>}
+            {closed && <S.ExpiredOverlay>마감 완료</S.ExpiredOverlay>}
           </S.JobImage>
           <S.JobSummary>
             <S.JobTitle isClosed={closed}>{name}</S.JobTitle>

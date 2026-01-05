@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useRef } from 'react';
 
 export interface UseIntersectionObserverOptions<T extends HTMLElement> {
-  rootRef?: RefObject<T> | null;
+  rootRef?: RefObject<T | null> | null;
   onIntersect: (entry: IntersectionObserverEntry) => void;
   threshold?: number | number[];
   rootMargin?: string;

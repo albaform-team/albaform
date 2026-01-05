@@ -8,10 +8,12 @@ export const SearchContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
+  padding-bottom: 80px;
   margin-top: 40px;
 
   @media ${media.tablet} {
     gap: 35px;
+    padding-bottom: 60px;
   }
 `;
 

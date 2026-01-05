@@ -3,9 +3,6 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
-import ArrowIcon from '@/assets/svg/arrow-up.svg';
-import ClockIcon from '@/assets/svg/clock.svg';
-import LocationIcon from '@/assets/svg/location.svg';
 import {
   applyNotice,
   cancelApplication,
@@ -98,6 +95,16 @@ const StoreDetailPage = () => {
     }
   };
 
+  if (!notice) return;
+
+  const increaseRatePercent =
+    Math.floor(
+      (notice?.hourlyPay - notice?.shop.item.originalHourlyPay) /
+        notice?.shop.item.originalHourlyPay
+    ) * 100;
+
+  const isIncrease = increaseRatePercent > 0;
+
   if (!notice) {
     return <div>로딩 중...</div>;
   }
@@ -123,18 +130,15 @@ const StoreDetailPage = () => {
             <S.HourlyPay>시급</S.HourlyPay>
             <S.PayInfo>
               <S.Pay>{notice.hourlyPay.toLocaleString()}원</S.Pay>
-              <S.PayIncrease>
-                기존 시급보다 50%
-                <S.ArrowIcon
-                  src={ArrowIcon}
-                  alt="증가"
-                  width={16}
-                  height={16}
-                />
-              </S.PayIncrease>
+              {isIncrease && (
+                <S.PayIncrease>
+                  기존 시급보다 {increaseRatePercent}%️️
+                  <S.ArrowIcon />
+                </S.PayIncrease>
+              )}
             </S.PayInfo>
             <S.InfoList>
-              <Image src={ClockIcon} alt="근무 시간" width={16} height={16} />
+              <S.ClockIcon />
               <S.WorkInfo>
                 {formatDateTimeRange(notice.startsAt, {
                   durationHours: notice.workhour,
@@ -142,12 +146,7 @@ const StoreDetailPage = () => {
               </S.WorkInfo>
             </S.InfoList>
             <S.InfoList>
-              <Image
-                src={LocationIcon}
-                alt="근무 위치"
-                width={16}
-                height={16}
-              />
+              <S.NavIcon />
               <S.WorkInfo>{notice.shop.item.address1}</S.WorkInfo>
             </S.InfoList>
             <S.StoreDescription>

@@ -6,12 +6,12 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
+import { NOTICES_API, USERS_API } from '@/constants/api';
+import { MY_STORE_ROUTES } from '@/constants/routes';
+import { services } from '@/lib/services/servicesClient';
 import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from '../new.style';
-import { MY_STORE_ROUTES } from '@/constants/routes';
-import { NOTICES_API, USERS_API } from '@/constants/api';
-import { services } from '@/lib/services/servicesClient';
 
 const JobRegisterIdPage = () => {
   const [open, setOpen] = React.useState(false);

@@ -5,11 +5,11 @@ import * as React from 'react';
 import { useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
+import { NOTICES_API } from '@/constants/api';
+import { USERS_API } from '@/constants/api/users';
+import { services } from '@/lib/services/servicesClient';
 
 import * as S from './new.style';
-import { services } from '@/lib/services/servicesClient';
-import { USERS_API } from '@/constants/api/users';
-import { NOTICES_API } from '@/constants/api';
 
 const JobRegisterPage = () => {
   const [open, setOpen] = useState(false);

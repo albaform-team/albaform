@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 import { useState, useEffect } from 'react';
 
+import { USERS_API } from '@/constants/api/users';
 import { MY_STORE_ROUTES } from '@/constants/routes';
+import { services } from '@/lib/services/servicesClient';
 
 import * as S from './index.style';
-import { services } from '@/lib/services/servicesClient';
-import { USERS_API } from '@/constants/api/users';
 
 const StoreListPage = () => {
   // 가게 이름

@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 import { MY_STORE_ROUTES } from '@/constants/routes';
 
 import * as S from './index.style';
+import { services } from '@/lib/services/servicesClient';
+import { USERS_API } from '@/constants/api/users';
 
 const StoreListPage = () => {
   // 가게 이름
@@ -27,11 +28,11 @@ const StoreListPage = () => {
       const getUser = JSON.parse(getInfo as string);
       const getUserId = getUser.state.user.id;
 
-      const getShop = await axios.get(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/${getUserId}`
-      );
+      const getShop = await services.get(USERS_API.ME(getUserId));
 
-      const shopData = getShop.data.item.shop.item;
+      const shopData = getShop?.data?.item?.shop?.item;
+
+      if (!shopData) return;
 
       setStoreName(shopData.name);
       setAddressSelected(shopData.address1);

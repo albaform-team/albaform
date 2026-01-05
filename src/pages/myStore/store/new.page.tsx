@@ -13,6 +13,8 @@ import StoreImgFileComponent from '@/pages/myStore/store/_components/storeimg2';
 import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
+import { IMAGES_API, NOTICES_API, SHOPS_API, USERS_API } from '@/constants/api';
+import { services } from '@/lib/services/servicesClient';
 
 const StoreRegisterPage = () => {
   const [open, setOpen] = useState(false);
@@ -98,18 +100,10 @@ const StoreRegisterPage = () => {
   const [imgFile, setImgFile] = useState<string>('');
 
   const imgUpload = async (file: File, accessToken: string) => {
-    const res = await axios.post(
-      'https://bootcamp-api.codeit.kr/api/0-1/the-julge/images',
-      {
-        name: file.name,
-        contentType: file.type,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const res = await services.post(IMAGES_API.CREATE_PRESIGNED_URL, {
+      name: file.name,
+      contentType: file.type,
+    });
 
     const upLoadUrl = res.data.item.url as string;
 
@@ -146,14 +140,11 @@ const StoreRegisterPage = () => {
       const getUser = JSON.parse(getInfo as string);
       const getUserId = getUser.state.user.id;
 
-      const getShop = await axios.get(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/${getUserId}`
-      );
-      const shopId = getShop.data.item.shop.item.id;
+      const getShop = await services.get(USERS_API.ME(getUserId));
+      const shopId = getShop?.data?.item?.shop?.item?.id;
+      if (!shopId) return;
 
-      const getNotice2 = await axios.get(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`
-      );
+      const getNotice2 = await services.get(NOTICES_API.SHOP_LIST(shopId));
 
       interface FindItem {
         item?: {
@@ -173,26 +164,16 @@ const StoreRegisterPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { accessToken } = useAuthStore.getState();
-
-    await axios
-      .post(
-        'https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops',
-        {
-          name: storeName,
-          category: categorySelected,
-          address1: addressSelected,
-          address2: addressDetail,
-          description: textExplain,
-          imageUrl: imgFile,
-          originalHourlyPay: Number(pay),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
+    await services
+      .post(SHOPS_API.CREATE, {
+        name: storeName,
+        category: categorySelected,
+        address1: addressSelected,
+        address2: addressDetail,
+        description: textExplain,
+        imageUrl: imgFile,
+        originalHourlyPay: Number(pay),
+      })
       .then(() => {
         handleOpen();
         router.push(MY_STORE_ROUTES.JOBS.DETAIL(jobId as string));

@@ -12,6 +12,8 @@ import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
 import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
+import { services } from '@/lib/services/servicesClient';
+import { IMAGES_API, NOTICES_API, SHOPS_API, USERS_API } from '@/constants/api';
 
 const StoreRegisterPage = () => {
   const [open, setOpen] = useState(false);
@@ -97,8 +99,8 @@ const StoreRegisterPage = () => {
   const [imgFile, setImgFile] = useState<string>('');
 
   const imgUpload = async (file: File, accessToken: string) => {
-    const res = await axios.post(
-      'https://bootcamp-api.codeit.kr/api/0-1/the-julge/images',
+    const res = await services.post(
+      IMAGES_API.CREATE_PRESIGNED_URL,
       {
         name: file.name,
         contentType: file.type,
@@ -145,14 +147,10 @@ const StoreRegisterPage = () => {
       const getUser = JSON.parse(getInfo as string);
       const getUserId = getUser.state.user.id;
 
-      const getShop = await axios.get(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/${getUserId}`
-      );
+      const getShop = await services.get(USERS_API.ME(getUserId));
       const shopId = getShop.data.item.shop.item.id;
 
-      const getNotice = await axios.get(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}`
-      );
+      const getNotice = await services.get(NOTICES_API.SHOP_LIST(shopId));
 
       setStoreName(getNotice.data.item.name);
       setCategorySelected(getNotice.data.item.category);
@@ -162,9 +160,7 @@ const StoreRegisterPage = () => {
       setImgFile(getNotice.data.item.imageUrl);
       setTextExplain(getNotice.data.item.description);
 
-      const getNotice2 = await axios.get(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`
-      );
+      const getNotice2 = await services.get(NOTICES_API.SHOP_LIST(shopId));
 
       interface FindItem {
         item?: {
@@ -190,29 +186,19 @@ const StoreRegisterPage = () => {
     const getUser = JSON.parse(getInfo as string);
     const getUserId = getUser.state.user.id;
 
-    const getShop = await axios.get(
-      `https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/${getUserId}`
-    );
+    const getShop = await services.get(USERS_API.ME(getUserId));
     const shopId = getShop.data.item.shop.item.id;
 
-    await axios
-      .put(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}`,
-        {
-          name: storeName,
-          category: categorySelected,
-          address1: addressSelected,
-          address2: addressDetail,
-          description: textExplain,
-          imageUrl: imgFile,
-          originalHourlyPay: Number(pay),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
+    await services
+      .put(SHOPS_API.DETAIL(shopId), {
+        name: storeName,
+        category: categorySelected,
+        address1: addressSelected,
+        address2: addressDetail,
+        description: textExplain,
+        imageUrl: imgFile,
+        originalHourlyPay: Number(pay),
+      })
       .then(() => {
         handleOpen();
         router.push(MY_STORE_ROUTES.JOBS.DETAIL(jobId as string));

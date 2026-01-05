@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import Modal from '@mui/material/Modal';
-import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 
@@ -10,6 +9,9 @@ import CloseIcon from '@/assets/svg/closeicon.svg';
 import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from '../new.style';
+import { MY_STORE_ROUTES } from '@/constants/routes';
+import { NOTICES_API, USERS_API } from '@/constants/api';
+import { services } from '@/lib/services/servicesClient';
 
 const JobRegisterIdPage = () => {
   const [open, setOpen] = React.useState(false);
@@ -53,14 +55,10 @@ const JobRegisterIdPage = () => {
       const getUser = JSON.parse(getInfo as string);
       const getUserId = getUser.state.user.id;
 
-      const getShop = await axios.get(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/${getUserId}`
-      );
+      const getShop = await services.get(USERS_API.ME(getUserId));
       const shopId = getShop.data.item.shop.item.id;
 
-      const getNotice = await axios.get(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`
-      );
+      const getNotice = await services.get(NOTICES_API.SHOP_LIST(shopId));
 
       interface FindItem {
         item?: {
@@ -104,14 +102,10 @@ const JobRegisterIdPage = () => {
     const getUser = JSON.parse(getInfo as string);
     const getUserId = getUser.state.user.id;
 
-    const getShop = await axios.get(
-      `https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/${getUserId}`
-    );
+    const getShop = await services.get(USERS_API.ME(getUserId));
     const shopId = getShop.data.item.shop.item.id;
 
-    const getNotice = await axios.get(
-      `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`
-    );
+    const getNotice = await services.get(NOTICES_API.SHOP_LIST(shopId));
 
     interface FindItem {
       item?: {
@@ -127,20 +121,12 @@ const JobRegisterIdPage = () => {
     const noticeId = findId.item.id;
 
     try {
-      await axios.put(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices/${noticeId}`,
-        {
-          hourlyPay: Number(pay),
-          startsAt: new Date(time).toISOString(),
-          workhour: Number(workTime),
-          description: jobExplain,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      await services.put(NOTICES_API.SHOP_DETAIL(shopId, noticeId), {
+        hourlyPay: Number(pay),
+        startsAt: new Date(time).toISOString(),
+        workhour: Number(workTime),
+        description: jobExplain,
+      });
 
       if (!shopId) {
         console.log('shopId가 없습니다');
@@ -149,6 +135,7 @@ const JobRegisterIdPage = () => {
 
       handleOpen();
       console.log('편집이 완료되었습니다.');
+      router.push(MY_STORE_ROUTES.ROOT);
     } catch (error) {
       console.log('편집에 실패하였습니다.', error);
     }

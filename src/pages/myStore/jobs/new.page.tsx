@@ -1,14 +1,15 @@
 import Image from 'next/image';
 
 import Modal from '@mui/material/Modal';
-import axios from 'axios';
 import * as React from 'react';
 import { useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
-import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
+import { services } from '@/lib/services/servicesClient';
+import { USERS_API } from '@/constants/api/users';
+import { NOTICES_API } from '@/constants/api';
 
 const JobRegisterPage = () => {
   const [open, setOpen] = useState(false);
@@ -47,32 +48,20 @@ const JobRegisterPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { accessToken } = useAuthStore.getState();
-
     const getInfo = sessionStorage.getItem('auth-storage');
     const getUser = JSON.parse(getInfo as string);
     const getUserId = getUser.state.user.id;
 
-    const getShop = await axios.get(
-      `https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/${getUserId}`
-    );
+    const getShop = await services.get(USERS_API.ME(getUserId));
     const shopId = getShop.data.item.shop.item.id;
 
     try {
-      await axios.post(
-        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`,
-        {
-          hourlyPay: Number(pay),
-          startsAt: new Date(time).toISOString(),
-          workhour: Number(workTime),
-          description: jobExplain,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      await services.post(NOTICES_API.SHOP_LIST(shopId), {
+        hourlyPay: Number(pay),
+        startsAt: new Date(time).toISOString(),
+        workhour: Number(workTime),
+        description: jobExplain,
+      });
 
       if (!shopId) {
         console.log('shopId가 없습니다');

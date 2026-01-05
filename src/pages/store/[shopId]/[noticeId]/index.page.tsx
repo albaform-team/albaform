@@ -1,8 +1,10 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
+import { RECENT_NOTICE_KEY } from '@/constants/recentNotice';
 import {
   applyNotice,
   cancelApplication,
@@ -13,6 +15,7 @@ import useAuthStore from '@/stores/useAuthStore';
 import { NoticeItem } from '@/types/user/notice';
 import { formatDateTimeRange } from '@/utils/date';
 
+import ListCard from '../../_components/ListCard/ListCard';
 import CancelModal from '../../_components/Modal/CancelModal';
 import LoginModal from '../../_components/Modal/LoginModal';
 import ProfileRegisterModal from '../../_components/Modal/ProfileRegisterModal';
@@ -30,6 +33,7 @@ const StoreDetailPage = () => {
   const [isApply, setIsApply] = useState<boolean>(false);
   const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
   const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
+  const [recentNotices, setRecentNotices] = useState<NoticeItem[]>([]);
 
   useEffect(() => {
     if (!shopId || !noticeId) return;
@@ -41,6 +45,8 @@ const StoreDetailPage = () => {
           setNotice(data);
           if (data.closed) {
             setClosed(true);
+          } else {
+            setClosed(false);
           }
         }
       } catch (error) {
@@ -94,7 +100,33 @@ const StoreDetailPage = () => {
       }
     }
   };
+  useEffect(() => {
+    if (!notice) return;
 
+    const currentNotice: NoticeItem = {
+      id: notice.id,
+      hourlyPay: notice.hourlyPay,
+      startsAt: notice.startsAt,
+      workhour: notice.workhour,
+      description: notice.description,
+      closed: notice.closed,
+      shop: {
+        item: notice.shop.item,
+      },
+    };
+
+    const stored = localStorage.getItem(RECENT_NOTICE_KEY);
+    const parsed: NoticeItem[] = stored ? JSON.parse(stored) : [];
+
+    const filtered = parsed.filter(item => item.id !== currentNotice.id);
+
+    const updated = [currentNotice, ...filtered];
+
+    const limited = updated.slice(0, 6);
+
+    localStorage.setItem(RECENT_NOTICE_KEY, JSON.stringify(limited));
+    setRecentNotices(limited);
+  }, [notice]);
   if (!notice) return;
 
   const increaseRatePercent =
@@ -186,8 +218,16 @@ const StoreDetailPage = () => {
         </S.JobDescription>
       </S.JobSummarySection>
       <S.RecentViewSection>
-        <S.RecentViewTitle>최근에 본 공고</S.RecentViewTitle>
-        <S.RecentViewList></S.RecentViewList>
+        <S.RecentViewTitleBox>
+          <S.RecentViewTitle>최근에 본 공고</S.RecentViewTitle>
+        </S.RecentViewTitleBox>
+        <S.RecentViewList>
+          {recentNotices.map(item => (
+            <Link key={item.id} href={`/store/${item.shop.item.id}/${item.id}`}>
+              <ListCard notice={item} />
+            </Link>
+          ))}
+        </S.RecentViewList>
       </S.RecentViewSection>
     </S.DetailContainer>
   );

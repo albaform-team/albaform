@@ -348,9 +348,23 @@ export const RecentViewSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 351px;
 
   @media ${media.tablet} {
     gap: 32px;
+    width: 680px;
+    margin-bottom: 100px;
+  }
+
+  @media ${media.desktop} {
+    width: 964px;
+  }
+`;
+
+export const RecentViewTitleBox = styled.div`
+  @media ${media.tablet} {
+    display: flex;
+    justify-content: flex-start;
   }
 `;
 

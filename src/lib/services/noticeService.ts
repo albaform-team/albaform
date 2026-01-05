@@ -4,8 +4,18 @@ import { NoticeListResponse } from '@/types/user/noticeList';
 
 import { services } from './servicesClient';
 
-export const getNotice = async () => {
-  const res = await services.get<NoticeListResponse>(`/notices`);
+type GetNoticeParams = {
+  offset?: number;
+  limit?: number;
+  sort?: 'time' | 'pay' | 'hour' | 'shop';
+  address?: string;
+  keyword?: string;
+};
+
+export const getNotice = async (params?: GetNoticeParams) => {
+  const res = await services.get<NoticeListResponse>('/notices', {
+    params,
+  });
   return res.data;
 };
 

@@ -14,20 +14,17 @@ import BasicPopover from './_components/DetailFilter/Popover';
 import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
 import { useNotice } from './_hooks/useNotice';
-import { useSortedItems } from './_hooks/useSortedItems';
 
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
   const user = useAuthStore(state => state.user);
   const [sortValue, setSortValue] = useState('마감임박순');
 
+  const { notice } = useNotice(sortValue);
+
   const [personalItems, setPersonalItems] = useState<
     NoticeListResponse['items']
   >([]);
-
-  const { notice } = useNotice();
-
-  const { sortedItems } = useSortedItems(notice?.items ?? [], sortValue);
 
   useEffect(() => {
     if (!notice) return;
@@ -51,14 +48,7 @@ const StoreList = () => {
         );
 
         setPersonalItems(filtered.length > 0 ? filtered : notice.items);
-
-        if (filtered.length === 0) {
-          setPersonalItems(notice.items);
-          return;
-        }
-
-        setPersonalItems(filtered);
-      } catch (error) {
+      } catch {
         setPersonalItems(notice.items);
       }
     };
@@ -96,7 +86,7 @@ const StoreList = () => {
         </S.JobListHeader>
         <S.AllJobListContainer>
           <S.AllJobList>
-            {sortedItems.map(({ item }) => (
+            {notice?.items.map(({ item }) => (
               <Link
                 key={item.id}
                 href={`/store/${item.shop.item.id}/${item.id}`}

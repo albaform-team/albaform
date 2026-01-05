@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
 
-import { getNotice } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
 import * as S from '@/pages/store/search.page.style';
 
@@ -13,7 +12,6 @@ import BasicPopover from './_components/DetailFilter/Popover';
 import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
 import { useNotice } from './_hooks/useNotice';
-import { useSortedItems } from './_hooks/useSortedItems';
 
 const Search = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
@@ -22,27 +20,9 @@ const Search = () => {
   const router = useRouter();
   const { q } = router.query;
 
-  const { notice, setNotice } = useNotice();
-
-  useEffect(() => {
-    const fetchNotice = async () => {
-      try {
-        const data = await getNotice();
-        setNotice(data);
-        setSortedItems(data.items);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchNotice();
-  }, []);
-
   const keyword = typeof q === 'string' ? q : '';
 
-  const searchFilter =
-    notice?.items.filter(({ item }) => {
-      return item.shop.item.name.includes(keyword);
-    }) ?? [];
+  const { notice } = useNotice(sortValue, keyword);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -50,15 +30,9 @@ const Search = () => {
     if (!keyword) {
       router.push('/store');
     }
-  }, [keyword, router.isReady]);
+  }, [router.isReady, keyword]);
 
-  const showEmptyMessage = keyword.length > 0 && searchFilter.length === 0;
-
-  const searchItems = searchFilter;
-  const { sortedItems, setSortedItems } = useSortedItems(
-    searchItems,
-    sortValue
-  );
+  const showEmptyMessage = keyword.length > 0 && notice?.items.length === 0;
 
   return (
     <S.SearchContainer>
@@ -72,7 +46,7 @@ const Search = () => {
         </S.JobFilterContainer>
       </S.SearchHeader>
       <S.JobSearchSection>
-        {sortedItems.map(({ item }) => (
+        {notice?.items.map(({ item }) => (
           <Link key={item.id} href={`/store/${item.shop.item.id}/${item.id}`}>
             <ListCard key={item.id} notice={item} />
           </Link>

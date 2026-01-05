@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -20,6 +21,19 @@ const StoreListIdPage = () => {
   // 가게 설명
   const [textExplain, setTextExplain] = useState('');
 
+  const router = useRouter();
+  const jobId = router.query.id;
+
+  type Job = {
+    item: {
+      id: string;
+      workhour: number;
+      hourlyPay: number;
+      startsAt: number;
+    };
+  };
+  const [showJob, setShowJob] = useState<Job[]>([]);
+
   useEffect(() => {
     const importData = async () => {
       const getInfo = sessionStorage.getItem('auth-storage');
@@ -31,15 +45,23 @@ const StoreListIdPage = () => {
       );
 
       const shopData = getShop.data.item.shop.item;
+      const shopId = getShop.data.item.shop.item.id;
 
       setStoreName(shopData.name);
       setAddressSelected(shopData.address1);
       setImgFile(shopData.imageUrl);
       setTextExplain(shopData.description);
+
+      const getNotice = await axios.get(
+        `https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/${shopId}/notices`
+      );
+
+      const getJob = getNotice.data.items;
+      setShowJob(getJob);
     };
 
     importData();
-  }, []);
+  }, [jobId]);
 
   return (
     <>
@@ -76,97 +98,40 @@ const StoreListIdPage = () => {
             <S.Title>내가 등록한 공고</S.Title>
           </S.TitleWrap>
           <S.CardListWrap>
-            <S.CardList>
-              <S.CardListImgWrap>
-                <Image src={StoreImg} fill alt="StoreImg" priority />
-              </S.CardListImgWrap>
-              <S.CardListTextWrap>
-                <S.CardListTitleWrap>
-                  <S.CardListTitle>도토리식당</S.CardListTitle>
-                </S.CardListTitleWrap>
-                <S.CardListNavWrap01>
-                  <S.ClockIcon />
-                  <S.CardListNavText>
-                    2023-06-02 15:00~18:00 (3시간)
-                  </S.CardListNavText>
-                </S.CardListNavWrap01>
-                <S.CardListNavWrap>
-                  <S.NavIcon />
-                  <S.CardListNavText>서울시 송파구</S.CardListNavText>
-                </S.CardListNavWrap>
-              </S.CardListTextWrap>
-              <S.CardPriceTextWrap>
-                <S.CardPriceText>15,000원</S.CardPriceText>
-                <S.CardPriceSubTextWrap>
-                  <S.CardPriceSubText>기존 시급보다 50%</S.CardPriceSubText>
-                  <S.ArrowIcon />
-                </S.CardPriceSubTextWrap>
-              </S.CardPriceTextWrap>
-            </S.CardList>
-            <S.CardListDisable>
-              <S.CardListImgWrap>
-                <div>마감 완료</div>
-                <Image src={StoreImg} fill alt="StoreImg" priority />
-              </S.CardListImgWrap>
-              <S.CardListTextWrap>
-                <S.CardListTitleWrap>
-                  <S.CardListTitleDisable>도토리식당</S.CardListTitleDisable>
-                </S.CardListTitleWrap>
-                <S.CardListNavWrap01>
-                  <S.ClockIconDisable />
-                  <S.CardListNavTextDisable>
-                    2023-06-02 15:00~18:00 (3시간)
-                  </S.CardListNavTextDisable>
-                </S.CardListNavWrap01>
-                <S.CardListNavWrap>
-                  <S.NavIconDisable />
-                  <S.CardListNavTextDisable>
-                    서울시 송파구
-                  </S.CardListNavTextDisable>
-                </S.CardListNavWrap>
-              </S.CardListTextWrap>
-              <S.CardPriceTextWrap>
-                <S.CardPriceTextDisable>15,000원</S.CardPriceTextDisable>
-                <S.CardPriceSubTextWrapDisable>
-                  <S.CardPriceSubTextDisable>
-                    기존 시급보다 100%
-                  </S.CardPriceSubTextDisable>
-                  <S.ArrowIconDisable />
-                </S.CardPriceSubTextWrapDisable>
-              </S.CardPriceTextWrap>
-            </S.CardListDisable>
-            <S.CardListDisable>
-              <S.CardListImgWrap>
-                <div>마감 완료</div>
-                <Image src={StoreImg} fill alt="StoreImg" priority />
-              </S.CardListImgWrap>
-              <S.CardListTextWrap>
-                <S.CardListTitleWrap>
-                  <S.CardListTitleDisable>도토리식당</S.CardListTitleDisable>
-                </S.CardListTitleWrap>
-                <S.CardListNavWrap01>
-                  <S.ClockIconDisable />
-                  <S.CardListNavTextDisable>
-                    2023-06-02 15:00~18:00 (3시간)
-                  </S.CardListNavTextDisable>
-                </S.CardListNavWrap01>
-                <S.CardListNavWrap>
-                  <S.NavIconDisable />
-                  <S.CardListNavTextDisable>
-                    서울시 송파구
-                  </S.CardListNavTextDisable>
-                </S.CardListNavWrap>
-              </S.CardListTextWrap>
-              <S.CardPriceTextWrap>
-                <S.CardPriceTextDisable>15,000원</S.CardPriceTextDisable>
-                <S.CardPriceSubTextWrapDisable>
-                  <S.CardPriceSubTextDisable>
-                    기존 시급보다 100%
-                  </S.CardPriceSubTextDisable>
-                  <S.ArrowIconDisable />
-                </S.CardPriceSubTextWrapDisable>
-              </S.CardPriceTextWrap>
-            </S.CardListDisable>
+            {showJob.map(i => (
+              <S.CardList key={i.item.id}>
+                <S.CardListImgWrap>
+                  <Image src={imgFile} fill alt="StoreImg" priority />
+                </S.CardListImgWrap>
+                <S.CardListTextWrap>
+                  <S.CardListTitleWrap>
+                    <S.CardListTitle>도토리식당</S.CardListTitle>
+                  </S.CardListTitleWrap>
+                  <S.CardListNavWrap01>
+                    <S.ClockIcon />
+                    <S.CardListNavText>
+                      {i.item.startsAt} ({i.item.workhour}
+                      시간)
+                    </S.CardListNavText>
+                  </S.CardListNavWrap01>
+                  <S.CardListNavWrap>
+                    <S.NavIcon />
+                    <S.CardListNavText>{addressSelected}</S.CardListNavText>
+                  </S.CardListNavWrap>
+                </S.CardListTextWrap>
+                <S.CardPriceTextWrap>
+                  <S.CardPriceText>
+                    {i.item.hourlyPay.toLocaleString('ko-KR')}원
+                  </S.CardPriceText>
+                  <S.CardPriceSubTextWrap>
+                    <S.CardPriceSubText>기존 시급보다 50%</S.CardPriceSubText>
+                    <S.ArrowIcon />
+                  </S.CardPriceSubTextWrap>
+                </S.CardPriceTextWrap>
+              </S.CardList>
+            ))}
+          </S.CardListWrap>
+          <S.CardListWrap>
             <S.CardListDisable>
               <S.CardListImgWrap>
                 <div>마감 완료</div>

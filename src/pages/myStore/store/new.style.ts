@@ -161,6 +161,7 @@ export const Select = styled.select`
 `;
 
 export const StoreImgBox = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,14 +170,13 @@ export const StoreImgBox = styled.div`
   background-color: ${colors.gray[10]};
   border: 1px solid ${colors.gray[30]};
   border-radius: 6px;
-  position: relative;
 `;
 
 export const FileInput = styled.input`
-  width: 100%;
-  height: 200px;
   position: absolute;
   top: 30px;
+  width: 100%;
+  height: 200px;
   opacity: 0;
 `;
 

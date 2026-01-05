@@ -14,6 +14,7 @@ import {
 } from '@/lib/services/noticeService';
 import useAuthStore from '@/stores/useAuthStore';
 import { NoticeItem } from '@/types/user/notice';
+import { formatDateTimeRange } from '@/utils/date';
 
 import CancelModal from '../../_components/Modal/CancelModal';
 import LoginModal from '../../_components/Modal/LoginModal';
@@ -97,26 +98,6 @@ const StoreDetailPage = () => {
     }
   };
 
-  const formatDateWithWorkTime = (startsAt: string, workhour: number) => {
-    const date = new Date(startsAt);
-
-    const year = date.getUTCFullYear();
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-    const day = String(date.getUTCDate()).padStart(2, '0');
-
-    const startHour = date.getUTCHours();
-    const startMinute = date.getUTCMinutes();
-
-    const endHour = startHour + workhour;
-    const endMinute = startMinute;
-
-    const pad = (n: number) => String(n).padStart(2, '0');
-
-    return `${year}.${month}.${day} ${pad(startHour)}:${pad(
-      startMinute
-    )} ~ ${pad(endHour)}:${pad(endMinute)} (${workhour}시간)`;
-  };
-
   if (!notice) {
     return <div>로딩 중...</div>;
   }
@@ -155,7 +136,9 @@ const StoreDetailPage = () => {
             <S.InfoList>
               <Image src={ClockIcon} alt="근무 시간" width={16} height={16} />
               <S.WorkInfo>
-                {formatDateWithWorkTime(notice.startsAt, notice.workhour)}
+                {formatDateTimeRange(notice.startsAt, {
+                  durationHours: notice.workhour,
+                })}{' '}
               </S.WorkInfo>
             </S.InfoList>
             <S.InfoList>

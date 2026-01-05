@@ -22,7 +22,7 @@ import NotificationModal from './_components/notificationModal/NotificationModal
 import SearchForm from './_components/Search/SearchForm';
 import * as S from './Header.styles';
 
-const LIMIT = 1;
+const LIMIT = 10;
 
 const Header = () => {
   const user = useAuthStore(s => s.user);

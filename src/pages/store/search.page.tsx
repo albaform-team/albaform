@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -95,7 +96,9 @@ const Search = () => {
       </S.SearchHeader>
       <S.JobSearchSection>
         {sortedItems.map(({ item }) => (
-          <ListCard key={item.id} notice={item} />
+          <Link key={item.id} href={`/store/${item.shop.item.id}/${item.id}`}>
+            <ListCard key={item.id} notice={item} />
+          </Link>
         ))}
         {showEmptyMessage && <div>검색값이 없습니다</div>}
       </S.JobSearchSection>

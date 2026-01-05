@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
 
@@ -110,7 +112,12 @@ const StoreList = () => {
           <div>
             <S.JobSuggestList>
               {personalItems?.map(({ item }) => (
-                <ListCard key={item.id} notice={item} />
+                <Link
+                  key={item.id}
+                  href={`/store/${item.shop.item.id}/${item.id}`}
+                >
+                  <ListCard notice={item} />
+                </Link>
               ))}
             </S.JobSuggestList>
           </div>
@@ -128,7 +135,12 @@ const StoreList = () => {
         <S.AllJobListContainer>
           <S.AllJobList>
             {sortedItems.map(({ item }) => (
-              <ListCard key={item.id} notice={item} />
+              <Link
+                key={item.id}
+                href={`/store/${item.shop.item.id}/${item.id}`}
+              >
+                <ListCard key={item.id} notice={item} />
+              </Link>
             ))}
           </S.AllJobList>
         </S.AllJobListContainer>

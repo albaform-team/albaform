@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
@@ -6,12 +7,11 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
+import { MY_STORE_ROUTES } from '@/constants/routes';
 import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
 import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
-import { MY_STORE_ROUTES } from '@/constants/routes';
-import { useRouter } from 'next/router';
 
 const StoreRegisterPage = () => {
   const [open, setOpen] = useState(false);

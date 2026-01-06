@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
 const BREAKPOINT = {
-  TABLET: 889,
-  MOBILE: 375,
+  TABLET: 1024,
+  MOBILE: 889,
 };
 
 export const SearchBox = styled.form`

@@ -4,12 +4,12 @@ import { useRouter } from 'next/router';
 
 import { useState, useEffect } from 'react';
 
-import StoreImg from '@/assets/img/storeimg.png';
 import { NOTICES_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
 
 import * as S from './index.style';
+import useAuthStore from '@/stores/useAuthStore';
 
 const StoreListIdPage = () => {
   // 가게 이름
@@ -63,10 +63,9 @@ const StoreListIdPage = () => {
 
   useEffect(() => {
     const importData = async () => {
-      const getInfo = sessionStorage.getItem('auth-storage');
-      const getUser = JSON.parse(getInfo as string);
-      const getUserId = getUser.state.user.id;
-
+      const { user } = useAuthStore.getState();
+      const getUserId = user?.id;
+      if (!getUserId) return;
       const getShop = await services.get(USERS_API.ME(getUserId));
 
       const shopData = getShop?.data?.item?.shop?.item;

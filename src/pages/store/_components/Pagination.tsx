@@ -1,25 +1,21 @@
 import Pagination from '@mui/material/Pagination';
-import * as React from 'react';
 
-export default function PaginationRounded() {
-  const [page, setPage] = React.useState(1);
+type Props = {
+  page: number;
+  onChange: (page: number) => void;
+  totalCount: number;
+  limit: number;
+};
 
-  const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
-
+const PaginationRounded = ({ page, onChange, totalCount, limit }: Props) => {
   return (
     <Pagination
-      count={7}
       page={page}
-      onChange={handleChange}
+      count={Math.ceil(totalCount / limit)}
+      onChange={(_, value) => onChange(value)}
       shape="rounded"
-      sx={{
-        '& .MuiPaginationItem-root.Mui-selected': {
-          backgroundColor: '#FF8D72',
-          color: '#fff',
-        },
-      }}
     />
   );
-}
+};
+
+export default PaginationRounded;

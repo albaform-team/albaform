@@ -1,8 +1,7 @@
+import Chip from '@mui/material/Chip';
 import { useState } from 'react';
 
 import * as S from '@/pages/store/_components/DetailFilter/OptionSection.style';
-
-import AreaSelectedBadge from './SelectedBadge';
 
 export const AREAS = [
   '서울시 종로구',
@@ -33,15 +32,19 @@ export const AREAS = [
 ];
 
 const OptionSection = () => {
-  const [areaValue, setAreaValue] = useState<string | null>(null);
-  const handleDelete = () => {
-    console.info('You clicked the delete icon.');
+  const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
+
+  const handleAreaClick = (area: string) => {
+    setSelectedAreas(prev => (prev.includes(area) ? prev : [...prev, area]));
   };
 
-  const handleClick = (area: string) => {
-    console.log('실행');
-    setAreaValue(area);
-    console.log(areaValue);
+  const handleDelete = (areaToDelete: string) => {
+    setSelectedAreas(prev => prev.filter(area => area !== areaToDelete));
+  };
+
+  const handleApply = () => {
+    // API로 선택된 지역들 전송
+    console.log('적용할 지역:', selectedAreas);
   };
 
   return (
@@ -52,7 +55,7 @@ const OptionSection = () => {
           <S.LocationScrollArea>
             <S.LocationSelectOption>
               {AREAS.map(area => (
-                <S.OptionItem key={area} onClick={() => handleClick(area)}>
+                <S.OptionItem key={area} onClick={() => handleAreaClick(area)}>
                   {area}
                 </S.OptionItem>
               ))}
@@ -60,7 +63,16 @@ const OptionSection = () => {
           </S.LocationScrollArea>
         </S.LocationSelectBox>
         <S.SelectedLocation>
-          <AreaSelectedBadge />{' '}
+          <div style={{ marginTop: 16 }}>
+            {selectedAreas.map(area => (
+              <Chip
+                key={area}
+                label={area}
+                onDelete={() => handleDelete(area)}
+                style={{ marginRight: 8, margin: '0 4px 8px 4px' }}
+              />
+            ))}
+          </div>{' '}
         </S.SelectedLocation>
       </S.LocationSection>
       <S.StartSection>

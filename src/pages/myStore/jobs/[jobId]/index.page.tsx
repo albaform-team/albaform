@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import { isAxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -5,6 +7,7 @@ import {
   getShopNoticeDetail,
   updateJobApplicationStatus,
 } from '@/lib/services/shopServise';
+import useAuthStore from '@/stores/useAuthStore';
 import { formatDateTimeRange } from '@/utils/date';
 
 import NoticeApplicantSection from './_components/NoticeApplicantSection';
@@ -38,13 +41,18 @@ const JobDetailPage = () => {
       status: 'rejected',
     },
   });
+  const user = useAuthStore(s => s.user);
+  const rehydrated = useAuthStore(s => s.rehydrated);
+  const router = useRouter();
+  const { jobId } = router.query;
 
   useEffect(() => {
+    if (!rehydrated || typeof jobId !== 'string') return;
     const fetch = async () => {
       try {
         const res = await getShopNoticeDetail(
-          '4490151c-5217-4157-b072-9c37b05bed47',
-          '0d5dd6f0-5306-4060-8e92-11eff1e36bed'
+          user?.shop?.item.id as string,
+          jobId
         );
 
         setNoticeDetail(mapJobResponseToJob(res));
@@ -55,7 +63,7 @@ const JobDetailPage = () => {
       }
     };
     fetch();
-  }, []);
+  }, [rehydrated, user?.shop?.item.id, jobId]);
 
   const handleOpen = async (
     message: string,

@@ -1,4 +1,3 @@
-import { _MOCK_SHOP_NOTICES_APPLICATIONS } from '@/__MOCK/_MOCK_SHOP_NOTICES_APPLICATIONS';
 import { APPLICATIONS_API, NOTICES_API } from '@/constants/api';
 import {
   ApplicationStatus,
@@ -26,11 +25,8 @@ export const getShopNoticeApplications = async (
     APPLICATIONS_API.SHOP_NOTICE_LIST(shopId, noticeId),
     { params: { offset, limit } }
   );
-  console.log(data);
-  return {
-    ..._MOCK_SHOP_NOTICES_APPLICATIONS,
-    items: [..._MOCK_SHOP_NOTICES_APPLICATIONS.items].splice(offset, limit),
-  };
+
+  return data;
 };
 
 export const updateJobApplicationStatus = async (
@@ -43,6 +39,6 @@ export const updateJobApplicationStatus = async (
     APPLICATIONS_API.SHOP_NOTICE_DETAIL(shopId, noticeId, applicationId),
     { status }
   );
-  console.log(data);
-  return status;
+
+  return data;
 };

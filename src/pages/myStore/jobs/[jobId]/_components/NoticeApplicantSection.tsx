@@ -62,7 +62,7 @@ const NoticeApplicantSection = ({ shopId, jobId, onClick }: Props) => {
     };
 
     fetch();
-  }, [jobId, limit, offset, shopId, updateMeta]);
+  }, [jobId, limit, offset, shopId, updateMeta, onClick]);
 
   const rows = useMemo(
     () => appliedJobList.map(applicantListMapper),

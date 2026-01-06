@@ -4,11 +4,10 @@ import { ComponentType, useEffect, useMemo } from 'react';
 
 import { STORE_ROUTES } from '@/constants/routes';
 import useAuthStore from '@/stores/useAuthStore';
-import { UserType } from '@/types/api/auth';
 
 type WithAuthOptions = {
   fallbackRedirectTo?: string; // 권한 없을 때 이동
-  allowedTypes?: UserType[]; // 허용 유저 타입(없으면 로그인만 체크)
+  allowedTypes?: ('employee' | 'employer')[]; // 허용 유저 타입(없으면 로그인만 체크)
 };
 
 const withAuthentication = <P extends object>(

@@ -282,5 +282,5 @@ const StoreRegisterPage = () => {
 };
 
 export default withAuthentication(StoreRegisterPage, {
-  allowedTypes: ['employee'],
+  allowedTypes: ['employer'],
 });

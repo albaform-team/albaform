@@ -9,12 +9,11 @@ import { usePagination } from '@/hooks/usePagination';
 import { GetUserApplications } from '@/lib/services/userService';
 import { media } from '@/styles/media';
 import { User } from '@/types/api/user';
-import { ApplicationStatus } from '@/types/api/userAppliedJobList';
 
 import { useResponsiveColumns } from '../../../../hooks/useApplicantColumns';
 import {
+  ApplicantRowVM,
   AppliedJobListItem,
-  AppliedJobListViewModel,
   getStatusLabel,
   mapAppliedJobToApplicantRow,
 } from '../_utils/mapper';
@@ -27,39 +26,32 @@ interface Props {
   userInfo: Required<User> | null;
 }
 
-type Applicant = {
-  shop: string;
-  date: string;
-  pay: string;
-  status: ApplicationStatus;
-};
-
 const allColumns = [
   {
     key: 'shop',
     header: '가게',
-    render: (row: Applicant) => <div>{row.shop}</div>,
+    render: (row: ApplicantRowVM) => <div>{row.shop.name}</div>,
   },
   {
     key: 'date',
     header: '일자',
-    render: (row: Applicant) => <div>{row.date}</div>,
+    render: (row: ApplicantRowVM) => <div>{row.date}</div>,
   },
   {
     key: 'pay',
     header: '시급',
-    render: (row: Applicant) => row.pay,
+    render: (row: ApplicantRowVM) => row.pay,
   },
   {
     key: 'status',
     header: '상태',
-    render: (row: Applicant) => (
+    render: (row: ApplicantRowVM) => (
       <S.StatusTag status={row.status}>
         {getStatusLabel(row.status)}
       </S.StatusTag>
     ),
   },
-] satisfies Column<Applicant>[];
+] satisfies Column<ApplicantRowVM>[];
 
 const key = {
   mobile: ['shop', 'status'],
@@ -82,12 +74,8 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
 
     const fetchUserInfo = async () => {
       try {
-        const res: AppliedJobListViewModel = await GetUserApplications(
-          userId,
-          offset,
-          limit
-        );
-        setAppliedJobList(res.items as AppliedJobListItem[]);
+        const res = await GetUserApplications(userId, offset, limit);
+        setAppliedJobList(res.items);
         updateMeta(res.count, res.hasNext, res.offset);
       } catch (e) {
         if (isAxiosError(e)) {
@@ -120,7 +108,7 @@ const AppliedJobListSection = ({ userId, userInfo }: Props) => {
             rows={rows}
             page={page}
             onChange={setPage}
-            getRowId={row => row.shop + row.date}
+            getRowId={row => row.shop.id + row.shop.name}
           />
         </>
       ) : (

@@ -40,7 +40,7 @@ const NoticeApplicantSection = ({ shopId, jobId, onClick }: Props) => {
     ShopNoticeApplicationsItem[]
   >([]);
   const { page, setPage, limit, offset, meta, updateMeta } = usePagination({
-    limit: 1,
+    limit: 5,
   });
 
   useEffect(() => {

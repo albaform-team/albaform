@@ -1,3 +1,5 @@
+import { USERS_API } from '@/constants/api';
+
 import { services } from './servicesClient';
 
 interface UserProfileInput {
@@ -11,7 +13,7 @@ export const registerUserProfile = async (
   userId: string,
   data: UserProfileInput
 ) => {
-  const res = await services.put(`/users/${userId}`, data);
+  const res = await services.put(USERS_API.ME(userId), data);
 
   return res.data.item;
 };

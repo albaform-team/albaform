@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import CloseIcon from '@/assets/svg/close.svg';
+import { PROFILE_ROUTES } from '@/constants/routes';
 import { registerUserProfile } from '@/lib/services/userProfileService';
 import * as S from '@/pages/profile/[userId]/addProfile/index.page.style';
 import useAuthStore from '@/stores/useAuthStore';
@@ -20,7 +21,15 @@ const AddProfile = () => {
   const [address, setAddress] = useState('');
   const [bio, setBio] = useState('');
   const [successModalOpen, setSuccessModalOpen] = useState(false);
-  const { user } = useAuthStore.getState();
+  const user = useAuthStore(s => s.user);
+
+  useEffect(() => {
+    if (!user?.name || !user.phone || !user.address || !user.bio) return;
+    setName(user.name);
+    setPhone(user.phone);
+    setAddress(user.address);
+    setBio(user.bio);
+  }, [user?.address, user?.bio, user?.name, user?.phone]);
 
   const handleSubmit = async () => {
     if (!user?.id) return;
@@ -40,13 +49,14 @@ const AddProfile = () => {
 
     setSuccessModalOpen(true);
   };
+
   return (
     <S.AddProfileContainer>
       <S.AddProfileContent>
         <S.AddProfileContents>
           <S.AddProfileHeader>
             <S.AddProfileTitle>내 프로필</S.AddProfileTitle>
-            <Link href={`/profile/${userId}`}>
+            <Link href={PROFILE_ROUTES.ROOT(userId as string)}>
               <S.CloseButton
                 src={CloseIcon}
                 alt="닫힘 버튼"

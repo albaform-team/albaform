@@ -1,10 +1,6 @@
 import { LoginUser } from './auth';
 
 export interface User extends LoginUser {
-  name?: string;
-  phone?: string;
-  address?: string;
-  bio?: string;
   shop: {
     item: {
       id: string;

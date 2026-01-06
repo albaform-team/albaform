@@ -34,7 +34,7 @@ const StoreList = () => {
   >([]);
 
   const { notice: personalNotice } = useNotice({
-    sortValue,
+    sortValue: '마감임박순',
     offset: 0,
     limit: 6,
   });

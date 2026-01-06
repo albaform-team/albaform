@@ -15,22 +15,35 @@ import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
 import { useNotice } from './_hooks/useNotice';
 
+const LIMIT = 6;
+
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
   const user = useAuthStore(state => state.user);
   const [sortValue, setSortValue] = useState('마감임박순');
+  const [page, setPage] = useState(1);
 
-  const { notice } = useNotice(sortValue);
+  const { notice } = useNotice({
+    sortValue,
+    offset: LIMIT * (page - 1),
+    limit: LIMIT,
+  });
 
   const [personalItems, setPersonalItems] = useState<
     NoticeListResponse['items']
   >([]);
 
+  const { notice: personalNotice } = useNotice({
+    sortValue,
+    offset: 0,
+    limit: 6,
+  });
+
   useEffect(() => {
-    if (!notice) return;
+    if (!personalNotice) return;
 
     if (!user?.id) {
-      setPersonalItems(notice.items);
+      setPersonalItems(personalNotice.items);
       return;
     }
 
@@ -39,22 +52,26 @@ const StoreList = () => {
         const userData = await getMyProfile(user.id);
 
         if (!userData.address) {
-          setPersonalItems(notice.items);
+          setPersonalItems(personalNotice.items);
           return;
         }
 
-        const filtered = notice.items.filter(({ item }) =>
+        const filtered = personalNotice.items.filter(({ item }) =>
           userData.address!.includes(item.shop.item.address1)
         );
 
-        setPersonalItems(filtered.length > 0 ? filtered : notice.items);
+        setPersonalItems(filtered.length ? filtered : personalNotice.items);
       } catch {
-        setPersonalItems(notice.items);
+        setPersonalItems(personalNotice.items);
       }
     };
 
     fetchPersonalNotice();
-  }, [user?.id, notice]);
+  }, [personalNotice, user?.id]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [sortValue]);
 
   return (
     <>
@@ -96,7 +113,12 @@ const StoreList = () => {
             ))}
           </S.AllJobList>
         </S.AllJobListContainer>
-        <PaginationRounded></PaginationRounded>
+        <PaginationRounded
+          page={page}
+          onChange={setPage}
+          totalCount={notice?.count ?? 0}
+          limit={LIMIT}
+        ></PaginationRounded>
       </S.AllJobContainer>
     </>
   );

@@ -4,15 +4,15 @@ import { useRouter } from 'next/router';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
+import withAuthentication from '@/components/hoc/withAuthentication';
 import { IMAGES_API, NOTICES_API, SHOPS_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
 import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
 import StoreImgFileComponent from '@/pages/myStore/store/_components/storeimg2';
-import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
 
@@ -99,7 +99,7 @@ const StoreRegisterPage = () => {
   // 가게 이미지
   const [imgFile, setImgFile] = useState<string>('');
 
-  const imgUpload = async (file: File, accessToken: string) => {
+  const imgUpload = async (file: File) => {
     const res = await services.post(IMAGES_API.CREATE_PRESIGNED_URL, {
       name: file.name,
       contentType: file.type,
@@ -120,9 +120,7 @@ const StoreRegisterPage = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const { accessToken } = useAuthStore.getState();
-
-    const imageUrl = await imgUpload(file, accessToken!);
+    const imageUrl = await imgUpload(file);
 
     setImgFile(imageUrl);
   };
@@ -283,4 +281,6 @@ const StoreRegisterPage = () => {
   );
 };
 
-export default StoreRegisterPage;
+export default withAuthentication(StoreRegisterPage, {
+  allowedTypes: ['employee'],
+});

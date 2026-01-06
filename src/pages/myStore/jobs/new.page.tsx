@@ -5,6 +5,7 @@ import * as React from 'react';
 import { useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
+import withAuthentication from '@/components/hoc/withAuthentication';
 import { NOTICES_API } from '@/constants/api';
 import { USERS_API } from '@/constants/api/users';
 import { services } from '@/lib/services/servicesClient';
@@ -136,4 +137,6 @@ const JobRegisterPage = () => {
   );
 };
 
-export default JobRegisterPage;
+export default withAuthentication(JobRegisterPage, {
+  allowedTypes: ['employer'],
+});

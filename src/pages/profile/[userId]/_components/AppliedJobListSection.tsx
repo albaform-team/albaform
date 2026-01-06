@@ -5,7 +5,7 @@ import TablePagination, {
   Column,
 } from '@/components/tablePagination/TablePagination';
 import { STORE_ROUTES } from '@/constants/routes';
-import { usePagination } from '@/hooks/usePagination';
+import usePagination from '@/hooks/usePagination';
 import { GetUserApplications } from '@/lib/services/userService';
 import { media } from '@/styles/media';
 import { User } from '@/types/api/user';

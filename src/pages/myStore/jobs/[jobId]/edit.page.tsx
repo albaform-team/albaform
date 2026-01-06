@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
+import withAuthentication from '@/components/hoc/withAuthentication';
 import { NOTICES_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
-import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from '../new.style';
 
@@ -95,8 +95,6 @@ const JobRegisterIdPage = () => {
   // submit 관련
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const { accessToken } = useAuthStore.getState();
 
     const getInfo = sessionStorage.getItem('auth-storage');
     const getUser = JSON.parse(getInfo as string);
@@ -202,4 +200,6 @@ const JobRegisterIdPage = () => {
   );
 };
 
-export default JobRegisterIdPage;
+export default withAuthentication(JobRegisterIdPage, {
+  allowedTypes: ['employer'],
+});

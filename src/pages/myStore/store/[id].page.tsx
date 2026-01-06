@@ -7,6 +7,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
+import withAuthentication from '@/components/hoc/withAuthentication';
 import { IMAGES_API, SHOPS_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
@@ -297,4 +298,6 @@ const StoreRegisterPage = () => {
   );
 };
 
-export default StoreRegisterPage;
+export default withAuthentication(StoreRegisterPage, {
+  allowedTypes: ['employee'],
+});

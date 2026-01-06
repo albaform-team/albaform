@@ -2,9 +2,8 @@ import Image from 'next/image';
 
 // import ClockIcon from '@/assets/svg/clock.svg';
 import * as S from '@/pages/store/_components/ListCard/ListCard.styles';
+import { NoticeItem } from '@/types/user/notice';
 import { formatDateTimeRange } from '@/utils/date';
-
-import { NoticeItem } from './types/mockNotices';
 
 type ListCardProps = {
   notice: NoticeItem;

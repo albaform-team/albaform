@@ -39,9 +39,16 @@ export const applyNotice = async (shopId: string, noticeId: string) => {
   return res.data.item;
 };
 
-export const cancelApplication = async (shopId: string, noticeId: string) => {
-  const res = await services.delete(
-    `/shops/${shopId}/notices/${noticeId}/applications`
+export const cancelApplication = async (
+  shopId: string,
+  noticeId: string,
+  applicationId: string
+) => {
+  const res = await services.put(
+    `/shops/${shopId}/notices/${noticeId}/applications/${applicationId}`,
+    {
+      status: 'canceled',
+    }
   );
 
   return res.data.item;

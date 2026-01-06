@@ -27,6 +27,19 @@ export const Section = styled.div`
   }
 `;
 
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+
+  @media ${media.tablet} {
+    gap: 32px;
+  }
+`;
+
 export const Button = styled.button`
   width: 100%;
   height: 48px;
@@ -148,6 +161,7 @@ export const Select = styled.select`
 `;
 
 export const StoreImgBox = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -156,6 +170,14 @@ export const StoreImgBox = styled.div`
   background-color: ${colors.gray[10]};
   border: 1px solid ${colors.gray[30]};
   border-radius: 6px;
+`;
+
+export const FileInput = styled.input`
+  position: absolute;
+  top: 30px;
+  width: 100%;
+  height: 200px;
+  opacity: 0;
 `;
 
 export const TextBox = styled.textarea`

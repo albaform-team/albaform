@@ -11,7 +11,6 @@ import { IMAGES_API, NOTICES_API, SHOPS_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
 import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
-import StoreImgFileComponent from '@/pages/myStore/store/_components/storeimg2';
 import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
@@ -100,10 +99,18 @@ const StoreRegisterPage = () => {
   const [imgFile, setImgFile] = useState<string>('');
 
   const imgUpload = async (file: File, accessToken: string) => {
-    const res = await services.post(IMAGES_API.CREATE_PRESIGNED_URL, {
-      name: file.name,
-      contentType: file.type,
-    });
+    const res = await services.post(
+      IMAGES_API.CREATE_PRESIGNED_URL,
+      {
+        name: file.name,
+        contentType: file.type,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
 
     const upLoadUrl = res.data.item.url as string;
 
@@ -135,14 +142,23 @@ const StoreRegisterPage = () => {
   };
 
   useEffect(() => {
-    const ImportData = async () => {
+    const importData = async () => {
       const getInfo = sessionStorage.getItem('auth-storage');
       const getUser = JSON.parse(getInfo as string);
       const getUserId = getUser.state.user.id;
 
       const getShop = await services.get(USERS_API.ME(getUserId));
-      const shopId = getShop?.data?.item?.shop?.item?.id;
-      if (!shopId) return;
+      const shopId = getShop.data.item.shop.item.id;
+
+      const getNotice = await services.get(NOTICES_API.SHOP_LIST(shopId));
+
+      setStoreName(getNotice.data.item.name);
+      setCategorySelected(getNotice.data.item.category);
+      setAddressSelected(getNotice.data.item.address1);
+      setAddressDetail(getNotice.data.item.address2);
+      setPay(getNotice.data.item.originalHourlyPay);
+      setImgFile(getNotice.data.item.imageUrl);
+      setTextExplain(getNotice.data.item.description);
 
       const getNotice2 = await services.get(NOTICES_API.SHOP_LIST(shopId));
 
@@ -157,15 +173,24 @@ const StoreRegisterPage = () => {
       if (!findId) return;
     };
 
-    ImportData();
+    importData();
   }, [jobId]);
 
   // submit 관련
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const { accessToken } = useAuthStore.getState();
+
+    const getInfo = sessionStorage.getItem('auth-storage');
+    const getUser = JSON.parse(getInfo as string);
+    const getUserId = getUser.state.user.id;
+
+    const getShop = await services.get(USERS_API.ME(getUserId));
+    const shopId = getShop.data.item.shop.item.id;
+
     await services
-      .post(SHOPS_API.CREATE, {
+      .put(SHOPS_API.DETAIL(shopId), {
         name: storeName,
         category: categorySelected,
         address1: addressSelected,
@@ -187,7 +212,7 @@ const StoreRegisterPage = () => {
     <S.Container>
       <S.Section>
         <S.TitleWrap>
-          <S.Title>가게 정보</S.Title>
+          <S.Title>가게 정보 편집</S.Title>
           <Image src={CloseIcon} alt="CloseIcon" />
         </S.TitleWrap>
         <S.Form onSubmit={handleSubmit}>
@@ -250,7 +275,7 @@ const StoreRegisterPage = () => {
                 </S.StoreImgBox>
               ) : (
                 <S.StoreImgBox>
-                  <StoreImgFileComponent imgFile={imgFile} />
+                  <Image src={imgFile} fill alt="imgFile" />
                 </S.StoreImgBox>
               )}
               <S.FileInput
@@ -270,11 +295,11 @@ const StoreRegisterPage = () => {
               />
             </S.InputWrapExplain>
           </S.Wraps>
-          <S.Button type="submit">등록하기</S.Button>
+          <S.Button type="submit">편집하기</S.Button>
         </S.Form>
         <Modal open={open} onClose={handleClose}>
           <S.ModalBox>
-            <S.ModalText>등록이 완료되었습니다.</S.ModalText>
+            <S.ModalText>수정이 완료되었습니다.</S.ModalText>
             <S.ModalButton onClick={handleClose}>확인</S.ModalButton>
           </S.ModalBox>
         </Modal>

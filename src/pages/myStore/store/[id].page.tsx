@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
-import { IMAGES_API, NOTICES_API, SHOPS_API, USERS_API } from '@/constants/api';
+import { IMAGES_API, SHOPS_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
 import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
@@ -21,7 +21,8 @@ const StoreRegisterPage = () => {
   const handleClose = () => setOpen(false);
 
   const router = useRouter();
-  const jobId = router.query.jobId;
+  const user = useAuthStore(s => s.user);
+  const setShop = useAuthStore(s => s.setShop);
 
   // 가게 이름
   const [storeName, setStoreName] = useState('');
@@ -98,19 +99,11 @@ const StoreRegisterPage = () => {
   // 가게 이미지
   const [imgFile, setImgFile] = useState<string>('');
 
-  const imgUpload = async (file: File, accessToken: string) => {
-    const res = await services.post(
-      IMAGES_API.CREATE_PRESIGNED_URL,
-      {
-        name: file.name,
-        contentType: file.type,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+  const imgUpload = async (file: File) => {
+    const res = await services.post(IMAGES_API.CREATE_PRESIGNED_URL, {
+      name: file.name,
+      contentType: file.type,
+    });
 
     const upLoadUrl = res.data.item.url as string;
 
@@ -127,9 +120,7 @@ const StoreRegisterPage = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const { accessToken } = useAuthStore.getState();
-
-    const imageUrl = await imgUpload(file, accessToken!);
+    const imageUrl = await imgUpload(file);
 
     setImgFile(imageUrl);
   };
@@ -142,51 +133,22 @@ const StoreRegisterPage = () => {
   };
 
   useEffect(() => {
-    const importData = async () => {
-      const getInfo = sessionStorage.getItem('auth-storage');
-      const getUser = JSON.parse(getInfo as string);
-      const getUserId = getUser.state.user.id;
+    if (!user?.shop) return;
 
-      const getShop = await services.get(USERS_API.ME(getUserId));
-      const shopId = getShop.data.item.shop.item.id;
-
-      const getNotice = await services.get(NOTICES_API.SHOP_LIST(shopId));
-
-      setStoreName(getNotice.data.item.name);
-      setCategorySelected(getNotice.data.item.category);
-      setAddressSelected(getNotice.data.item.address1);
-      setAddressDetail(getNotice.data.item.address2);
-      setPay(getNotice.data.item.originalHourlyPay);
-      setImgFile(getNotice.data.item.imageUrl);
-      setTextExplain(getNotice.data.item.description);
-
-      const getNotice2 = await services.get(NOTICES_API.SHOP_LIST(shopId));
-
-      interface FindItem {
-        item?: {
-          id?: number | string;
-        };
-      }
-      const findId = getNotice2.data.items.find(
-        (i: FindItem) => i.item?.id?.toString() === jobId
-      );
-      if (!findId) return;
-    };
-
-    importData();
-  }, [jobId]);
+    setStoreName(user?.shop.item.name);
+    setCategorySelected(user?.shop.item.category);
+    setAddressSelected(user?.shop.item.address1);
+    setAddressDetail(user?.shop.item.address2);
+    setPay(user?.shop.item.originalHourlyPay.toString());
+    setImgFile(user?.shop.item.imageUrl);
+    setTextExplain(user?.shop.item.description);
+  }, [user]);
 
   // submit 관련
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { accessToken } = useAuthStore.getState();
-
-    const getInfo = sessionStorage.getItem('auth-storage');
-    const getUser = JSON.parse(getInfo as string);
-    const getUserId = getUser.state.user.id;
-
-    const getShop = await services.get(USERS_API.ME(getUserId));
+    const getShop = await services.get(USERS_API.ME(user?.id as string));
     const shopId = getShop.data.item.shop.item.id;
 
     await services
@@ -199,9 +161,32 @@ const StoreRegisterPage = () => {
         imageUrl: imgFile,
         originalHourlyPay: Number(pay),
       })
-      .then(() => {
+      .then(res => {
+        const {
+          id,
+          name,
+          address1,
+          address2,
+          category,
+          description,
+          imageUrl,
+          originalHourlyPay,
+        } = res.data.item;
+
         handleOpen();
-        router.push(MY_STORE_ROUTES.JOBS.DETAIL(jobId as string));
+        setShop({
+          item: {
+            id,
+            name,
+            address1,
+            address2,
+            category,
+            description,
+            imageUrl,
+            originalHourlyPay,
+          },
+        });
+        router.push(MY_STORE_ROUTES.ROOT);
       })
       .catch(error => {
         console.log('등록에 실패하였습니다.', error);
@@ -213,7 +198,11 @@ const StoreRegisterPage = () => {
       <S.Section>
         <S.TitleWrap>
           <S.Title>가게 정보 편집</S.Title>
-          <Image src={CloseIcon} alt="CloseIcon" />
+          <Image
+            onClick={() => router.push(MY_STORE_ROUTES.ROOT)}
+            src={CloseIcon}
+            alt="CloseIcon"
+          />
         </S.TitleWrap>
         <S.Form onSubmit={handleSubmit}>
           <S.Wraps>

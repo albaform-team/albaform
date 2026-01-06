@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import styled from '@emotion/styled';
-import { Chip, Input } from '@mui/material';
+import { Button, Chip, Input } from '@mui/material';
 
 import { colors } from '@/styles/colors';
 
@@ -63,7 +63,7 @@ export const LocationSelectOption = styled.div`
   gap: 30px 24px;
 `;
 
-export const OptionItem = styled.div`
+export const OptionItem = styled(Button)`
   cursor: pointer;
 `;
 

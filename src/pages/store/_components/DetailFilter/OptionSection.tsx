@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import * as S from '@/pages/store/_components/DetailFilter/OptionSection.style';
 
 import AreaSelectedBadge from './SelectedBadge';
@@ -31,8 +33,15 @@ export const AREAS = [
 ];
 
 const OptionSection = () => {
+  const [areaValue, setAreaValue] = useState<string | null>(null);
   const handleDelete = () => {
     console.info('You clicked the delete icon.');
+  };
+
+  const handleClick = (area: string) => {
+    console.log('실행');
+    setAreaValue(area);
+    console.log(areaValue);
   };
 
   return (
@@ -42,8 +51,10 @@ const OptionSection = () => {
         <S.LocationSelectBox>
           <S.LocationScrollArea>
             <S.LocationSelectOption>
-              {AREAS.map(arr => (
-                <S.OptionItem key={arr}>{arr}</S.OptionItem>
+              {AREAS.map(area => (
+                <S.OptionItem key={area} onClick={() => handleClick(area)}>
+                  {area}
+                </S.OptionItem>
               ))}
             </S.LocationSelectOption>
           </S.LocationScrollArea>

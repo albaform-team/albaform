@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import CloseIcon from '@/assets/svg/close.svg';
+import withAuthentication from '@/components/hoc/withAuthentication';
 import { PROFILE_ROUTES } from '@/constants/routes';
 import { registerUserProfile } from '@/lib/services/userProfileService';
 import * as S from '@/pages/profile/[userId]/addProfile/index.page.style';
@@ -114,4 +115,4 @@ const AddProfile = () => {
   );
 };
 
-export default AddProfile;
+export default withAuthentication(AddProfile, { allowedTypes: ['employee'] });

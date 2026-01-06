@@ -11,10 +11,7 @@ interface UsePaginationOptions {
   initialPage?: number;
 }
 
-export const usePagination = ({
-  limit,
-  initialPage = 1,
-}: UsePaginationOptions) => {
+const usePagination = ({ limit, initialPage = 1 }: UsePaginationOptions) => {
   const [page, setPage] = useState(initialPage);
   const [meta, setMeta] = useState<PaginationMeta>({
     totalPage: 0,
@@ -46,3 +43,5 @@ export const usePagination = ({
     updateMeta,
   };
 };
+
+export default usePagination;

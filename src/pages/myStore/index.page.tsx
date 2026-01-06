@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import withAuthentication from '@/components/hoc/withAuthentication';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 
 import * as S from './index.style';
@@ -18,4 +19,4 @@ const StorePage = () => {
   );
 };
 
-export default StorePage;
+export default withAuthentication(StorePage, { allowedTypes: ['employer'] });

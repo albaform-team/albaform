@@ -5,7 +5,7 @@ import TablePagination, {
   Column,
 } from '@/components/tablePagination/TablePagination';
 import { useResponsiveColumns } from '@/hooks/useApplicantColumns';
-import { usePagination } from '@/hooks/usePagination';
+import usePagination from '@/hooks/usePagination';
 import { getShopNoticeApplications } from '@/lib/services/shopServise';
 import { media } from '@/styles/media';
 import { ShopNoticeApplicationsItem } from '@/types/api/shopNoticeApplications';

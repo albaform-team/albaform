@@ -40,7 +40,7 @@ const NoticeApplicantSection = ({ shopId, jobId, onClick }: Props) => {
     ShopNoticeApplicationsItem[]
   >([]);
   const { page, setPage, limit, offset, meta, updateMeta } = usePagination({
-    limit: 5,
+    limit: 1,
   });
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const NoticeApplicantSection = ({ shopId, jobId, onClick }: Props) => {
     };
 
     fetch();
-  }, [jobId, limit, offset, shopId, updateMeta]);
+  }, [jobId, limit, offset, shopId, updateMeta, onClick]);
 
   const rows = useMemo(
     () => appliedJobList.map(applicantListMapper),

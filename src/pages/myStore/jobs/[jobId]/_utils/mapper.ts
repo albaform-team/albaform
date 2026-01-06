@@ -67,6 +67,6 @@ export const applicantListMapper = (
     status: data.item.status,
     shopId: data.item.shop.item.id,
     noticeId: data.item.notice.item.id,
-    applicationId: data.item.user.item.id,
+    applicationId: data.item.id,
   },
 });

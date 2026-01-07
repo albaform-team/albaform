@@ -76,36 +76,40 @@ const BasicPopover = ({
         }}
       >
         <S.PopoverContainer>
-          <S.DrawerHeader>
-            <S.DrawerTitle>상세 필터</S.DrawerTitle>
-            <S.CloseButton
-              src={CloseIcon}
-              alt="닫힘 버튼"
-              width={24}
-              height={24}
-              onClick={handleClose}
-            />
-          </S.DrawerHeader>
-          <OptionSection
-            selectedAreas={selectedAreas}
-            setSelectedAreas={setSelectedAreas}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            minPay={minPay}
-            setMinPay={setMinPay}
-            setFilterCount={setFilterCount}
-          />
-          <S.DrawerFooter>
-            <S.ResetButton onClick={resetState}>초기화</S.ResetButton>
-            <S.ApplyButton
-              onClick={() => {
-                onApply();
-                handleClose();
-              }}
-            >
-              적용하기
-            </S.ApplyButton>
-          </S.DrawerFooter>
+          <S.PopoverContents>
+            <S.DrawerHeader>
+              <S.DrawerTitle>상세 필터</S.DrawerTitle>
+              <S.CloseButton
+                src={CloseIcon}
+                alt="닫힘 버튼"
+                width={24}
+                height={24}
+                onClick={handleClose}
+              />
+            </S.DrawerHeader>
+            <S.OptionContainer>
+              <OptionSection
+                selectedAreas={selectedAreas}
+                setSelectedAreas={setSelectedAreas}
+                startDate={startDate}
+                setStartDate={setStartDate}
+                minPay={minPay}
+                setMinPay={setMinPay}
+                setFilterCount={setFilterCount}
+              />
+            </S.OptionContainer>
+            <S.DrawerFooter>
+              <S.ResetButton onClick={resetState}>초기화</S.ResetButton>
+              <S.ApplyButton
+                onClick={() => {
+                  onApply();
+                  handleClose();
+                }}
+              >
+                적용하기
+              </S.ApplyButton>
+            </S.DrawerFooter>
+          </S.PopoverContents>
         </S.PopoverContainer>
       </Popover>
     </div>

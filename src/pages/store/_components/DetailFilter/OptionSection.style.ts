@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import styled from '@emotion/styled';
 import { Button, Chip, Input } from '@mui/material';
 
@@ -64,6 +62,10 @@ export const LocationSelectOption = styled.div`
 `;
 
 export const OptionItem = styled(Button)`
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: ${colors.black};
   cursor: pointer;
 `;
 
@@ -72,6 +74,10 @@ export const SelectedLocation = styled.div`
   gap: 8px;
   align-items: center;
   justify-content: flex-start;
+`;
+
+export const AreaBadge = styled(Chip)`
+  background-color: ${colors.red[10]} !important;
 `;
 
 export const StartSection = styled.div`

@@ -1,6 +1,8 @@
+import CancelIcon from '@mui/icons-material/Cancel';
 import Chip from '@mui/material/Chip';
 
 import * as S from '@/pages/store/_components/DetailFilter/OptionSection.style';
+import { colors } from '@/styles/colors';
 
 export const AREAS = [
   '서울시 종로구',
@@ -107,7 +109,19 @@ const OptionSection = ({
                 key={area}
                 label={area}
                 onDelete={() => handleDelete(area)}
-                style={{ marginRight: 8, margin: '0 4px 8px 4px' }}
+                deleteIcon={<CancelIcon sx={{ color: '#EA3C12' }} />}
+                sx={{
+                  mr: 1,
+                  mb: 1,
+                  backgroundColor: colors.red[10],
+                  fontWeight: 700,
+                  fontSize: '14px',
+                  lineHeight: '100%',
+                  color: '#EA3C12',
+                  '& .MuiChip-deleteIcon': {
+                    color: '#EA3C12',
+                  },
+                }}
               />
             ))}
           </div>{' '}

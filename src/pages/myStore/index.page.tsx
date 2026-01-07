@@ -2,12 +2,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useMemo } from 'react';
 
 import { NOTICES_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
 import useAuthStore from '@/stores/useAuthStore';
+
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import useInfinitePagination from '@/hooks/useInfinitePagination';
+import { NoticeListWrappedItem } from '@/types/user/noticeList';
 
 import * as S from './index.style';
 
@@ -40,6 +44,10 @@ const StoreListIdPage = () => {
     };
   };
   const [showJob, setShowJob] = useState<Job[]>([]);
+  const [shopId, setShopId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { meta, limit, reset, updateFromResponse } = useInfinitePagination(10);
 
   const changeTime = () => {
     if (showJob.length === 0) return '';
@@ -54,8 +62,6 @@ const StoreListIdPage = () => {
 
     return `${year}-${month}-${day} ${hour}:${minute}`;
   };
-
-  changeTime();
 
   const handleEdit = () => {
     router.push(MY_STORE_ROUTES.STORE.EDIT);
@@ -73,6 +79,7 @@ const StoreListIdPage = () => {
 
       const shopId = getShop.data.item.shop.item.id;
 
+      setShopId(shopId);
       setStoreName(shopData.name);
       setCategorySelected(shopData.category);
       setAddressSelected(shopData.address1);
@@ -87,6 +94,77 @@ const StoreListIdPage = () => {
 
     importData();
   }, [jobId]);
+
+  // 무한 스크롤
+  const fetchNext = useCallback(async () => {
+    console.log('fetchNext called', {
+      offset: meta.offset,
+      hasNext: meta.hasNext,
+      isLoading,
+    });
+    if (!shopId) return;
+    if (isLoading || !meta.hasNext) return;
+
+    setIsLoading(true);
+    try {
+      const res = await services.get(NOTICES_API.SHOP_LIST(shopId), {
+        params: { offset: meta.offset, limit },
+      });
+
+      const data = res.data;
+
+      setShowJob(prev => [...prev, ...data.items]);
+
+      updateFromResponse({
+        offset: data.offset,
+        limit: data.limit,
+        count: data.count,
+        hasNext: data.hasNext,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [shopId, isLoading, meta.hasNext, meta.offset, limit, updateFromResponse]);
+
+  useEffect(() => {
+    if (!shopId) return;
+
+    reset();
+    setShowJob([]);
+    (async () => {
+      setIsLoading(true);
+      try {
+        const res = await services.get(NOTICES_API.SHOP_LIST(shopId), {
+          params: { offset: 0, limit },
+        });
+
+        const data = res.data;
+
+        setShowJob(data.items);
+
+        updateFromResponse({
+          offset: data.offset,
+          limit: data.limit,
+          count: data.count,
+          hasNext: data.hasNext,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, [shopId, limit, reset, updateFromResponse]);
+
+  const enabled = useMemo(
+    () => !!shopId && meta.hasNext && !isLoading,
+    [shopId, meta.hasNext, isLoading]
+  );
+
+  const targetRef = useIntersectionObserver<HTMLDivElement>({
+    onIntersect: fetchNext,
+    threshold: 0,
+    rootMargin: '200px 0px',
+    enabled,
+  });
 
   if (!storeName || !addressSelected || !imgFile || !textExplain) {
     return (
@@ -201,46 +279,50 @@ const StoreListIdPage = () => {
           </S.TitleWrap>
           <S.CardListWrap>
             {showJob.map(i => (
-              <S.CardList key={i.item.id} closed={i.item.closed}>
+              <S.CardList key={i.item.id} $closed={i.item.closed}>
                 <S.CardListImgWrap>
-                  <S.CardListTextClosed closed={i.item.closed}>
+                  <S.CardListTextClosed $closed={i.item.closed}>
                     마감 완료
                   </S.CardListTextClosed>
                   <Image src={imgFile} fill alt="StoreImg" priority />
                 </S.CardListImgWrap>
                 <S.CardListTextWrap>
                   <S.CardListTitleWrap>
-                    <S.CardListTitle closed={i.item.closed}>
+                    <S.CardListTitle $closed={i.item.closed}>
                       {storeName}
                     </S.CardListTitle>
                   </S.CardListTitleWrap>
                   <S.CardListNavWrap01>
-                    <S.ClockIcon closed={i.item.closed} />
-                    <S.CardListNavText closed={i.item.closed}>
+                    <S.ClockIcon $closed={i.item.closed} />
+                    <S.CardListNavText $closed={i.item.closed}>
                       {changeTime()} ({i.item.workhour}
                       시간)
                     </S.CardListNavText>
                   </S.CardListNavWrap01>
                   <S.CardListNavWrap>
-                    <S.NavIcon closed={i.item.closed} />
-                    <S.CardListNavText closed={i.item.closed}>
+                    <S.NavIcon $closed={i.item.closed} />
+                    <S.CardListNavText $closed={i.item.closed}>
                       {addressSelected}
                     </S.CardListNavText>
                   </S.CardListNavWrap>
                 </S.CardListTextWrap>
                 <S.CardPriceTextWrap>
-                  <S.CardPriceText closed={i.item.closed}>
+                  <S.CardPriceText $closed={i.item.closed}>
                     {i.item.hourlyPay.toLocaleString('ko-KR')}원
                   </S.CardPriceText>
-                  <S.CardPriceSubTextWrap closed={i.item.closed}>
-                    <S.CardPriceSubText closed={i.item.closed}>
+                  <S.CardPriceSubTextWrap $closed={i.item.closed}>
+                    <S.CardPriceSubText $closed={i.item.closed}>
                       기존 시급보다 50%
                     </S.CardPriceSubText>
-                    <S.ArrowIcon closed={i.item.closed} />
+                    <S.ArrowIcon $closed={i.item.closed} />
                   </S.CardPriceSubTextWrap>
                 </S.CardPriceTextWrap>
               </S.CardList>
             ))}
+
+            <div ref={targetRef} style={{ height: 1 }}></div>
+            {isLoading && <div>Loading...</div>}
+            {!meta.hasNext && <div></div>}
           </S.CardListWrap>
         </S.Section02>
       </S.ContainerBg>

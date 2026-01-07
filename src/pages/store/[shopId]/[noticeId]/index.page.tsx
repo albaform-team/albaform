@@ -90,9 +90,9 @@ const StoreDetailPage = () => {
     if (typeof shopId !== 'string' || typeof noticeId !== 'string') return;
     const applicationId = notice?.currentUserApplication?.item.id;
     if (!applicationId) return;
+    setIsApply(false);
     try {
       await cancelApplication(shopId, noticeId, applicationId);
-      setIsApply(false);
       setCancelModalOpen(false);
     } catch (error) {
       console.log(error);

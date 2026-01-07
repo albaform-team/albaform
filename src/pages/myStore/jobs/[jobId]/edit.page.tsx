@@ -144,7 +144,13 @@ const JobRegisterIdPage = () => {
       <S.Section>
         <S.TitleWrap>
           <S.Title>공고 등록 편집</S.Title>
-          <Image src={CloseIcon} alt="CloseIcon" />
+          <Image
+            src={CloseIcon}
+            alt="CloseIcon"
+            onClick={() => {
+              router.push(MY_STORE_ROUTES.JOBS.DETAIL(jobId as string));
+            }}
+          />
         </S.TitleWrap>
         <S.Form onSubmit={handleSubmit}>
           <S.Wraps>

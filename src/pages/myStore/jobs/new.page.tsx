@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
@@ -8,12 +10,10 @@ import CloseIcon from '@/assets/svg/closeicon.svg';
 import withAuthentication from '@/components/hoc/withAuthentication';
 import { NOTICES_API } from '@/constants/api';
 import { USERS_API } from '@/constants/api/users';
+import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
 
 import * as S from './new.style';
-import { useRouter } from 'next/router';
-import { MY_STORE_ROUTES } from '@/constants/routes';
-import Link from 'next/link';
 
 const JobRegisterPage = () => {
   const [open, setOpen] = useState(false);

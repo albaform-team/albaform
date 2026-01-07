@@ -19,6 +19,15 @@ const Search = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
   const [sortValue, setSortValue] = useState('마감임박순');
   const [page, setPage] = useState(1);
+  const [appliedAreas, setAppliedAreas] = useState<string[]>([]);
+  const [appliedStartDate, setAppliedStartDate] = useState<
+    string | undefined
+  >();
+  const [appliedMinPay, setAppliedMinPay] = useState<number | undefined>();
+  const [draftAreas, setDraftAreas] = useState<string[]>([]);
+  const [draftStartDate, setDraftStartDate] = useState<string | null>(null);
+  const [draftMinPay, setDraftMinPay] = useState<number | null>(null);
+  const [filterTrigger, setFilterTrigger] = useState(0);
 
   const router = useRouter();
   const { q } = router.query;
@@ -30,7 +39,19 @@ const Search = () => {
     keyword,
     offset: LIMIT * (page - 1),
     limit: LIMIT,
+    address: appliedAreas.length > 0 ? appliedAreas[0] : undefined,
+    startsAtGte: appliedStartDate ?? undefined,
+    hourlyPayGte: appliedMinPay ?? undefined,
+    trigger: filterTrigger,
   });
+
+  const handleDetailFilter = () => {
+    setAppliedAreas(draftAreas);
+    setAppliedStartDate(draftStartDate ?? undefined);
+    setAppliedMinPay(draftMinPay ?? undefined);
+    setPage(1);
+    setFilterTrigger(prev => prev + 1);
+  };
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -54,7 +75,19 @@ const Search = () => {
         </S.SearchTitle>
         <S.JobFilterContainer>
           <FilterOptionSelect value={sortValue} onChange={setSortValue} />
-          {isMobile ? <RightDrawer /> : <BasicPopover />}
+          {isMobile ? (
+            <RightDrawer />
+          ) : (
+            <BasicPopover
+              selectedAreas={draftAreas}
+              setSelectedAreas={setDraftAreas}
+              startDate={draftStartDate}
+              setStartDate={setDraftStartDate}
+              minPay={draftMinPay}
+              setMinPay={setDraftMinPay}
+              onApply={handleDetailFilter}
+            />
+          )}
         </S.JobFilterContainer>
       </S.SearchHeader>
       <S.JobSearchSection>

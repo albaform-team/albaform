@@ -22,14 +22,12 @@ const StoreList = () => {
   const user = useAuthStore(state => state.user);
   const [sortValue, setSortValue] = useState('마감임박순');
   const [page, setPage] = useState(1);
-  // 실제 API에 쓰이는 상태
+  // 상세 필터 상태 관리 state
   const [appliedAreas, setAppliedAreas] = useState<string[]>([]);
   const [appliedStartDate, setAppliedStartDate] = useState<
     string | undefined
   >();
   const [appliedMinPay, setAppliedMinPay] = useState<number | undefined>();
-
-  // 팝업에서 편집 중인 상태
   const [draftAreas, setDraftAreas] = useState<string[]>([]);
   const [draftStartDate, setDraftStartDate] = useState<string | null>(null);
   const [draftMinPay, setDraftMinPay] = useState<number | null>(null);

@@ -2,16 +2,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { RECENT_NOTICE_KEY } from '@/constants/recentNotice';
 import {
   applyNotice,
   cancelApplication,
-  getMyProfile,
   getNoticeDetail,
 } from '@/lib/services/noticeService';
+import { GetUserApplications } from '@/lib/services/userService';
+import { AppliedJobListItem } from '@/pages/profile/[userId]/_utils/mapper';
 import useAuthStore from '@/stores/useAuthStore';
+import { ApplicationStatus } from '@/types/api/userAppliedJobList';
 import { NoticeItem } from '@/types/user/notice';
 import { formatDateTimeRange } from '@/utils/date';
 
@@ -22,82 +24,66 @@ import ProfileRegisterModal from '../../_components/Modal/ProfileRegisterModal';
 
 import * as S from './index.page.style';
 
+const getMatchingApplication = (
+  noticeId: string,
+  applications: AppliedJobListItem[]
+): AppliedJobListItem | undefined => {
+  for (const application of applications) {
+    if (application.notice && application.notice.id === noticeId) {
+      return application;
+    }
+  }
+};
+
 const StoreDetailPage = () => {
   const router = useRouter();
   const { shopId, noticeId } = router.query;
-  const { user } = useAuthStore.getState();
-
+  const user = useAuthStore(s => s.user);
+  const [Test, setTest] = useState<ApplicationStatus>('canceled');
   const [notice, setNotice] = useState<NoticeItem | null>(null);
   const [closed, setClosed] = useState<boolean>(false);
   const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
-  const [isApply, setIsApply] = useState<boolean>(false);
   const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
   const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
   const [recentNotices, setRecentNotices] = useState<NoticeItem[]>([]);
 
+  const fetchNotice = useCallback(async () => {
+    try {
+      if (typeof shopId === 'string' && typeof noticeId === 'string') {
+        const data = await getNoticeDetail(shopId, noticeId);
+        setNotice(data);
+
+        const userApplications = await GetUserApplications(
+          user?.id as string,
+          0,
+          100
+        );
+        const currentApplication = getMatchingApplication(
+          noticeId as string,
+          userApplications.items
+        );
+
+        if (currentApplication?.status) setTest(currentApplication?.status);
+        setCancelModalOpen(false);
+        if (data.closed) {
+          setClosed(true);
+        } else {
+          setClosed(false);
+        }
+      }
+    } catch (error) {
+      console.error('공고 상세 불러오기 실패:', error);
+    }
+  }, [noticeId, shopId, user?.id]);
+
   useEffect(() => {
     if (!shopId || !noticeId) return;
 
-    const fetchNotice = async () => {
-      try {
-        if (typeof shopId === 'string' && typeof noticeId === 'string') {
-          const data = await getNoticeDetail(shopId, noticeId);
-          setNotice(data);
-          setIsApply(false);
-          if (data.closed) {
-            setClosed(true);
-          } else {
-            setClosed(false);
-          }
-        }
-      } catch (error) {
-        console.error('공고 상세 불러오기 실패:', error);
-      }
-    };
-
     fetchNotice();
-  }, [shopId, noticeId]);
-
-  const handleClick = async () => {
-    if (!user?.id) {
-      setLoginModalOpen(true);
-      return;
-    }
-
-    const res = await getMyProfile(user.id);
-
-    const isProfileEmpty = !res.name || !res.phone || !res.address || !res.bio;
-    if (isProfileEmpty) {
-      setProfileModalOpen(true);
-      return;
-    }
-
-    if (typeof shopId === 'string' && typeof noticeId === 'string') {
-      try {
-        await applyNotice(shopId, noticeId);
-        setIsApply(true);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  }, [shopId, noticeId, fetchNotice]);
 
   const handleCancel = () => {
     setCancelModalOpen(true);
-  };
-
-  const handleConfirmCancel = async () => {
-    if (typeof shopId !== 'string' || typeof noticeId !== 'string') return;
-    const applicationId = notice?.currentUserApplication?.item.id;
-    if (!applicationId) return;
-    try {
-      await cancelApplication(shopId, noticeId, applicationId);
-      setIsApply(false);
-      setCancelModalOpen(false);
-    } catch (error) {
-      console.log(error);
-      setCancelModalOpen(false);
-    }
   };
 
   useEffect(() => {
@@ -140,6 +126,31 @@ const StoreDetailPage = () => {
   if (!notice) {
     return <div>로딩 중...</div>;
   }
+
+  const handleClick = async () => {
+    await applyNotice(shopId as string, noticeId as string);
+    setTest('pending');
+  };
+
+  const handleConfirmCancel = async () => {
+    const userApplications = await GetUserApplications(
+      user?.id as string,
+      0,
+      100
+    );
+    const currentApplication = getMatchingApplication(
+      noticeId as string,
+      userApplications.items
+    );
+
+    const res = await cancelApplication(
+      shopId as string,
+      noticeId as string,
+      currentApplication?.id as string
+    );
+    setCancelModalOpen(false);
+    setTest(res.status);
+  };
 
   return (
     <S.DetailContainer>
@@ -186,7 +197,7 @@ const StoreDetailPage = () => {
             </S.StoreDescription>
             {closed ? (
               <S.EndButton>신청 불가</S.EndButton>
-            ) : isApply ? (
+            ) : Test === 'pending' ? (
               <S.CancelButton onClick={handleCancel}>취소하기</S.CancelButton>
             ) : (
               <S.ApplyButton onClick={handleClick}>신청하기</S.ApplyButton>

@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
@@ -8,6 +10,7 @@ import CloseIcon from '@/assets/svg/closeicon.svg';
 import withAuthentication from '@/components/hoc/withAuthentication';
 import { NOTICES_API } from '@/constants/api';
 import { USERS_API } from '@/constants/api/users';
+import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
 
 import * as S from './new.style';
@@ -16,6 +19,8 @@ const JobRegisterPage = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const router = useRouter();
 
   // 시급
   const [pay, setPay] = useState('');
@@ -70,6 +75,7 @@ const JobRegisterPage = () => {
       }
 
       handleOpen();
+
       console.log('등록이 완료되었습니다.');
     } catch (error) {
       console.log('등록에 실패하였습니다.', error);
@@ -81,7 +87,9 @@ const JobRegisterPage = () => {
       <S.Section>
         <S.TitleWrap>
           <S.Title>공고 등록</S.Title>
-          <Image src={CloseIcon} alt="CloseIcon" />
+          <Link href={MY_STORE_ROUTES.ROOT}>
+            <Image src={CloseIcon} alt="CloseIcon" />
+          </Link>
         </S.TitleWrap>
         <S.Form onSubmit={handleSubmit}>
           <S.Wraps>
@@ -129,7 +137,14 @@ const JobRegisterPage = () => {
         <Modal open={open} onClose={handleClose}>
           <S.ModalBox>
             <S.ModalText>등록이 완료되었습니다.</S.ModalText>
-            <S.ModalButton onClick={handleClose}>확인</S.ModalButton>
+            <S.ModalButton
+              onClick={() => {
+                handleClose();
+                router.push(MY_STORE_ROUTES.ROOT);
+              }}
+            >
+              확인
+            </S.ModalButton>
           </S.ModalBox>
         </Modal>
       </S.Section>

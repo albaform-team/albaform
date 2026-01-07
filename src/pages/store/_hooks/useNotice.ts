@@ -8,6 +8,10 @@ type UseNoticeProps = {
   keyword?: string;
   offset: number;
   limit: number;
+  address?: string;
+  startsAtGte?: string;
+  hourlyPayGte?: number;
+  trigger?: number;
 };
 
 export const useNotice = ({
@@ -15,6 +19,10 @@ export const useNotice = ({
   keyword,
   offset,
   limit,
+  address,
+  startsAtGte,
+  hourlyPayGte,
+  trigger,
 }: UseNoticeProps) => {
   const [notice, setNotice] = useState<NoticeListResponse | null>(null);
 
@@ -32,11 +40,23 @@ export const useNotice = ({
         keyword: keyword,
         offset: offset,
         limit: limit,
+        address: address,
+        startsAtGte: startsAtGte,
+        hourlyPayGte: hourlyPayGte,
       });
       setNotice(data);
     };
     fetchNotice();
-  }, [sortValue, keyword, offset, limit]);
+  }, [
+    sortValue,
+    keyword,
+    offset,
+    limit,
+    address,
+    startsAtGte,
+    hourlyPayGte,
+    trigger,
+  ]);
 
   return { notice };
 };

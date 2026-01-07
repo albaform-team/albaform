@@ -47,7 +47,7 @@ export interface NoticeListResponse {
   limit: number;
   count: number;
   hasNext: boolean;
-  address: string[];
+  address: string;
   keyword?: string;
   items: NoticeListWrappedItem[];
   links: ApiLink[];

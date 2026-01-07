@@ -22,12 +22,25 @@ const StoreList = () => {
   const user = useAuthStore(state => state.user);
   const [sortValue, setSortValue] = useState('마감임박순');
   const [page, setPage] = useState(1);
+  const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
+  const [startDate, setStartDate] = useState<string | null>(null);
+  const [minPay, setMinPay] = useState<number | null>(null);
+  const [filterTrigger, setFilterTrigger] = useState(0);
 
   const { notice } = useNotice({
     sortValue,
     offset: LIMIT * (page - 1),
     limit: LIMIT,
+    address: selectedAreas.length > 0 ? selectedAreas.join(',') : undefined, // <-- 이거!
+    startsAtGte: startDate ?? undefined,
+    hourlyPayGte: minPay ?? undefined,
+    trigger: filterTrigger,
   });
+
+  const handleDetailFilter = () => {
+    setPage(1);
+    setFilterTrigger(prev => prev + 1);
+  };
 
   const [personalItems, setPersonalItems] = useState<
     NoticeListResponse['items']
@@ -98,7 +111,19 @@ const StoreList = () => {
           <S.JobListTitle>전체 공고</S.JobListTitle>
           <S.JobFilterContainer>
             <FilterOptionSelect value={sortValue} onChange={setSortValue} />
-            {isMobile ? <RightDrawer /> : <BasicPopover />}
+            {isMobile ? (
+              <RightDrawer />
+            ) : (
+              <BasicPopover
+                selectedAreas={selectedAreas}
+                setSelectedAreas={setSelectedAreas}
+                startDate={startDate}
+                setStartDate={setStartDate}
+                minPay={minPay}
+                setMinPay={setMinPay}
+                onApply={handleDetailFilter}
+              />
+            )}
           </S.JobFilterContainer>
         </S.JobListHeader>
         <S.AllJobListContainer>

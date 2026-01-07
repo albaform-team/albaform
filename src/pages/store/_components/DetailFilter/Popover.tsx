@@ -6,7 +6,25 @@ import * as S from '@/pages/store/_components/DetailFilter/Popover.style';
 
 import OptionSection from './OptionSection';
 
-const BasicPopover = () => {
+type BasicPopoverProps = {
+  selectedAreas: string[];
+  setSelectedAreas: React.Dispatch<React.SetStateAction<string[]>>;
+  startDate: string | null;
+  setStartDate: React.Dispatch<React.SetStateAction<string | null>>;
+  minPay: number | null;
+  setMinPay: React.Dispatch<React.SetStateAction<number | null>>;
+  onApply: () => void;
+};
+
+const BasicPopover = ({
+  selectedAreas,
+  setSelectedAreas,
+  startDate,
+  setStartDate,
+  minPay,
+  setMinPay,
+  onApply,
+}: BasicPopoverProps) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -57,10 +75,24 @@ const BasicPopover = () => {
               onClick={handleClose}
             />
           </S.DrawerHeader>
-          <OptionSection />
+          <OptionSection
+            selectedAreas={selectedAreas}
+            setSelectedAreas={setSelectedAreas}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            minPay={minPay}
+            setMinPay={setMinPay}
+          />
           <S.DrawerFooter>
             <S.ResetButton>초기화</S.ResetButton>
-            <S.ApplyButton>적용하기</S.ApplyButton>
+            <S.ApplyButton
+              onClick={() => {
+                onApply();
+                handleClose();
+              }}
+            >
+              적용하기
+            </S.ApplyButton>
           </S.DrawerFooter>
         </S.PopoverContainer>
       </Popover>

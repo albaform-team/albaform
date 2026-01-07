@@ -1,5 +1,4 @@
 import Chip from '@mui/material/Chip';
-import { useState } from 'react';
 
 import * as S from '@/pages/store/_components/DetailFilter/OptionSection.style';
 
@@ -31,20 +30,48 @@ export const AREAS = [
   '서울시 강동구',
 ];
 
-const OptionSection = () => {
-  const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
+type OptionSectionProps = {
+  selectedAreas: string[];
+  setSelectedAreas: React.Dispatch<React.SetStateAction<string[]>>;
+  startDate: string | null;
+  setStartDate: React.Dispatch<React.SetStateAction<string | null>>;
+  minPay: number | null;
+  setMinPay: React.Dispatch<React.SetStateAction<number | null>>;
+};
 
+const OptionSection = ({
+  selectedAreas,
+  setSelectedAreas,
+  startDate,
+  setStartDate,
+  minPay,
+  setMinPay,
+}: OptionSectionProps) => {
   const handleAreaClick = (area: string) => {
-    setSelectedAreas(prev => (prev.includes(area) ? prev : [...prev, area]));
+    if (!selectedAreas.includes(area)) {
+      setSelectedAreas(prev => [...prev, area]);
+    }
+  };
+
+  const today = new Date().toISOString().split('T')[0];
+
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (!value) {
+      setStartDate(null);
+      return;
+    }
+
+    const selectedDate = new Date(`${value}T00:00:00+09:00`);
+
+    const rfc3339 = selectedDate.toISOString();
+    setStartDate(rfc3339);
+
+    console.log(rfc3339);
   };
 
   const handleDelete = (areaToDelete: string) => {
     setSelectedAreas(prev => prev.filter(area => area !== areaToDelete));
-  };
-
-  const handleApply = () => {
-    // API로 선택된 지역들 전송
-    console.log('적용할 지역:', selectedAreas);
   };
 
   return (
@@ -77,12 +104,26 @@ const OptionSection = () => {
       </S.LocationSection>
       <S.StartSection>
         <S.DetailOptionTitle>시작일</S.DetailOptionTitle>
-        <S.StartInput disableUnderline placeholder="입력"></S.StartInput>
+        <S.StartInput
+          disableUnderline
+          placeholder="입력"
+          type="date"
+          inputProps={{
+            min: today,
+          }}
+          value={startDate ? startDate.split('T')[0] : ''}
+          onChange={handleStartDateChange}
+        ></S.StartInput>
       </S.StartSection>
       <S.PaySection>
         <S.DetailOptionTitle>금액</S.DetailOptionTitle>
         <S.PayInput>
-          <S.PayInputBox disableUnderline placeholder="입력"></S.PayInputBox>
+          <S.PayInputBox
+            disableUnderline
+            placeholder="입력"
+            value={minPay}
+            onChange={e => setMinPay(Number(e.target.value))}
+          ></S.PayInputBox>
           <S.DetailOptionTitle>이상부터</S.DetailOptionTitle>
         </S.PayInput>
       </S.PaySection>

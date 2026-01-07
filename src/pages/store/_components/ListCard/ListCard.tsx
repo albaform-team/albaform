@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-// import ClockIcon from '@/assets/svg/clock.svg';
+// import FoodImage from '@/assets/img/storeimg.png';
 import * as S from '@/pages/store/_components/ListCard/ListCard.styles';
 import { NoticeItem } from '@/types/user/notice';
 import { formatDateTimeRange } from '@/utils/date';

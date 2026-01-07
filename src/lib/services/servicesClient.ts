@@ -31,7 +31,6 @@ services.interceptors.request.use(config => {
   const { accessToken } = useAuthStore.getState();
 
   if (accessToken) {
-    console.log(accessToken);
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
 

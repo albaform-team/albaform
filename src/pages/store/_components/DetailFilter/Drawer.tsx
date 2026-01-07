@@ -52,7 +52,7 @@ const RightDrawer = ({
 
   const clickApply = () => {
     onApply();
-    toggleDrawer(false)({ type: 'click' } as React.MouseEvent); // 이렇게 이벤트를 흉내내 호출하거나,
+    toggleDrawer(false)({ type: 'click' } as React.MouseEvent);
   };
 
   return (

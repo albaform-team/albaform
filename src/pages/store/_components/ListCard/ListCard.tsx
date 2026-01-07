@@ -1,6 +1,5 @@
 import Image from 'next/image';
 
-import FoodImage from '@/assets/img/storeimg.png';
 import * as S from '@/pages/store/_components/ListCard/ListCard.styles';
 import { NoticeItem } from '@/types/user/notice';
 import { formatDateTimeRange } from '@/utils/date';
@@ -31,7 +30,7 @@ const ListCard = ({ notice }: ListCardProps) => {
         <S.CardContent>
           <S.JobImage>
             <S.JobImageMedia>
-              <Image src={FoodImage} alt="가게 이미지" fill />
+              <Image src={imageUrl} alt="가게 이미지" fill />
             </S.JobImageMedia>
             {closed && <S.ExpiredOverlay>마감 완료</S.ExpiredOverlay>}
           </S.JobImage>

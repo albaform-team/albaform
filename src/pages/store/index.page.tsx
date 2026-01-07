@@ -22,22 +22,33 @@ const StoreList = () => {
   const user = useAuthStore(state => state.user);
   const [sortValue, setSortValue] = useState('마감임박순');
   const [page, setPage] = useState(1);
-  const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
-  const [startDate, setStartDate] = useState<string | null>(null);
-  const [minPay, setMinPay] = useState<number | null>(null);
+  // 실제 API에 쓰이는 상태
+  const [appliedAreas, setAppliedAreas] = useState<string[]>([]);
+  const [appliedStartDate, setAppliedStartDate] = useState<
+    string | undefined
+  >();
+  const [appliedMinPay, setAppliedMinPay] = useState<number | undefined>();
+
+  // 팝업에서 편집 중인 상태
+  const [draftAreas, setDraftAreas] = useState<string[]>([]);
+  const [draftStartDate, setDraftStartDate] = useState<string | null>(null);
+  const [draftMinPay, setDraftMinPay] = useState<number | null>(null);
   const [filterTrigger, setFilterTrigger] = useState(0);
 
   const { notice } = useNotice({
     sortValue,
     offset: LIMIT * (page - 1),
     limit: LIMIT,
-    address: selectedAreas.length > 0 ? selectedAreas[0] : undefined,
-    startsAtGte: startDate ?? undefined,
-    hourlyPayGte: minPay ?? undefined,
+    address: appliedAreas.length > 0 ? appliedAreas[0] : undefined,
+    startsAtGte: appliedStartDate ?? undefined,
+    hourlyPayGte: appliedMinPay ?? undefined,
     trigger: filterTrigger,
   });
 
   const handleDetailFilter = () => {
+    setAppliedAreas(draftAreas);
+    setAppliedStartDate(draftStartDate ?? undefined);
+    setAppliedMinPay(draftMinPay ?? undefined);
     setPage(1);
     setFilterTrigger(prev => prev + 1);
   };
@@ -115,12 +126,12 @@ const StoreList = () => {
               <RightDrawer />
             ) : (
               <BasicPopover
-                selectedAreas={selectedAreas}
-                setSelectedAreas={setSelectedAreas}
-                startDate={startDate}
-                setStartDate={setStartDate}
-                minPay={minPay}
-                setMinPay={setMinPay}
+                selectedAreas={draftAreas}
+                setSelectedAreas={setDraftAreas}
+                startDate={draftStartDate}
+                setStartDate={setDraftStartDate}
+                minPay={draftMinPay}
+                setMinPay={setDraftMinPay}
                 onApply={handleDetailFilter}
               />
             )}

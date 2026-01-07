@@ -22,19 +22,42 @@ const StoreList = () => {
   const user = useAuthStore(state => state.user);
   const [sortValue, setSortValue] = useState('마감임박순');
   const [page, setPage] = useState(1);
+  // 상세 필터 상태 관리 state
+  const [appliedAreas, setAppliedAreas] = useState<string[]>([]);
+  const [appliedStartDate, setAppliedStartDate] = useState<
+    string | undefined
+  >();
+  const [appliedMinPay, setAppliedMinPay] = useState<number | undefined>();
+  const [draftAreas, setDraftAreas] = useState<string[]>([]);
+  const [draftStartDate, setDraftStartDate] = useState<string | null>(null);
+  const [draftMinPay, setDraftMinPay] = useState<number | null>(null);
+  const [filterTrigger, setFilterTrigger] = useState(0);
+  const [filterCount, setFilterCount] = useState(0);
 
   const { notice } = useNotice({
     sortValue,
     offset: LIMIT * (page - 1),
     limit: LIMIT,
+    address: appliedAreas.length > 0 ? appliedAreas[0] : undefined,
+    startsAtGte: appliedStartDate ?? undefined,
+    hourlyPayGte: appliedMinPay ?? undefined,
+    trigger: filterTrigger,
   });
+
+  const handleDetailFilter = () => {
+    setAppliedAreas(draftAreas);
+    setAppliedStartDate(draftStartDate ?? undefined);
+    setAppliedMinPay(draftMinPay ?? undefined);
+    setPage(1);
+    setFilterTrigger(prev => prev + 1);
+  };
 
   const [personalItems, setPersonalItems] = useState<
     NoticeListResponse['items']
   >([]);
 
   const { notice: personalNotice } = useNotice({
-    sortValue,
+    sortValue: '마감임박순',
     offset: 0,
     limit: 6,
   });
@@ -98,7 +121,31 @@ const StoreList = () => {
           <S.JobListTitle>전체 공고</S.JobListTitle>
           <S.JobFilterContainer>
             <FilterOptionSelect value={sortValue} onChange={setSortValue} />
-            {isMobile ? <RightDrawer /> : <BasicPopover />}
+            {isMobile ? (
+              <RightDrawer
+                selectedAreas={draftAreas}
+                setSelectedAreas={setDraftAreas}
+                startDate={draftStartDate}
+                setStartDate={setDraftStartDate}
+                minPay={draftMinPay}
+                setMinPay={setDraftMinPay}
+                onApply={handleDetailFilter}
+                filterCount={filterCount}
+                setFilterCount={setFilterCount}
+              />
+            ) : (
+              <BasicPopover
+                selectedAreas={draftAreas}
+                setSelectedAreas={setDraftAreas}
+                startDate={draftStartDate}
+                setStartDate={setDraftStartDate}
+                minPay={draftMinPay}
+                setMinPay={setDraftMinPay}
+                onApply={handleDetailFilter}
+                filterCount={filterCount}
+                setFilterCount={setFilterCount}
+              />
+            )}
           </S.JobFilterContainer>
         </S.JobListHeader>
         <S.AllJobListContainer>

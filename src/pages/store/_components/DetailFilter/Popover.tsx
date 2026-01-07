@@ -1,15 +1,35 @@
 import Popover from '@mui/material/Popover';
-import * as React from 'react';
+import { useState } from 'react';
 
 import CloseIcon from '@/assets/svg/close.svg';
 import * as S from '@/pages/store/_components/DetailFilter/Popover.style';
 
 import OptionSection from './OptionSection';
 
-const BasicPopover = () => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
+type BasicPopoverProps = {
+  selectedAreas: string[];
+  setSelectedAreas: React.Dispatch<React.SetStateAction<string[]>>;
+  startDate: string | null;
+  setStartDate: React.Dispatch<React.SetStateAction<string | null>>;
+  minPay: number | null;
+  setMinPay: React.Dispatch<React.SetStateAction<number | null>>;
+  onApply: () => void;
+  filterCount: number;
+  setFilterCount: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const BasicPopover = ({
+  selectedAreas,
+  setSelectedAreas,
+  startDate,
+  setStartDate,
+  minPay,
+  setMinPay,
+  onApply,
+  filterCount,
+  setFilterCount,
+}: BasicPopoverProps) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -18,6 +38,15 @@ const BasicPopover = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const resetState = () => {
+    setSelectedAreas([]);
+    setStartDate(null);
+    setMinPay(0);
+    setFilterCount(0);
+  };
+
+  console.log(filterCount);
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -29,7 +58,7 @@ const BasicPopover = () => {
         variant="contained"
         onClick={handleClick}
       >
-        상세 필터{' '}
+        상세 필터 ({filterCount}){' '}
       </S.FilterButton>
       <Popover
         id={id}
@@ -57,10 +86,25 @@ const BasicPopover = () => {
               onClick={handleClose}
             />
           </S.DrawerHeader>
-          <OptionSection />
+          <OptionSection
+            selectedAreas={selectedAreas}
+            setSelectedAreas={setSelectedAreas}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            minPay={minPay}
+            setMinPay={setMinPay}
+            setFilterCount={setFilterCount}
+          />
           <S.DrawerFooter>
-            <S.ResetButton>초기화</S.ResetButton>
-            <S.ApplyButton>적용하기</S.ApplyButton>
+            <S.ResetButton onClick={resetState}>초기화</S.ResetButton>
+            <S.ApplyButton
+              onClick={() => {
+                onApply();
+                handleClose();
+              }}
+            >
+              적용하기
+            </S.ApplyButton>
           </S.DrawerFooter>
         </S.PopoverContainer>
       </Popover>

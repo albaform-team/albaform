@@ -1,6 +1,6 @@
-import * as S from '@/pages/store/_components/DetailFilter/OptionSection.style';
+import Chip from '@mui/material/Chip';
 
-import AreaSelectedBadge from './SelectedBadge';
+import * as S from '@/pages/store/_components/DetailFilter/OptionSection.style';
 
 export const AREAS = [
   '서울시 종로구',
@@ -30,9 +30,59 @@ export const AREAS = [
   '서울시 강동구',
 ];
 
-const OptionSection = () => {
-  const handleDelete = () => {
-    console.info('You clicked the delete icon.');
+type OptionSectionProps = {
+  selectedAreas: string[];
+  setSelectedAreas: React.Dispatch<React.SetStateAction<string[]>>;
+  startDate: string | null;
+  setStartDate: React.Dispatch<React.SetStateAction<string | null>>;
+  minPay: number | null;
+  setMinPay: React.Dispatch<React.SetStateAction<number | null>>;
+  setFilterCount: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const OptionSection = ({
+  selectedAreas,
+  setSelectedAreas,
+  startDate,
+  setStartDate,
+  minPay,
+  setMinPay,
+  setFilterCount,
+}: OptionSectionProps) => {
+  const handleAreaClick = (area: string) => {
+    if (!selectedAreas.includes(area)) {
+      setSelectedAreas(prev => [...prev, area]);
+      setFilterCount(prev => prev + 1);
+    }
+  };
+
+  const today = new Date().toISOString().split('T')[0];
+
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (!value) {
+      setStartDate(null);
+      return;
+    }
+
+    const selectedDate = new Date(`${value}T00:00:00+09:00`);
+
+    const rfc3339 = selectedDate.toISOString();
+    setStartDate(rfc3339);
+    setFilterCount(prev => prev + 1);
+
+    console.log(rfc3339);
+  };
+
+  const handleDelete = (areaToDelete: string) => {
+    setSelectedAreas(prev => prev.filter(area => area !== areaToDelete));
+    setFilterCount(prev => prev - 1);
+  };
+
+  const handleMinPayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    setMinPay(value);
+    setFilterCount(prev => prev + 1);
   };
 
   return (
@@ -42,24 +92,49 @@ const OptionSection = () => {
         <S.LocationSelectBox>
           <S.LocationScrollArea>
             <S.LocationSelectOption>
-              {AREAS.map(arr => (
-                <S.OptionItem key={arr}>{arr}</S.OptionItem>
+              {AREAS.map(area => (
+                <S.OptionItem key={area} onClick={() => handleAreaClick(area)}>
+                  {area}
+                </S.OptionItem>
               ))}
             </S.LocationSelectOption>
           </S.LocationScrollArea>
         </S.LocationSelectBox>
         <S.SelectedLocation>
-          <AreaSelectedBadge />{' '}
+          <div style={{ marginTop: 16 }}>
+            {selectedAreas.map(area => (
+              <Chip
+                key={area}
+                label={area}
+                onDelete={() => handleDelete(area)}
+                style={{ marginRight: 8, margin: '0 4px 8px 4px' }}
+              />
+            ))}
+          </div>{' '}
         </S.SelectedLocation>
       </S.LocationSection>
       <S.StartSection>
         <S.DetailOptionTitle>시작일</S.DetailOptionTitle>
-        <S.StartInput disableUnderline placeholder="입력"></S.StartInput>
+        <S.StartInput
+          disableUnderline
+          placeholder="입력"
+          type="date"
+          inputProps={{
+            min: today,
+          }}
+          value={startDate ? startDate.split('T')[0] : ''}
+          onChange={handleStartDateChange}
+        ></S.StartInput>
       </S.StartSection>
       <S.PaySection>
         <S.DetailOptionTitle>금액</S.DetailOptionTitle>
         <S.PayInput>
-          <S.PayInputBox disableUnderline placeholder="입력"></S.PayInputBox>
+          <S.PayInputBox
+            disableUnderline
+            placeholder="입력"
+            value={minPay}
+            onChange={handleMinPayChange}
+          ></S.PayInputBox>
           <S.DetailOptionTitle>이상부터</S.DetailOptionTitle>
         </S.PayInput>
       </S.PaySection>

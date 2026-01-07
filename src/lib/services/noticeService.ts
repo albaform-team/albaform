@@ -10,6 +10,8 @@ type GetNoticeParams = {
   sort?: 'time' | 'pay' | 'hour' | 'shop';
   address?: string;
   keyword?: string;
+  startsAtGte?: string;
+  hourlyPayGte?: number;
 };
 
 export const getNotice = async (params?: GetNoticeParams) => {

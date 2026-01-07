@@ -7,7 +7,6 @@ import Button from '@mui/material/Button';
 import { colors } from '@/styles/colors';
 
 export const FilterButton = styled(Button)`
-  width: 79px;
   height: 30px;
   padding: 6.5px 12px;
   font-size: 14px;

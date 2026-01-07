@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 
 import CloseIcon from '@/assets/svg/close.svg';
 import * as S from '@/pages/store/_components/DetailFilter/Drawer.style';
@@ -24,7 +24,8 @@ const RightDrawer = ({
   setMinPay,
   onApply,
 }: RightDrawerProps) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [filterCount, setFilterCount] = useState(0);
 
   const toggleDrawer =
     (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -43,6 +44,7 @@ const RightDrawer = ({
     setSelectedAreas([]);
     setStartDate(null);
     setMinPay(0);
+    setFilterCount(0);
   };
 
   const clickApply = () => {
@@ -52,7 +54,9 @@ const RightDrawer = ({
 
   return (
     <>
-      <S.FilterButton onClick={toggleDrawer(true)}>상세 필터</S.FilterButton>
+      <S.FilterButton onClick={toggleDrawer(true)}>
+        상세 필터 ({filterCount})
+      </S.FilterButton>
       <S.DrawerContainer
         anchor="right"
         open={open}
@@ -75,6 +79,7 @@ const RightDrawer = ({
           setStartDate={setStartDate}
           minPay={minPay}
           setMinPay={setMinPay}
+          setFilterCount={setFilterCount}
         />
         <S.DrawerFooter>
           <S.ResetButton onClick={resetState}>초기화</S.ResetButton>

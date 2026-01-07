@@ -37,6 +37,7 @@ type OptionSectionProps = {
   setStartDate: React.Dispatch<React.SetStateAction<string | null>>;
   minPay: number | null;
   setMinPay: React.Dispatch<React.SetStateAction<number | null>>;
+  setFilterCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const OptionSection = ({
@@ -46,10 +47,12 @@ const OptionSection = ({
   setStartDate,
   minPay,
   setMinPay,
+  setFilterCount,
 }: OptionSectionProps) => {
   const handleAreaClick = (area: string) => {
     if (!selectedAreas.includes(area)) {
       setSelectedAreas(prev => [...prev, area]);
+      setFilterCount(prev => prev + 1);
     }
   };
 
@@ -66,12 +69,20 @@ const OptionSection = ({
 
     const rfc3339 = selectedDate.toISOString();
     setStartDate(rfc3339);
+    setFilterCount(prev => prev + 1);
 
     console.log(rfc3339);
   };
 
   const handleDelete = (areaToDelete: string) => {
     setSelectedAreas(prev => prev.filter(area => area !== areaToDelete));
+    setFilterCount(prev => prev - 1);
+  };
+
+  const handleMinPayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    setMinPay(value);
+    setFilterCount(prev => prev + 1);
   };
 
   return (
@@ -122,7 +133,7 @@ const OptionSection = ({
             disableUnderline
             placeholder="입력"
             value={minPay}
-            onChange={e => setMinPay(Number(e.target.value))}
+            onChange={handleMinPayChange}
           ></S.PayInputBox>
           <S.DetailOptionTitle>이상부터</S.DetailOptionTitle>
         </S.PayInput>

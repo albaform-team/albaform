@@ -1,5 +1,5 @@
 import Popover from '@mui/material/Popover';
-import * as React from 'react';
+import { useState } from 'react';
 
 import CloseIcon from '@/assets/svg/close.svg';
 import * as S from '@/pages/store/_components/DetailFilter/Popover.style';
@@ -25,9 +25,8 @@ const BasicPopover = ({
   setMinPay,
   onApply,
 }: BasicPopoverProps) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [filterCount, setFilterCount] = useState(0);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -41,7 +40,10 @@ const BasicPopover = ({
     setSelectedAreas([]);
     setStartDate(null);
     setMinPay(0);
+    setFilterCount(0);
   };
+
+  console.log(filterCount);
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -53,7 +55,7 @@ const BasicPopover = ({
         variant="contained"
         onClick={handleClick}
       >
-        상세 필터{' '}
+        상세 필터 ({filterCount}){' '}
       </S.FilterButton>
       <Popover
         id={id}
@@ -88,6 +90,7 @@ const BasicPopover = ({
             setStartDate={setStartDate}
             minPay={minPay}
             setMinPay={setMinPay}
+            setFilterCount={setFilterCount}
           />
           <S.DrawerFooter>
             <S.ResetButton onClick={resetState}>초기화</S.ResetButton>

@@ -7,7 +7,6 @@ import Drawer from '@mui/material/Drawer';
 import { colors } from '@/styles/colors';
 
 export const FilterButton = styled(Button)`
-  width: 79px;
   height: 30px;
   padding: 6.5px 12px;
   font-size: 14px;
@@ -17,6 +16,11 @@ export const FilterButton = styled(Button)`
   background-color: ${colors.red[30]};
   border-radius: 5px;
   box-shadow: none;
+
+  &:hover {
+    background-color: #fb5a32;
+    box-shadow: none;
+  }
 `;
 
 export const DrawerContainer = styled(Drawer)`

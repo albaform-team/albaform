@@ -272,7 +272,9 @@ export const CardListWrap = styled.div`
   }
 `;
 
-export const CardList = styled.div<{ closed?: boolean }>`
+export const CardList = styled('div', {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -291,8 +293,8 @@ export const CardList = styled.div<{ closed?: boolean }>`
     width: 32%;
   }
 
-  ${({ closed }) =>
-    closed &&
+  ${({ $closed }) =>
+    $closed &&
     `
     display: flex;
   flex-direction: column;
@@ -327,9 +329,11 @@ export const CardListImgWrap = styled.div`
   }
 `;
 
-export const CardListTextClosed = styled.div<{ closed?: boolean }>`
-  ${({ closed }) =>
-    closed &&
+export const CardListTextClosed = styled('div', {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
+  ${({ $closed }) =>
+    $closed &&
     `
     position: relative;
     z-index: 1;
@@ -365,7 +369,9 @@ export const CardListTitleWrap = styled.div`
   gap: 8px;
 `;
 
-export const CardListTitle = styled.p<{ closed?: boolean }>`
+export const CardListTitle = styled('p', {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
   font-size: 16px;
   font-weight: 700;
   color: ${colors.black};
@@ -374,8 +380,8 @@ export const CardListTitle = styled.p<{ closed?: boolean }>`
     font-size: 28px;
   }
 
-  ${({ closed }) =>
-    closed &&
+  ${({ $closed }) =>
+    $closed &&
     `
     font-size: 16px;
     font-weight: 700;
@@ -405,7 +411,9 @@ export const CardListNavWrap = styled.div`
   align-items: center;
 `;
 
-export const CardListNavText = styled.p<{ closed?: boolean }>`
+export const CardListNavText = styled('p', {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
   font-size: 12px;
   font-weight: 400;
   color: ${colors.gray[50]};
@@ -414,8 +422,8 @@ export const CardListNavText = styled.p<{ closed?: boolean }>`
     font-size: 14px;
   }
 
-  ${({ closed }) =>
-    closed &&
+  ${({ $closed }) =>
+    $closed &&
     `
     font-size: 12px;
     font-weight: 400;
@@ -438,7 +446,9 @@ export const CardPriceTextWrap = styled.div`
   }
 `;
 
-export const CardPriceText = styled.p<{ closed?: boolean }>`
+export const CardPriceText = styled('p', {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
   font-size: 18px;
   font-weight: 700;
   color: ${colors.black};
@@ -447,8 +457,8 @@ export const CardPriceText = styled.p<{ closed?: boolean }>`
     font-size: 24px;
   }
 
-  ${({ closed }) =>
-    closed &&
+  ${({ $closed }) =>
+    $closed &&
     `
     font-size: 18px;
     font-weight: 700;
@@ -460,7 +470,9 @@ export const CardPriceText = styled.p<{ closed?: boolean }>`
   `}
 `;
 
-export const CardPriceSubTextWrap = styled.div<{ closed?: boolean }>`
+export const CardPriceSubTextWrap = styled('div', {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
   display: flex;
   flex-direction: row;
   gap: 3px;
@@ -473,8 +485,8 @@ export const CardPriceSubTextWrap = styled.div<{ closed?: boolean }>`
     border-radius: 36px;
   }
 
-  ${({ closed }) =>
-    closed &&
+  ${({ $closed }) =>
+    $closed &&
     `
     display: flex;
     flex-direction: row;
@@ -491,7 +503,9 @@ export const CardPriceSubTextWrap = styled.div<{ closed?: boolean }>`
   `}
 `;
 
-export const CardPriceSubText = styled.p<{ closed?: boolean }>`
+export const CardPriceSubText = styled('p', {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
   font-size: 12px;
   font-weight: 400;
   color: ${colors.red[40]};
@@ -503,8 +517,8 @@ export const CardPriceSubText = styled.p<{ closed?: boolean }>`
     color: ${colors.white};
   }
 
-  ${({ closed }) =>
-    closed &&
+  ${({ $closed }) =>
+    $closed &&
     `
     font-size: 12px;
     font-weight: 400;
@@ -519,7 +533,9 @@ export const CardPriceSubText = styled.p<{ closed?: boolean }>`
   `}
 `;
 
-export const ClockIcon = styled(ClockIconComponent)<{ closed?: boolean }>`
+export const ClockIcon = styled(ClockIconComponent, {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
   min-width: 18px;
   min-height: 18px;
 
@@ -532,8 +548,8 @@ export const ClockIcon = styled(ClockIconComponent)<{ closed?: boolean }>`
     height: 20px;
   }
 
-  ${({ closed }) =>
-    closed &&
+  ${({ $closed }) =>
+    $closed &&
     `
     min-width: 16px;
     min-height: 16px;
@@ -549,7 +565,9 @@ export const ClockIcon = styled(ClockIconComponent)<{ closed?: boolean }>`
   `}
 `;
 
-export const TopNavIcon = styled(NavIconComponent)<{ closed?: boolean }>`
+export const TopNavIcon = styled(NavIconComponent, {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
   min-width: 13px;
   min-height: 16px;
 
@@ -557,8 +575,8 @@ export const TopNavIcon = styled(NavIconComponent)<{ closed?: boolean }>`
     fill: ${colors.red[30]};
   }
 
-  ${({ closed }) =>
-    closed &&
+  ${({ $closed }) =>
+    $closed &&
     `
     min-width: 13px;
     min-height: 16px;
@@ -574,7 +592,9 @@ export const TopNavIcon = styled(NavIconComponent)<{ closed?: boolean }>`
   `}
 `;
 
-export const NavIcon = styled(NavIconComponent)<{ closed?: boolean }>`
+export const NavIcon = styled(NavIconComponent, {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
   min-width: 13px;
   min-height: 16px;
 
@@ -586,8 +606,8 @@ export const NavIcon = styled(NavIconComponent)<{ closed?: boolean }>`
     width: 16px;
     height: 20px;
   }
-  ${({ closed }) =>
-    closed &&
+  ${({ $closed }) =>
+    $closed &&
     `
     min-width: 13px;
     min-height: 16px;
@@ -603,7 +623,9 @@ export const NavIcon = styled(NavIconComponent)<{ closed?: boolean }>`
   `}
 `;
 
-export const ArrowIcon = styled(ArrowIconComponent)<{ closed?: boolean }>`
+export const ArrowIcon = styled(ArrowIconComponent, {
+  shouldForwardProp: prop => prop !== '$closed',
+})<{ $closed?: boolean }>`
   path {
     fill: ${colors.red[40]};
   }
@@ -617,8 +639,8 @@ export const ArrowIcon = styled(ArrowIconComponent)<{ closed?: boolean }>`
     }
   }
 
-  ${({ closed }) =>
-    closed &&
+  ${({ $closed }) =>
+    $closed &&
     `
     path {
       fill: ${colors.gray[20]};

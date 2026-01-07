@@ -32,6 +32,7 @@ const StoreList = () => {
   const [draftStartDate, setDraftStartDate] = useState<string | null>(null);
   const [draftMinPay, setDraftMinPay] = useState<number | null>(null);
   const [filterTrigger, setFilterTrigger] = useState(0);
+  const [filterCount, setFilterCount] = useState(0);
 
   const { notice } = useNotice({
     sortValue,
@@ -129,6 +130,8 @@ const StoreList = () => {
                 minPay={draftMinPay}
                 setMinPay={setDraftMinPay}
                 onApply={handleDetailFilter}
+                filterCount={filterCount}
+                setFilterCount={setFilterCount}
               />
             ) : (
               <BasicPopover
@@ -139,6 +142,8 @@ const StoreList = () => {
                 minPay={draftMinPay}
                 setMinPay={setDraftMinPay}
                 onApply={handleDetailFilter}
+                filterCount={filterCount}
+                setFilterCount={setFilterCount}
               />
             )}
           </S.JobFilterContainer>

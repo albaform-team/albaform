@@ -13,6 +13,8 @@ type RightDrawerProps = {
   minPay: number | null;
   setMinPay: React.Dispatch<React.SetStateAction<number | null>>;
   onApply: () => void;
+  filterCount: number;
+  setFilterCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const RightDrawer = ({
@@ -23,9 +25,10 @@ const RightDrawer = ({
   minPay,
   setMinPay,
   onApply,
+  filterCount,
+  setFilterCount,
 }: RightDrawerProps) => {
   const [open, setOpen] = useState(false);
-  const [filterCount, setFilterCount] = useState(0);
 
   const toggleDrawer =
     (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {

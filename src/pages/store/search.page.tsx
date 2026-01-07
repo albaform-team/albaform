@@ -28,6 +28,7 @@ const Search = () => {
   const [draftStartDate, setDraftStartDate] = useState<string | null>(null);
   const [draftMinPay, setDraftMinPay] = useState<number | null>(null);
   const [filterTrigger, setFilterTrigger] = useState(0);
+  const [filterCount, setFilterCount] = useState(0);
 
   const router = useRouter();
   const { q } = router.query;
@@ -84,6 +85,8 @@ const Search = () => {
               minPay={draftMinPay}
               setMinPay={setDraftMinPay}
               onApply={handleDetailFilter}
+              filterCount={filterCount}
+              setFilterCount={setFilterCount}
             />
           ) : (
             <BasicPopover
@@ -94,6 +97,8 @@ const Search = () => {
               minPay={draftMinPay}
               setMinPay={setDraftMinPay}
               onApply={handleDetailFilter}
+              filterCount={filterCount}
+              setFilterCount={setFilterCount}
             />
           )}
         </S.JobFilterContainer>

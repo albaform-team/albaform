@@ -14,6 +14,8 @@ type BasicPopoverProps = {
   minPay: number | null;
   setMinPay: React.Dispatch<React.SetStateAction<number | null>>;
   onApply: () => void;
+  filterCount: number;
+  setFilterCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const BasicPopover = ({
@@ -24,9 +26,10 @@ const BasicPopover = ({
   minPay,
   setMinPay,
   onApply,
+  filterCount,
+  setFilterCount,
 }: BasicPopoverProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [filterCount, setFilterCount] = useState(0);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

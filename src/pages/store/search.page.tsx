@@ -76,7 +76,15 @@ const Search = () => {
         <S.JobFilterContainer>
           <FilterOptionSelect value={sortValue} onChange={setSortValue} />
           {isMobile ? (
-            <RightDrawer />
+            <RightDrawer
+              selectedAreas={draftAreas}
+              setSelectedAreas={setDraftAreas}
+              startDate={draftStartDate}
+              setStartDate={setDraftStartDate}
+              minPay={draftMinPay}
+              setMinPay={setDraftMinPay}
+              onApply={handleDetailFilter}
+            />
           ) : (
             <BasicPopover
               selectedAreas={draftAreas}

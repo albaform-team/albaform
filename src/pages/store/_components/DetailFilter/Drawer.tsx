@@ -5,7 +5,25 @@ import * as S from '@/pages/store/_components/DetailFilter/Drawer.style';
 
 import OptionSection from './OptionSection';
 
-const RightDrawer = () => {
+type RightDrawerProps = {
+  selectedAreas: string[];
+  setSelectedAreas: React.Dispatch<React.SetStateAction<string[]>>;
+  startDate: string | null;
+  setStartDate: React.Dispatch<React.SetStateAction<string | null>>;
+  minPay: number | null;
+  setMinPay: React.Dispatch<React.SetStateAction<number | null>>;
+  onApply: () => void;
+};
+
+const RightDrawer = ({
+  selectedAreas,
+  setSelectedAreas,
+  startDate,
+  setStartDate,
+  minPay,
+  setMinPay,
+  onApply,
+}: RightDrawerProps) => {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer =
@@ -20,6 +38,17 @@ const RightDrawer = () => {
 
       setOpen(isOpen);
     };
+
+  const resetState = () => {
+    setSelectedAreas([]);
+    setStartDate(null);
+    setMinPay(0);
+  };
+
+  const clickApply = () => {
+    onApply();
+    toggleDrawer(false)({ type: 'click' } as React.MouseEvent); // 이렇게 이벤트를 흉내내 호출하거나,
+  };
 
   return (
     <>
@@ -39,10 +68,23 @@ const RightDrawer = () => {
             onClick={toggleDrawer(false)}
           />
         </S.DrawerHeader>
-        <OptionSection />
+        <OptionSection
+          selectedAreas={selectedAreas}
+          setSelectedAreas={setSelectedAreas}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          minPay={minPay}
+          setMinPay={setMinPay}
+        />
         <S.DrawerFooter>
-          <S.ResetButton>초기화</S.ResetButton>
-          <S.ApplyButton>적용하기</S.ApplyButton>
+          <S.ResetButton onClick={resetState}>초기화</S.ResetButton>
+          <S.ApplyButton
+            onClick={() => {
+              clickApply();
+            }}
+          >
+            적용하기
+          </S.ApplyButton>
         </S.DrawerFooter>
       </S.DrawerContainer>
     </>

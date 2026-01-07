@@ -6,11 +6,10 @@ import { useCallback, useState, useEffect, useMemo } from 'react';
 
 import { NOTICES_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
+import useInfinitePagination from '@/hooks/useInfinitePagination';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import { services } from '@/lib/services/servicesClient';
 import useAuthStore from '@/stores/useAuthStore';
-
-import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import useInfinitePagination from '@/hooks/useInfinitePagination';
 import { NoticeListWrappedItem } from '@/types/user/noticeList';
 
 import * as S from './index.style';

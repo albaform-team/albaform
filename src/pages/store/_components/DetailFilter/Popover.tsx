@@ -37,6 +37,12 @@ const BasicPopover = ({
     setAnchorEl(null);
   };
 
+  const resetState = () => {
+    setSelectedAreas([]);
+    setStartDate(null);
+    setMinPay(0);
+  };
+
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
@@ -84,7 +90,7 @@ const BasicPopover = ({
             setMinPay={setMinPay}
           />
           <S.DrawerFooter>
-            <S.ResetButton>초기화</S.ResetButton>
+            <S.ResetButton onClick={resetState}>초기화</S.ResetButton>
             <S.ApplyButton
               onClick={() => {
                 onApply();

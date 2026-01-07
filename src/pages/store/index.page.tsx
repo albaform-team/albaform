@@ -31,7 +31,7 @@ const StoreList = () => {
     sortValue,
     offset: LIMIT * (page - 1),
     limit: LIMIT,
-    address: selectedAreas.length > 0 ? selectedAreas.join(',') : undefined, // <-- 이거!
+    address: selectedAreas.length > 0 ? selectedAreas[0] : undefined,
     startsAtGte: startDate ?? undefined,
     hourlyPayGte: minPay ?? undefined,
     trigger: filterTrigger,

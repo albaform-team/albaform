@@ -2,13 +2,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { RECENT_NOTICE_KEY } from '@/constants/recentNotice';
 import {
   applyNotice,
   cancelApplication,
-  getMyProfile,
   getNoticeDetail,
 } from '@/lib/services/noticeService';
 import useAuthStore from '@/stores/useAuthStore';
@@ -25,48 +24,49 @@ import * as S from './index.page.style';
 const StoreDetailPage = () => {
   const router = useRouter();
   const { shopId, noticeId } = router.query;
-  const { user } = useAuthStore.getState();
-
+  const user = useAuthStore(s => s.user);
+  console.log('noticeId ============= ', noticeId);
   const [notice, setNotice] = useState<NoticeItem | null>(null);
   const [closed, setClosed] = useState<boolean>(false);
   const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
-  const [isApply, setIsApply] = useState<boolean>(false);
+  const [isApply, setIsApply] = useState(0);
   const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
   const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
   const [recentNotices, setRecentNotices] = useState<NoticeItem[]>([]);
 
+  console.log(notice?.currentUserApplication?.item.status);
+
+  const fetchNotice = useCallback(async () => {
+    try {
+      if (typeof shopId === 'string' && typeof noticeId === 'string') {
+        const data = await getNoticeDetail(shopId, noticeId);
+        setNotice(data);
+        console.log('fetchNotice ================ ', data);
+        if (data.closed) {
+          setClosed(true);
+        } else {
+          setClosed(false);
+        }
+      }
+    } catch (error) {
+      console.error('공고 상세 불러오기 실패:', error);
+    }
+  }, [noticeId, shopId]);
+
   useEffect(() => {
     if (!shopId || !noticeId) return;
-
-    const fetchNotice = async () => {
-      try {
-        if (typeof shopId === 'string' && typeof noticeId === 'string') {
-          const data = await getNoticeDetail(shopId, noticeId);
-          setNotice(data);
-          setIsApply(false);
-          if (data.closed) {
-            setClosed(true);
-          } else {
-            setClosed(false);
-          }
-        }
-      } catch (error) {
-        console.error('공고 상세 불러오기 실패:', error);
-      }
-    };
+    console.log(isApply);
 
     fetchNotice();
-  }, [shopId, noticeId]);
+  }, [shopId, noticeId, fetchNotice, isApply]);
 
   const handleClick = async () => {
     if (!user?.id) {
       setLoginModalOpen(true);
       return;
     }
-
-    const res = await getMyProfile(user.id);
-
-    const isProfileEmpty = !res.name || !res.phone || !res.address || !res.bio;
+    const isProfileEmpty =
+      !user.name || !user.phone || !user.address || !user.bio;
     if (isProfileEmpty) {
       setProfileModalOpen(true);
       return;
@@ -75,7 +75,8 @@ const StoreDetailPage = () => {
     if (typeof shopId === 'string' && typeof noticeId === 'string') {
       try {
         await applyNotice(shopId, noticeId);
-        setIsApply(true);
+        console.log('handleClick ========= ', user);
+        setIsApply(pre => pre + 1);
       } catch (error) {
         console.log(error);
       }
@@ -92,7 +93,7 @@ const StoreDetailPage = () => {
     if (!applicationId) return;
     try {
       await cancelApplication(shopId, noticeId, applicationId);
-      setIsApply(false);
+      setIsApply(pre => pre + 1);
       setCancelModalOpen(false);
     } catch (error) {
       console.log(error);
@@ -186,7 +187,7 @@ const StoreDetailPage = () => {
             </S.StoreDescription>
             {closed ? (
               <S.EndButton>신청 불가</S.EndButton>
-            ) : isApply ? (
+            ) : notice?.currentUserApplication?.item.status === 'pending' ? (
               <S.CancelButton onClick={handleCancel}>취소하기</S.CancelButton>
             ) : (
               <S.ApplyButton onClick={handleClick}>신청하기</S.ApplyButton>

@@ -13,16 +13,24 @@ import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
 import { useNotice } from './_hooks/useNotice';
 
+const LIMIT = 6;
+
 const Search = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
   const [sortValue, setSortValue] = useState('마감임박순');
+  const [page, setPage] = useState(1);
 
   const router = useRouter();
   const { q } = router.query;
 
   const keyword = typeof q === 'string' ? q : '';
 
-  const { notice } = useNotice(sortValue, keyword);
+  const { notice } = useNotice({
+    sortValue,
+    keyword,
+    offset: LIMIT * (page - 1),
+    limit: LIMIT,
+  });
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -33,6 +41,10 @@ const Search = () => {
   }, [router.isReady, keyword]);
 
   const showEmptyMessage = keyword.length > 0 && notice?.items.length === 0;
+
+  useEffect(() => {
+    setPage(1);
+  }, [sortValue]);
 
   return (
     <S.SearchContainer>
@@ -53,7 +65,12 @@ const Search = () => {
         ))}
         {showEmptyMessage && <div>검색값이 없습니다</div>}
       </S.JobSearchSection>
-      <PaginationRounded></PaginationRounded>
+      <PaginationRounded
+        page={page}
+        onChange={setPage}
+        totalCount={notice?.count ?? 0}
+        limit={LIMIT}
+      ></PaginationRounded>{' '}
     </S.SearchContainer>
   );
 };

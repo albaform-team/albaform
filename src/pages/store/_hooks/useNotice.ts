@@ -3,7 +3,19 @@ import { useEffect, useState } from 'react';
 import { getNotice } from '@/lib/services/noticeService';
 import { NoticeListResponse } from '@/types/user/noticeList';
 
-export const useNotice = (sortValue: string, keyword?: string) => {
+type UseNoticeProps = {
+  sortValue: string;
+  keyword?: string;
+  offset: number;
+  limit: number;
+};
+
+export const useNotice = ({
+  sortValue,
+  keyword,
+  offset,
+  limit,
+}: UseNoticeProps) => {
   const [notice, setNotice] = useState<NoticeListResponse | null>(null);
 
   useEffect(() => {
@@ -18,13 +30,13 @@ export const useNotice = (sortValue: string, keyword?: string) => {
       const data = await getNotice({
         sort: sortMap[sortValue],
         keyword: keyword,
-        offset: 0,
-        limit: 6,
+        offset: offset,
+        limit: limit,
       });
       setNotice(data);
     };
     fetchNotice();
-  }, [sortValue, keyword]);
+  }, [sortValue, keyword, offset, limit]);
 
   return { notice };
 };

@@ -2,9 +2,8 @@ import Image from 'next/image';
 
 // import ClockIcon from '@/assets/svg/clock.svg';
 import * as S from '@/pages/store/_components/ListCard/ListCard.styles';
+import { NoticeItem } from '@/types/user/notice';
 import { formatDateTimeRange } from '@/utils/date';
-
-import { NoticeItem } from './types/mockNotices';
 
 type ListCardProps = {
   notice: NoticeItem;
@@ -34,7 +33,7 @@ const ListCard = ({ notice }: ListCardProps) => {
             <S.JobImageMedia>
               <Image src={imageUrl} alt="가게 이미지" fill />
             </S.JobImageMedia>
-            {closed && <S.ExpiredOverlay>지난 공고</S.ExpiredOverlay>}
+            {closed && <S.ExpiredOverlay>마감 완료</S.ExpiredOverlay>}
           </S.JobImage>
           <S.JobSummary>
             <S.JobTitle isClosed={closed}>{name}</S.JobTitle>

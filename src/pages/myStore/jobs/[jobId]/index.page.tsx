@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { isAxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
+import withAuthentication from '@/components/hoc/withAuthentication';
 import {
   getShopNoticeDetail,
   updateJobApplicationStatus,
@@ -158,4 +159,6 @@ const JobDetailPage = () => {
   );
 };
 
-export default JobDetailPage;
+export default withAuthentication(JobDetailPage, {
+  allowedTypes: ['employer'],
+});

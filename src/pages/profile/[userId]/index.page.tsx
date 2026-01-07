@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { isAxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
+import withAuthentication from '@/components/hoc/withAuthentication';
 import { PROFILE_ROUTES, STORE_ROUTES } from '@/constants/routes';
 import { GetUserInfo } from '@/lib/services/userService';
 import useAuthStore from '@/stores/useAuthStore';
@@ -79,4 +80,6 @@ const ProfileUserPage = () => {
   );
 };
 
-export default ProfileUserPage;
+export default withAuthentication(ProfileUserPage, {
+  allowedTypes: ['employee'],
+});

@@ -1,11 +1,10 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
-import ArrowIcon from '@/assets/svg/arrow-up.svg';
-import ClockIcon from '@/assets/svg/clock.svg';
-import LocationIcon from '@/assets/svg/location.svg';
+import { RECENT_NOTICE_KEY } from '@/constants/recentNotice';
 import {
   applyNotice,
   cancelApplication,
@@ -14,7 +13,9 @@ import {
 } from '@/lib/services/noticeService';
 import useAuthStore from '@/stores/useAuthStore';
 import { NoticeItem } from '@/types/user/notice';
+import { formatDateTimeRange } from '@/utils/date';
 
+import ListCard from '../../_components/ListCard/ListCard';
 import CancelModal from '../../_components/Modal/CancelModal';
 import LoginModal from '../../_components/Modal/LoginModal';
 import ProfileRegisterModal from '../../_components/Modal/ProfileRegisterModal';
@@ -27,10 +28,12 @@ const StoreDetailPage = () => {
   const { user } = useAuthStore.getState();
 
   const [notice, setNotice] = useState<NoticeItem | null>(null);
+  const [closed, setClosed] = useState<boolean>(false);
   const [profileModalOpen, setProfileModalOpen] = useState<boolean>(false);
   const [isApply, setIsApply] = useState<boolean>(false);
   const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
   const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
+  const [recentNotices, setRecentNotices] = useState<NoticeItem[]>([]);
 
   useEffect(() => {
     if (!shopId || !noticeId) return;
@@ -40,6 +43,12 @@ const StoreDetailPage = () => {
         if (typeof shopId === 'string' && typeof noticeId === 'string') {
           const data = await getNoticeDetail(shopId, noticeId);
           setNotice(data);
+          setIsApply(false);
+          if (data.closed) {
+            setClosed(true);
+          } else {
+            setClosed(false);
+          }
         }
       } catch (error) {
         console.error('공고 상세 불러오기 실패:', error);
@@ -78,18 +87,55 @@ const StoreDetailPage = () => {
   };
 
   const handleConfirmCancel = async () => {
-    if (!shopId || !noticeId) return;
-
-    if (typeof shopId === 'string' && typeof noticeId === 'string') {
-      try {
-        await cancelApplication(shopId, noticeId);
-        setIsApply(false);
-        setCancelModalOpen(false);
-      } catch (error) {
-        console.log(error);
-      }
+    if (typeof shopId !== 'string' || typeof noticeId !== 'string') return;
+    const applicationId = notice?.currentUserApplication?.item.id;
+    if (!applicationId) return;
+    try {
+      await cancelApplication(shopId, noticeId, applicationId);
+      setIsApply(false);
+      setCancelModalOpen(false);
+    } catch (error) {
+      console.log(error);
+      setCancelModalOpen(false);
     }
   };
+
+  useEffect(() => {
+    if (!notice) return;
+
+    const currentNotice: NoticeItem = {
+      id: notice.id,
+      hourlyPay: notice.hourlyPay,
+      startsAt: notice.startsAt,
+      workhour: notice.workhour,
+      description: notice.description,
+      closed: notice.closed,
+      shop: {
+        item: notice.shop.item,
+      },
+    };
+
+    const stored = localStorage.getItem(RECENT_NOTICE_KEY);
+    const parsed: NoticeItem[] = stored ? JSON.parse(stored) : [];
+
+    const filtered = parsed.filter(item => item.id !== currentNotice.id);
+
+    const updated = [currentNotice, ...filtered];
+
+    const limited = updated.slice(0, 6);
+
+    localStorage.setItem(RECENT_NOTICE_KEY, JSON.stringify(limited));
+    setRecentNotices(limited);
+  }, [notice]);
+  if (!notice) return;
+
+  const increaseRatePercent =
+    Math.floor(
+      (notice?.hourlyPay - notice?.shop.item.originalHourlyPay) /
+        notice?.shop.item.originalHourlyPay
+    ) * 100;
+
+  const isIncrease = increaseRatePercent > 0;
 
   if (!notice) {
     return <div>로딩 중...</div>;
@@ -104,6 +150,7 @@ const StoreDetailPage = () => {
         </S.JobSummaryTitle>
         <S.SummaryCardContainer>
           <S.SummaryCardImage>
+            {closed && <S.ExpiredOverlay>마감 완료</S.ExpiredOverlay>}
             <Image
               src={notice.shop.item.imageUrl}
               alt="식당 이미지"
@@ -115,35 +162,31 @@ const StoreDetailPage = () => {
             <S.HourlyPay>시급</S.HourlyPay>
             <S.PayInfo>
               <S.Pay>{notice.hourlyPay.toLocaleString()}원</S.Pay>
-              <S.PayIncrease>
-                기존 시급보다 50%
-                <S.ArrowIcon
-                  src={ArrowIcon}
-                  alt="증가"
-                  width={16}
-                  height={16}
-                />
-              </S.PayIncrease>
+              {isIncrease && (
+                <S.PayIncrease>
+                  기존 시급보다 {increaseRatePercent}%️️
+                  <S.ArrowIcon />
+                </S.PayIncrease>
+              )}
             </S.PayInfo>
             <S.InfoList>
-              <Image src={ClockIcon} alt="근무 시간" width={16} height={16} />
+              <S.ClockIcon />
               <S.WorkInfo>
-                {notice.startsAt} ({notice.workhour}시간)
+                {formatDateTimeRange(notice.startsAt, {
+                  durationHours: notice.workhour,
+                })}{' '}
               </S.WorkInfo>
             </S.InfoList>
             <S.InfoList>
-              <Image
-                src={LocationIcon}
-                alt="근무 위치"
-                width={16}
-                height={16}
-              />
+              <S.NavIcon />
               <S.WorkInfo>{notice.shop.item.address1}</S.WorkInfo>
             </S.InfoList>
             <S.StoreDescription>
               {notice.shop.item.description}
             </S.StoreDescription>
-            {isApply ? (
+            {closed ? (
+              <S.EndButton>신청 불가</S.EndButton>
+            ) : isApply ? (
               <S.CancelButton onClick={handleCancel}>취소하기</S.CancelButton>
             ) : (
               <S.ApplyButton onClick={handleClick}>신청하기</S.ApplyButton>
@@ -175,8 +218,16 @@ const StoreDetailPage = () => {
         </S.JobDescription>
       </S.JobSummarySection>
       <S.RecentViewSection>
-        <S.RecentViewTitle>최근에 본 공고</S.RecentViewTitle>
-        <S.RecentViewList></S.RecentViewList>
+        <S.RecentViewTitleBox>
+          <S.RecentViewTitle>최근에 본 공고</S.RecentViewTitle>
+        </S.RecentViewTitleBox>
+        <S.RecentViewList>
+          {recentNotices.map(item => (
+            <Link key={item.id} href={`/store/${item.shop.item.id}/${item.id}`}>
+              <ListCard notice={item} />
+            </Link>
+          ))}
+        </S.RecentViewList>
       </S.RecentViewSection>
     </S.DetailContainer>
   );

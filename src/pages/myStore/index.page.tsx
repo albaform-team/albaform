@@ -2,8 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import withAuthentication from '@/components/hoc/withAuthentication';
 import { NOTICES_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
@@ -248,4 +249,6 @@ const StoreListIdPage = () => {
   );
 };
 
-export default StoreListIdPage;
+export default withAuthentication(StoreListIdPage, {
+  allowedTypes: ['employer'],
+});

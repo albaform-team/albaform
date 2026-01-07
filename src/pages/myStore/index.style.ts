@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import styled from '@emotion/styled';
 
 import ArrowIconComponent from '@/assets/svg/arrowicon';
@@ -272,7 +274,7 @@ export const CardListWrap = styled.div`
   }
 `;
 
-export const CardList = styled('div', {
+export const CardList = styled(Link, {
   shouldForwardProp: prop => prop !== '$closed',
 })<{ $closed?: boolean }>`
   display: flex;

@@ -15,6 +15,7 @@ import useAuthStore from '@/stores/useAuthStore';
 import { formatDateTimeRange } from '@/utils/date';
 
 import * as S from './index.style';
+import { getPayIncreaseRate } from './jobs/[jobId]/_utils/number';
 
 const StoreListIdPage = () => {
   const user = useAuthStore(s => s.user);
@@ -239,7 +240,11 @@ const StoreListIdPage = () => {
           </S.TitleWrap>
           <S.CardListWrap>
             {showJob.map(i => (
-              <S.CardList key={i.item.id} $closed={i.item.closed}>
+              <S.CardList
+                key={i.item.id}
+                href={MY_STORE_ROUTES.JOBS.DETAIL(i.item.id)}
+                $closed={i.item.closed}
+              >
                 <S.CardListImgWrap>
                   <S.CardListTextClosed $closed={i.item.closed}>
                     마감 완료
@@ -249,7 +254,7 @@ const StoreListIdPage = () => {
                 <S.CardListTextWrap>
                   <S.CardListTitleWrap>
                     <S.CardListTitle $closed={i.item.closed}>
-                      {i.item.id}
+                      {storeName}
                     </S.CardListTitle>
                   </S.CardListTitleWrap>
                   <S.CardListNavWrap01>
@@ -273,7 +278,12 @@ const StoreListIdPage = () => {
                   </S.CardPriceText>
                   <S.CardPriceSubTextWrap $closed={i.item.closed}>
                     <S.CardPriceSubText $closed={i.item.closed}>
-                      기존 시급보다 50%
+                      기존 시급보다{' '}
+                      {getPayIncreaseRate(
+                        i.item.hourlyPay,
+                        user!.shop!.item.originalHourlyPay
+                      )}{' '}
+                      %
                     </S.CardPriceSubText>
                     <S.ArrowIcon $closed={i.item.closed} />
                   </S.CardPriceSubTextWrap>

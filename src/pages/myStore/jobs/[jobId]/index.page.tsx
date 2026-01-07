@@ -134,7 +134,7 @@ const JobDetailPage = () => {
         shopImageUrl={noticeDetail.shop.imageUrl}
         hourlyPay={noticeDetail.hourlyPay.toLocaleString()}
         payIncreaseAmount={getPayIncreaseRate(
-          noticeDetail.hourlyPay + 110,
+          noticeDetail.hourlyPay,
           noticeDetail.shop.originalHourlyPay
         )}
         workTime={formatDateTimeRange(noticeDetail.startsAt, {

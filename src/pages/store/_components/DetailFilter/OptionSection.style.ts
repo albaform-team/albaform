@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Input } from '@mui/material';
+import { Button, Chip, Input } from '@mui/material';
 
 import { colors } from '@/styles/colors';
 
@@ -61,8 +61,23 @@ export const LocationSelectOption = styled.div`
   gap: 30px 24px;
 `;
 
+export const OptionItem = styled(Button)`
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: ${colors.black};
+  cursor: pointer;
+`;
+
 export const SelectedLocation = styled.div`
-  height: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+export const AreaBadge = styled(Chip)`
+  background-color: ${colors.red[10]} !important;
 `;
 
 export const StartSection = styled.div`

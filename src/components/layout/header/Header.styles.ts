@@ -4,8 +4,8 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 
 const BREAKPOINT = {
-  TABLET: 889,
-  MOBILE: 375,
+  TABLET: 1024,
+  MOBILE: 889,
 };
 
 export const HeaderContainer = styled.header`
@@ -125,6 +125,7 @@ export const Button = styled(Link)`
   font-weight: 700;
   line-height: 20px;
   color: #111322;
+  white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
 
@@ -140,7 +141,6 @@ export const NotificationButton = styled.div`
 `;
 
 export const NotificationOverlay = styled.div`
-
   /* 모바일 */
   position: fixed;
   inset: 0;

@@ -4,6 +4,10 @@ export interface LoginUser {
   id: string;
   email: string;
   type: UserType;
+  name?: string;
+  phone?: string;
+  address?: string;
+  bio?: string;
 }
 
 export interface LoginResponse {

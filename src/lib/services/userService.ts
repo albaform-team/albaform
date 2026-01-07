@@ -1,6 +1,8 @@
-import _MOCK_USER_APPLICATIONS from '@/__MOCK/_MOCK_USER_APPLICATIONS.json';
 import { APPLICATIONS_API, USERS_API } from '@/constants/api';
-import { AppliedJobListViewModel } from '@/pages/profile/[userId]/_utils/mapper';
+import {
+  appliedJobListMapper,
+  AppliedJobListViewModel,
+} from '@/pages/profile/[userId]/_utils/mapper';
 import { UserInfoResponse } from '@/types/api/user';
 import { AppliedJobListResponse } from '@/types/api/userAppliedJobList';
 
@@ -22,15 +24,5 @@ export const GetUserApplications = async (
     { params: { offset, limit } }
   );
 
-  return {
-    items: [..._MOCK_USER_APPLICATIONS].splice(
-      offset,
-      limit
-    ) as AppliedJobListViewModel['items'],
-    count: [..._MOCK_USER_APPLICATIONS].length,
-    hasNext: true,
-    offset,
-    limit,
-    links: data.links,
-  };
+  return appliedJobListMapper(data);
 };

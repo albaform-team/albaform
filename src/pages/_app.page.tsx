@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app';
 
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import { GlobalStyle } from '@/styles/GlobalStyle';
@@ -22,6 +23,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     <>
       <GlobalStyle />
       <Component {...pageProps} />
+      <Toaster />
     </>
   );
 };

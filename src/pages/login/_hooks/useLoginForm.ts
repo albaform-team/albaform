@@ -27,7 +27,7 @@ const useLoginForm = () => {
   const pwError = useMemo(() => {
     if (!touched.password) return '';
     if (!form.password.trim()) return '비밀번호를 입력해 주세요.';
-    const ok = form.password.length > 8;
+    const ok = form.password.length >= 8;
     return ok ? '' : '8자 이상 입력해 주세요.';
   }, [form.password, touched.password]);
 

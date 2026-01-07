@@ -1,4 +1,8 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
+import { colors } from '@/styles/colors';
+import { AlertResult } from '@/types/api/alerts';
 
 export const NotificationItem = styled.div`
   display: flex;
@@ -30,8 +34,17 @@ export const NotificationMessage = styled.div`
   color: #111322;
 `;
 
-export const NotificationMessageAlarm = styled.span`
-  color: #0080ff;
+const statusStyle = {
+  accepted: css`
+    color: ${colors.blue[20]};
+  `,
+  rejected: css`
+    color: #ea3c12;
+  `,
+};
+
+export const NotificationMessageAlarm = styled.span<{ result: AlertResult }>`
+  ${({ result }) => statusStyle[result]}
 `;
 
 export const NotificationTime = styled.div`

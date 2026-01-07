@@ -3,6 +3,7 @@ import useAuthStore from '@/stores/useAuthStore';
 import { LoginResponse, SignupReponse, UserType } from '@/types/api/auth';
 
 import { services } from './servicesClient';
+import { GetUserInfo } from './userService';
 
 // 로그인
 export const login = async (
@@ -13,12 +14,15 @@ export const login = async (
     email,
     password,
   });
+
+  const res = await GetUserInfo(data.item.user.item.id);
+
   const { setAuth } = useAuthStore.getState();
 
   if (data.item.token) {
     setAuth({
       accessToken: data.item.token,
-      user: data.item.user.item,
+      user: res.item,
     });
   }
 

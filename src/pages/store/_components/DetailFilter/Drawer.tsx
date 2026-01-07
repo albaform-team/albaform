@@ -1,21 +1,34 @@
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import * as React from 'react';
+import { useState } from 'react';
 
 import CloseIcon from '@/assets/svg/close.svg';
 import * as S from '@/pages/store/_components/DetailFilter/Drawer.style';
 
 import OptionSection from './OptionSection';
 
-const RightDrawer = () => {
-  const [open, setOpen] = React.useState(false);
+type RightDrawerProps = {
+  selectedAreas: string[];
+  setSelectedAreas: React.Dispatch<React.SetStateAction<string[]>>;
+  startDate: string | null;
+  setStartDate: React.Dispatch<React.SetStateAction<string | null>>;
+  minPay: number | null;
+  setMinPay: React.Dispatch<React.SetStateAction<number | null>>;
+  onApply: () => void;
+  filterCount: number;
+  setFilterCount: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const RightDrawer = ({
+  selectedAreas,
+  setSelectedAreas,
+  startDate,
+  setStartDate,
+  minPay,
+  setMinPay,
+  onApply,
+  filterCount,
+  setFilterCount,
+}: RightDrawerProps) => {
+  const [open, setOpen] = useState(false);
 
   const toggleDrawer =
     (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -30,47 +43,23 @@ const RightDrawer = () => {
       setOpen(isOpen);
     };
 
-  const list = () => (
-    <Box
-      sx={{ width: 300 }}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+  const resetState = () => {
+    setSelectedAreas([]);
+    setStartDate(null);
+    setMinPay(0);
+    setFilterCount(0);
+  };
 
-      <Divider />
-
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+  const clickApply = () => {
+    onApply();
+    toggleDrawer(false)({ type: 'click' } as React.MouseEvent);
+  };
 
   return (
     <>
-      <S.FilterButton onClick={toggleDrawer(true)}>상세 필터</S.FilterButton>
-
+      <S.FilterButton onClick={toggleDrawer(true)}>
+        상세 필터 ({filterCount})
+      </S.FilterButton>
       <S.DrawerContainer
         anchor="right"
         open={open}
@@ -86,10 +75,24 @@ const RightDrawer = () => {
             onClick={toggleDrawer(false)}
           />
         </S.DrawerHeader>
-        <OptionSection />
+        <OptionSection
+          selectedAreas={selectedAreas}
+          setSelectedAreas={setSelectedAreas}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          minPay={minPay}
+          setMinPay={setMinPay}
+          setFilterCount={setFilterCount}
+        />
         <S.DrawerFooter>
-          <S.ResetButton>초기화</S.ResetButton>
-          <S.ApplyButton>적용하기</S.ApplyButton>
+          <S.ResetButton onClick={resetState}>초기화</S.ResetButton>
+          <S.ApplyButton
+            onClick={() => {
+              clickApply();
+            }}
+          >
+            적용하기
+          </S.ApplyButton>
         </S.DrawerFooter>
       </S.DrawerContainer>
     </>

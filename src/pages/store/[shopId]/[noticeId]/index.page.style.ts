@@ -1,8 +1,9 @@
-import Image from 'next/image';
-
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 
+import ArrowIconComponent from '@/assets/svg/arrowicon';
+import ClockIconComponent from '@/assets/svg/clockicon';
+import NavIconComponent from '@/assets/svg/navicon';
 import { colors } from '@/styles/colors';
 import { media } from '@/styles/media';
 
@@ -82,6 +83,7 @@ export const SummaryCardContainer = styled.div`
 `;
 
 export const SummaryCardImage = styled.div`
+  position: relative;
   width: 311px;
   height: 177px;
   overflow: hidden;
@@ -97,6 +99,19 @@ export const SummaryCardImage = styled.div`
     width: 539px;
     height: 308px;
   }
+`;
+
+export const ExpiredOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: ${colors.gray[30]};
+  background: rgb(0 0 0 / 70%);
 `;
 
 export const SummaryCardInfo = styled.div`
@@ -150,9 +165,9 @@ export const Pay = styled.div`
 `;
 
 export const PayIncrease = styled.div`
-  display: flex;
-  gap: 2px;
-  width: 131px;
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
   height: 24px;
   padding: 4px 8px;
   font-size: 12px;
@@ -165,7 +180,6 @@ export const PayIncrease = styled.div`
   @media ${media.tablet} {
     align-items: center;
     justify-content: center;
-    width: 159px;
     height: 36px;
     padding: 8px 12px;
     font-size: 14px;
@@ -173,11 +187,10 @@ export const PayIncrease = styled.div`
   }
 `;
 
-export const ArrowIcon = styled(Image)`
-  @media ${media.tablet} {
-    width: 20px;
-    height: 20px;
-  }
+export const ArrowIcon = styled(ArrowIconComponent)`
+  width: 13px;
+  height: 13px;
+  color: ${colors.white};
 `;
 
 export const InfoList = styled.div`
@@ -188,6 +201,24 @@ export const InfoList = styled.div`
 
   @media ${media.tablet} {
     gap: 6px;
+  }
+`;
+
+export const ClockIcon = styled(ClockIconComponent)`
+  color: ${colors.red[30]};
+
+  @media ${media.tablet} {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export const NavIcon = styled(NavIconComponent)`
+  color: ${colors.red[30]};
+
+  @media ${media.tablet} {
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -216,6 +247,24 @@ export const StoreDescription = styled.div`
   }
 `;
 
+export const EndButton = styled(Button)`
+  width: 100%;
+  height: 38px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 100%;
+  color: ${colors.white};
+  cursor: not-allowed;
+  background-color: ${colors.gray[40]};
+  border-radius: 6px;
+
+  @media ${media.tablet} {
+    height: 48px;
+    font-size: 16px;
+    line-height: 20px;
+  }
+`;
+
 export const ApplyButton = styled(Button)`
   width: 100%;
   height: 38px;
@@ -224,6 +273,24 @@ export const ApplyButton = styled(Button)`
   line-height: 100%;
   color: ${colors.white};
   background-color: #ea3c12;
+  border-radius: 6px;
+
+  @media ${media.tablet} {
+    height: 48px;
+    font-size: 16px;
+    line-height: 20px;
+  }
+`;
+
+export const CancelButton = styled(Button)`
+  width: 100%;
+  height: 38px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 100%;
+  color: #ea3c12;
+  background-color: ${colors.white};
+  border: 1px solid #ea3c12;
   border-radius: 6px;
 
   @media ${media.tablet} {
@@ -281,9 +348,23 @@ export const RecentViewSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 351px;
 
   @media ${media.tablet} {
     gap: 32px;
+    width: 680px;
+    margin-bottom: 100px;
+  }
+
+  @media ${media.desktop} {
+    width: 964px;
+  }
+`;
+
+export const RecentViewTitleBox = styled.div`
+  @media ${media.tablet} {
+    display: flex;
+    justify-content: flex-start;
   }
 `;
 

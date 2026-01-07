@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 
+import * as S from './DefaultLayout.style';
 import Footer from './footer/Footer';
 import Header from './header/Header';
-
 interface Props {
   children: ReactNode;
 }
@@ -10,8 +10,8 @@ interface Props {
 const DefaultLayout = ({ children }: Props) => {
   return (
     <>
-      <Header user="user" />
-      {children}
+      <Header />
+      <S.Main>{children}</S.Main>
       <Footer />
     </>
   );

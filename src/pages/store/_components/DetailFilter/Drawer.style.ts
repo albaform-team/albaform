@@ -7,7 +7,6 @@ import Drawer from '@mui/material/Drawer';
 import { colors } from '@/styles/colors';
 
 export const FilterButton = styled(Button)`
-  width: 79px;
   height: 30px;
   padding: 6.5px 12px;
   font-size: 14px;
@@ -17,20 +16,30 @@ export const FilterButton = styled(Button)`
   background-color: ${colors.red[30]};
   border-radius: 5px;
   box-shadow: none;
+
+  &:hover {
+    background-color: #fb5a32;
+    box-shadow: none;
+  }
 `;
 
 export const DrawerContainer = styled(Drawer)`
   .MuiDrawer-paper {
     width: 100vw;
     height: 100vh;
-    padding: 24px 20px;
+    padding: 0 20px 24px;
   }
 `;
 
 export const DrawerHeader = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 24px 0 5px;
+  background-color: ${colors.white};
 `;
 
 export const DrawerTitle = styled.div`

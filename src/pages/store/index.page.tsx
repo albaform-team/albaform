@@ -1,23 +1,101 @@
-import { Global } from '@emotion/react';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import Link from 'next/link';
 
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useEffect, useState } from 'react';
+
+import { getMyProfile } from '@/lib/services/noticeService';
 import ListCard from '@/pages/store/_components/ListCard/ListCard';
-import { mockNotices } from '@/pages/store/_components/ListCard/types/mockNotices';
-import { sortSelectStyle } from '@/pages/store/_components/SelectBox.style';
 import * as S from '@/pages/store/index.page.style';
+import useAuthStore from '@/stores/useAuthStore';
+import { NoticeListResponse } from '@/types/user/noticeList';
 
 import RightDrawer from './_components/DetailFilter/Drawer';
 import BasicPopover from './_components/DetailFilter/Popover';
+import FilterOptionSelect from './_components/Drawer/FilterDrawer';
 import PaginationRounded from './_components/Pagination';
-import BasicSelect from './_components/SelectBox';
+import { useNotice } from './_hooks/useNotice';
+
+const LIMIT = 6;
 
 const StoreList = () => {
   const isMobile = useMediaQuery('(max-width: 743px)');
+  const user = useAuthStore(state => state.user);
+  const [sortValue, setSortValue] = useState('마감임박순');
+  const [page, setPage] = useState(1);
+  // 상세 필터 상태 관리 state
+  const [appliedAreas, setAppliedAreas] = useState<string[]>([]);
+  const [appliedStartDate, setAppliedStartDate] = useState<
+    string | undefined
+  >();
+  const [appliedMinPay, setAppliedMinPay] = useState<number | undefined>();
+  const [draftAreas, setDraftAreas] = useState<string[]>([]);
+  const [draftStartDate, setDraftStartDate] = useState<string | null>(null);
+  const [draftMinPay, setDraftMinPay] = useState<number | null>(null);
+  const [filterTrigger, setFilterTrigger] = useState(0);
+  const [filterCount, setFilterCount] = useState(0);
 
-  const sortedByDeadline = mockNotices.items.sort(
-    (a, b) =>
-      new Date(a.item.startsAt).getTime() - new Date(b.item.startsAt).getTime()
-  );
+  const { notice } = useNotice({
+    sortValue,
+    offset: LIMIT * (page - 1),
+    limit: LIMIT,
+    address: appliedAreas.length > 0 ? appliedAreas[0] : undefined,
+    startsAtGte: appliedStartDate ?? undefined,
+    hourlyPayGte: appliedMinPay ?? undefined,
+    trigger: filterTrigger,
+  });
+
+  const handleDetailFilter = () => {
+    setAppliedAreas(draftAreas);
+    setAppliedStartDate(draftStartDate ?? undefined);
+    setAppliedMinPay(draftMinPay ?? undefined);
+    setPage(1);
+    setFilterTrigger(prev => prev + 1);
+  };
+
+  const [personalItems, setPersonalItems] = useState<
+    NoticeListResponse['items']
+  >([]);
+
+  const { notice: personalNotice } = useNotice({
+    sortValue: '마감임박순',
+    offset: 0,
+    limit: 6,
+  });
+
+  useEffect(() => {
+    if (!personalNotice) return;
+
+    if (!user?.id) {
+      setPersonalItems(personalNotice.items);
+      return;
+    }
+
+    const fetchPersonalNotice = async () => {
+      try {
+        const userData = await getMyProfile(user.id);
+
+        if (!userData.address) {
+          setPersonalItems(personalNotice.items);
+          return;
+        }
+
+        const filtered = personalNotice.items.filter(({ item }) =>
+          userData.address!.includes(item.shop.item.address1)
+        );
+
+        setPersonalItems(filtered.length ? filtered : personalNotice.items);
+      } catch {
+        setPersonalItems(personalNotice.items);
+      }
+    };
+
+    fetchPersonalNotice();
+  }, [personalNotice, user?.id]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [sortValue]);
+
   return (
     <>
       <S.JobSuggestSection>
@@ -25,8 +103,13 @@ const StoreList = () => {
           <S.JobSuggestTitle>맞춤 공고</S.JobSuggestTitle>
           <div>
             <S.JobSuggestList>
-              {mockNotices.items.map(({ item }) => (
-                <ListCard key={item.id} notice={item} />
+              {personalItems?.map(({ item }) => (
+                <Link
+                  key={item.id}
+                  href={`/store/${item.shop.item.id}/${item.id}`}
+                >
+                  <ListCard notice={item} />
+                </Link>
               ))}
             </S.JobSuggestList>
           </div>
@@ -37,19 +120,52 @@ const StoreList = () => {
         <S.JobListHeader>
           <S.JobListTitle>전체 공고</S.JobListTitle>
           <S.JobFilterContainer>
-            <Global styles={sortSelectStyle} />
-            <BasicSelect />
-            {isMobile ? <RightDrawer /> : <BasicPopover />}
+            <FilterOptionSelect value={sortValue} onChange={setSortValue} />
+            {isMobile ? (
+              <RightDrawer
+                selectedAreas={draftAreas}
+                setSelectedAreas={setDraftAreas}
+                startDate={draftStartDate}
+                setStartDate={setDraftStartDate}
+                minPay={draftMinPay}
+                setMinPay={setDraftMinPay}
+                onApply={handleDetailFilter}
+                filterCount={filterCount}
+                setFilterCount={setFilterCount}
+              />
+            ) : (
+              <BasicPopover
+                selectedAreas={draftAreas}
+                setSelectedAreas={setDraftAreas}
+                startDate={draftStartDate}
+                setStartDate={setDraftStartDate}
+                minPay={draftMinPay}
+                setMinPay={setDraftMinPay}
+                onApply={handleDetailFilter}
+                filterCount={filterCount}
+                setFilterCount={setFilterCount}
+              />
+            )}
           </S.JobFilterContainer>
         </S.JobListHeader>
         <S.AllJobListContainer>
           <S.AllJobList>
-            {sortedByDeadline.map(({ item }) => (
-              <ListCard key={item.id} notice={item} />
+            {notice?.items.map(({ item }) => (
+              <Link
+                key={item.id}
+                href={`/store/${item.shop.item.id}/${item.id}`}
+              >
+                <ListCard key={item.id} notice={item} />
+              </Link>
             ))}
           </S.AllJobList>
         </S.AllJobListContainer>
-        <PaginationRounded></PaginationRounded>
+        <PaginationRounded
+          page={page}
+          onChange={setPage}
+          totalCount={notice?.count ?? 0}
+          limit={LIMIT}
+        ></PaginationRounded>
       </S.AllJobContainer>
     </>
   );

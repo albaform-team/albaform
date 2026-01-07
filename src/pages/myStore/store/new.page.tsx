@@ -1,100 +1,281 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import Modal from '@mui/material/Modal';
+import axios from 'axios';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
+import withAuthentication from '@/components/hoc/withAuthentication';
+import { IMAGES_API, NOTICES_API, SHOPS_API, USERS_API } from '@/constants/api';
+import { MY_STORE_ROUTES } from '@/constants/routes';
+import { services } from '@/lib/services/servicesClient';
 import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
+import StoreImgFileComponent from '@/pages/myStore/store/_components/storeimg2';
 
 import * as S from './new.style';
 
 const StoreRegisterPage = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const router = useRouter();
+  const jobId = router.query.jobId;
+
+  // 가게 이름
+  const [storeName, setStoreName] = useState('');
+
+  const storeNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStoreName(e.target.value);
+  };
+
+  // 분류
+  const categoryList = [
+    { value: '', name: '선택' },
+    { value: '한식', name: '한식' },
+    { value: '중식', name: '중식' },
+    { value: '일식', name: '일식' },
+    { value: '양식', name: '양식' },
+    { value: '분식', name: '분식' },
+    { value: '카페', name: '카페' },
+    { value: '편의점', name: '편의점' },
+    { value: '기타', name: '기타' },
+  ];
+  const [categorySelected, setCategorySelected] = useState('선택');
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategorySelected(e.target.value);
+  };
+
+  // 주소
+  const addressList = [
+    { value: '', name: '선택' },
+    { value: '서울시 종로구', name: '서울시 종로구' },
+    { value: '서울시 중구', name: '서울시 중구' },
+    { value: '서울시 용산구', name: '서울시 용산구' },
+    { value: '서울시 성동구', name: '서울시 성동구' },
+    { value: '서울시 광진구', name: '서울시 광진구' },
+    { value: '서울시 동대문구', name: '서울시 동대문구' },
+    { value: '서울시 중랑구', name: '서울시 중랑구' },
+    { value: '서울시 성북구', name: '서울시 성북구' },
+    { value: '서울시 강북구', name: '서울시 강북구' },
+    { value: '서울시 도봉구', name: '서울시 도봉구' },
+    { value: '서울시 노원구', name: '서울시 노원구' },
+    { value: '서울시 은평구', name: '서울시 은평구' },
+    { value: '서울시 서대문구', name: '서울시 서대문구' },
+    { value: '서울시 마포구', name: '서울시 마포구' },
+    { value: '서울시 양천구', name: '서울시 양천구' },
+    { value: '서울시 강서구', name: '서울시 강서구' },
+    { value: '서울시 구로구', name: '서울시 구로구' },
+    { value: '서울시 금천구', name: '서울시 금천구' },
+    { value: '서울시 영등포구', name: '서울시 영등포구' },
+    { value: '서울시 동작구', name: '서울시 동작구' },
+    { value: '서울시 관악구', name: '서울시 관악구' },
+    { value: '서울시 서초구', name: '서울시 서초구' },
+    { value: '서울시 강남구', name: '서울시 강남구' },
+    { value: '서울시 송파구', name: '서울시 송파구' },
+    { value: '서울시 강동구', name: '서울시 강동구' },
+  ];
+  const [addressSelected, setAddressSelected] = useState('선택');
+  const handleAddressSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setAddressSelected(e.target.value);
+  };
+
+  // 상세 주소
+  const [addressDetail, setAddressDetail] = useState('');
+
+  const addressDetailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddressDetail(e.target.value);
+  };
+
+  // 기본 시급
+  const [pay, setPay] = useState('');
+
+  const payInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPay(e.target.value);
+  };
+
+  // 가게 이미지
+  const [imgFile, setImgFile] = useState<string>('');
+
+  const imgUpload = async (file: File) => {
+    const res = await services.post(IMAGES_API.CREATE_PRESIGNED_URL, {
+      name: file.name,
+      contentType: file.type,
+    });
+
+    const upLoadUrl = res.data.item.url as string;
+
+    await axios.put(upLoadUrl, file, {
+      headers: {
+        'Content-Type': file.type,
+      },
+    });
+
+    return upLoadUrl.split('?')[0];
+  };
+
+  const handleImgInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const imageUrl = await imgUpload(file);
+
+    setImgFile(imageUrl);
+  };
+
+  // 가게 설명
+  const [textExplain, setTextExplain] = useState('');
+
+  const textAreaInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTextExplain(e.target.value);
+  };
+
+  useEffect(() => {
+    const ImportData = async () => {
+      const getInfo = sessionStorage.getItem('auth-storage');
+      const getUser = JSON.parse(getInfo as string);
+      const getUserId = getUser.state.user.id;
+
+      const getShop = await services.get(USERS_API.ME(getUserId));
+      const shopId = getShop?.data?.item?.shop?.item?.id;
+      if (!shopId) return;
+
+      const getNotice2 = await services.get(NOTICES_API.SHOP_LIST(shopId));
+
+      interface FindItem {
+        item?: {
+          id?: number | string;
+        };
+      }
+      const findId = getNotice2.data.items.find(
+        (i: FindItem) => i.item?.id?.toString() === jobId
+      );
+      if (!findId) return;
+    };
+
+    ImportData();
+  }, [jobId]);
+
+  // submit 관련
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    await services
+      .post(SHOPS_API.CREATE, {
+        name: storeName,
+        category: categorySelected,
+        address1: addressSelected,
+        address2: addressDetail,
+        description: textExplain,
+        imageUrl: imgFile,
+        originalHourlyPay: Number(pay),
+      })
+      .then(() => {
+        handleOpen();
+        router.push(MY_STORE_ROUTES.JOBS.DETAIL(jobId as string));
+      })
+      .catch(error => {
+        console.log('등록에 실패하였습니다.', error);
+      });
+  };
 
   return (
     <S.Container>
       <S.Section>
         <S.TitleWrap>
           <S.Title>가게 정보</S.Title>
-          <Image src={CloseIcon} alt="CloseIcon" />
+          <Image
+            src={CloseIcon}
+            alt="CloseIcon"
+            onClick={() => {
+              router.push(MY_STORE_ROUTES.ROOT);
+            }}
+          />
         </S.TitleWrap>
-        <S.Wraps>
-          <S.InputWrap>
-            <S.InputWrapLabel>가게 이름*</S.InputWrapLabel>
-            <S.Input type="text" placeholder="입력" />
-          </S.InputWrap>
-          <S.InputWrap>
-            <S.InputWrapLabel>분류*</S.InputWrapLabel>
-            <S.Select>
-              <option>선택</option>
-              <option>한식</option>
-              <option>중식</option>
-              <option>일식</option>
-              <option>양식</option>
-              <option>분식</option>
-              <option>카페</option>
-              <option>편의점</option>
-              <option>기타</option>
-            </S.Select>
-          </S.InputWrap>
-          <S.InputWrap>
-            <S.InputWrapLabel>주소*</S.InputWrapLabel>
-            <S.Select>
-              <option>선택</option>
-              <option>서울시 종로구</option>
-              <option>서울시 중구</option>
-              <option>서울시 용산구</option>
-              <option>서울시 성동구</option>
-              <option>서울시 광진구</option>
-              <option>서울시 동대문구</option>
-              <option>서울시 중랑구</option>
-              <option>서울시 성북구</option>
-              <option>서울시 강북구</option>
-              <option>서울시 도봉구</option>
-              <option>서울시 노원구</option>
-              <option>서울시 은평구</option>
-              <option>서울시 서대문구</option>
-              <option>서울시 마포구</option>
-              <option>서울시 양천구</option>
-              <option>서울시 강서구</option>
-              <option>서울시 구로구</option>
-              <option>서울시 금천구</option>
-              <option>서울시 영등포구</option>
-              <option>서울시 동작구</option>
-              <option>서울시 관악구</option>
-              <option>서울시 서초구</option>
-              <option>서울시 강남구</option>
-              <option>서울시 송파구</option>
-              <option>서울시 강동구</option>
-            </S.Select>
-          </S.InputWrap>
-          <S.InputWrap>
-            <S.InputWrapLabel>상세 주소*</S.InputWrapLabel>
-            <S.Input type="text" placeholder="입력" />
-          </S.InputWrap>
-          <S.InputWrap>
-            <S.InputWrapLabel>기본 시급*</S.InputWrapLabel>
-            <S.TextWon>원</S.TextWon>
-            <S.Input type="number" placeholder="입력" />
-          </S.InputWrap>
-        </S.Wraps>
-        <S.Wraps>
-          <S.InputWrapImg>
-            <S.InputWrapLabel>가게 이미지</S.InputWrapLabel>
-            <S.StoreImgBox>
-              <StoreImgComponent />
-            </S.StoreImgBox>
-          </S.InputWrapImg>
-        </S.Wraps>
-        <S.Wraps>
-          <S.InputWrapExplain>
-            <S.InputWrapLabel>가게 설명</S.InputWrapLabel>
-            <S.TextBox placeholder="입력" />
-          </S.InputWrapExplain>
-        </S.Wraps>
-        <S.Button onClick={handleOpen}>등록하기</S.Button>
+        <S.Form onSubmit={handleSubmit}>
+          <S.Wraps>
+            <S.InputWrap>
+              <S.InputWrapLabel>가게 이름*</S.InputWrapLabel>
+              <S.Input
+                type="text"
+                placeholder="입력"
+                value={storeName}
+                onChange={storeNameInput}
+              />
+            </S.InputWrap>
+            <S.InputWrap>
+              <S.InputWrapLabel>분류*</S.InputWrapLabel>
+              <S.Select value={categorySelected} onChange={handleSelect}>
+                {categoryList.map(item => (
+                  <option value={item.name} key={item.value}>
+                    {item.name}
+                  </option>
+                ))}
+              </S.Select>
+            </S.InputWrap>
+            <S.InputWrap>
+              <S.InputWrapLabel>주소*</S.InputWrapLabel>
+              <S.Select value={addressSelected} onChange={handleAddressSelect}>
+                {addressList.map(item => (
+                  <option value={item.name} key={item.value}>
+                    {item.name}
+                  </option>
+                ))}
+              </S.Select>
+            </S.InputWrap>
+            <S.InputWrap>
+              <S.InputWrapLabel>상세 주소*</S.InputWrapLabel>
+              <S.Input
+                type="text"
+                placeholder="입력"
+                value={addressDetail}
+                onChange={addressDetailInput}
+              />
+            </S.InputWrap>
+            <S.InputWrap>
+              <S.InputWrapLabel>기본 시급*</S.InputWrapLabel>
+              <S.TextWon>원</S.TextWon>
+              <S.Input
+                type="number"
+                placeholder="입력"
+                value={pay}
+                onChange={payInput}
+              />
+            </S.InputWrap>
+          </S.Wraps>
+          <S.Wraps>
+            <S.InputWrapImg>
+              <S.InputWrapLabel>가게 이미지</S.InputWrapLabel>
+              {!imgFile ? (
+                <S.StoreImgBox>
+                  <StoreImgComponent />
+                </S.StoreImgBox>
+              ) : (
+                <S.StoreImgBox>
+                  <StoreImgFileComponent imgFile={imgFile} />
+                </S.StoreImgBox>
+              )}
+              <S.FileInput
+                type="file"
+                accept="image/*"
+                onChange={handleImgInput}
+              />
+            </S.InputWrapImg>
+          </S.Wraps>
+          <S.Wraps>
+            <S.InputWrapExplain>
+              <S.InputWrapLabel>가게 설명</S.InputWrapLabel>
+              <S.TextBox
+                placeholder="입력"
+                value={textExplain}
+                onChange={textAreaInput}
+              />
+            </S.InputWrapExplain>
+          </S.Wraps>
+          <S.Button type="submit">등록하기</S.Button>
+        </S.Form>
         <Modal open={open} onClose={handleClose}>
           <S.ModalBox>
             <S.ModalText>등록이 완료되었습니다.</S.ModalText>
@@ -106,4 +287,6 @@ const StoreRegisterPage = () => {
   );
 };
 
-export default StoreRegisterPage;
+export default withAuthentication(StoreRegisterPage, {
+  allowedTypes: ['employer'],
+});

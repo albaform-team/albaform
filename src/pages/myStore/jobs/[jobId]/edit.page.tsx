@@ -1,9 +1,15 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import Modal from '@mui/material/Modal';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import CloseIcon from '@/assets/svg/closeicon.svg';
+import withAuthentication from '@/components/hoc/withAuthentication';
+import { NOTICES_API, USERS_API } from '@/constants/api';
+import { MY_STORE_ROUTES } from '@/constants/routes';
+import { services } from '@/lib/services/servicesClient';
 
 import * as S from '../new.style';
 
@@ -12,36 +18,183 @@ const JobRegisterIdPage = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const router = useRouter();
+  const jobId = router.query.jobId;
+
+  // 시급
+  const [pay, setPay] = useState('');
+
+  const payInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPay(e.target.value);
+  };
+
+  // 시작 일시
+  const [time, setTime] = useState('');
+
+  const handleTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTime(e.target.value);
+  };
+
+  // 없무 시간
+  const [workTime, setWorkTime] = useState('');
+
+  const handleWorkTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWorkTime(e.target.value);
+  };
+
+  // 공고 설명
+  const [jobExplain, setJobExplain] = useState('');
+
+  const textAreaInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setJobExplain(e.target.value);
+  };
+
+  useEffect(() => {
+    const importData = async () => {
+      const getInfo = sessionStorage.getItem('auth-storage');
+      const getUser = JSON.parse(getInfo as string);
+      const getUserId = getUser.state.user.id;
+
+      const getShop = await services.get(USERS_API.ME(getUserId));
+      const shopId = getShop.data.item.shop.item.id;
+
+      const getNotice = await services.get(NOTICES_API.SHOP_LIST(shopId));
+
+      interface FindItem {
+        item?: {
+          id?: number | string;
+        };
+      }
+      const findId = getNotice.data.items.find(
+        (i: FindItem) => i.item?.id?.toString() === jobId
+      );
+      if (!findId) return;
+
+      const getPay = findId.item.hourlyPay;
+      setPay(getPay);
+
+      const toDatetimeLocal = (date: Date) => {
+        const offset = date.getTimezoneOffset() * 60000;
+        const localDate = new Date(date.getTime() - offset);
+        return localDate.toISOString().slice(0, 16);
+      };
+      const getTime = findId.item.startsAt;
+      const changeTime = toDatetimeLocal(new Date(getTime));
+      setTime(changeTime);
+
+      const getWorkTime = findId.item.workhour;
+      setWorkTime(getWorkTime);
+
+      const getJobExplain = findId.item.description;
+      setJobExplain(getJobExplain);
+    };
+
+    importData();
+  }, [jobId]);
+
+  // submit 관련
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const getInfo = sessionStorage.getItem('auth-storage');
+    const getUser = JSON.parse(getInfo as string);
+    const getUserId = getUser.state.user.id;
+
+    const getShop = await services.get(USERS_API.ME(getUserId));
+    const shopId = getShop.data.item.shop.item.id;
+
+    const getNotice = await services.get(NOTICES_API.SHOP_LIST(shopId));
+
+    interface FindItem {
+      item?: {
+        id?: number | string;
+      };
+    }
+
+    const findId = getNotice.data.items.find(
+      (i: FindItem) => i.item?.id?.toString() === jobId
+    );
+    if (!findId) return;
+
+    const noticeId = findId.item.id;
+
+    try {
+      await services.put(NOTICES_API.SHOP_DETAIL(shopId, noticeId), {
+        hourlyPay: Number(pay),
+        startsAt: new Date(time).toISOString(),
+        workhour: Number(workTime),
+        description: jobExplain,
+      });
+
+      if (!shopId) {
+        console.log('shopId가 없습니다');
+        return;
+      }
+
+      handleOpen();
+      console.log('편집이 완료되었습니다.');
+      router.push(MY_STORE_ROUTES.ROOT);
+    } catch (error) {
+      console.log('편집에 실패하였습니다.', error);
+    }
+  };
+
   return (
     <S.Container>
       <S.Section>
         <S.TitleWrap>
           <S.Title>공고 등록 편집</S.Title>
-          <Image src={CloseIcon} alt="CloseIcon" />
+          <Image
+            src={CloseIcon}
+            alt="CloseIcon"
+            onClick={() => {
+              router.push(MY_STORE_ROUTES.JOBS.DETAIL(jobId as string));
+            }}
+          />
         </S.TitleWrap>
-        <S.Wraps>
-          <S.InputWrap>
-            <S.InputWrapLabel>시급*</S.InputWrapLabel>
-            <S.TextWon>원</S.TextWon>
-            <S.Input type="number" placeholder="입력" />
-          </S.InputWrap>
-          <S.InputWrap>
-            <S.InputWrapLabel>시작 일시*</S.InputWrapLabel>
-            <S.Input type="datetime-local" />
-          </S.InputWrap>
-          <S.InputWrap>
-            <S.InputWrapLabel>업무 시간*</S.InputWrapLabel>
-            <S.TextWon>시간</S.TextWon>
-            <S.Input type="number" placeholder="입력" />
-          </S.InputWrap>
-        </S.Wraps>
-        <S.Wraps>
-          <S.InputWrapExplain>
-            <S.InputWrapLabel>공고 설명</S.InputWrapLabel>
-            <S.TextBox placeholder="입력" />
-          </S.InputWrapExplain>
-        </S.Wraps>
-        <S.Button onClick={handleOpen}>편집하기</S.Button>
+        <S.Form onSubmit={handleSubmit}>
+          <S.Wraps>
+            <S.InputWrap>
+              <S.InputWrapLabel>시급*</S.InputWrapLabel>
+              <S.TextWon>원</S.TextWon>
+              <S.Input
+                type="number"
+                placeholder="입력"
+                value={pay}
+                onChange={payInput}
+              />
+            </S.InputWrap>
+            <S.InputWrap>
+              <S.InputWrapLabel>시작 일시*</S.InputWrapLabel>
+              <S.Input
+                type="datetime-local"
+                value={time}
+                onChange={handleTime}
+              />
+            </S.InputWrap>
+            <S.InputWrap>
+              <S.InputWrapLabel>업무 시간*</S.InputWrapLabel>
+              <S.TextWon>시간</S.TextWon>
+              <S.Input
+                type="number"
+                placeholder="입력"
+                value={workTime}
+                onChange={handleWorkTime}
+              />
+            </S.InputWrap>
+          </S.Wraps>
+          <S.Wraps>
+            <S.InputWrapExplain>
+              <S.InputWrapLabel>공고 설명</S.InputWrapLabel>
+              <S.TextBox
+                placeholder="입력"
+                value={jobExplain}
+                onChange={textAreaInput}
+              />
+            </S.InputWrapExplain>
+          </S.Wraps>
+          <S.Button type="submit">편집하기</S.Button>
+        </S.Form>
         <Modal open={open} onClose={handleClose}>
           <S.ModalBox>
             <S.ModalText>편집이 완료되었습니다.</S.ModalText>
@@ -53,4 +206,6 @@ const JobRegisterIdPage = () => {
   );
 };
 
-export default JobRegisterIdPage;
+export default withAuthentication(JobRegisterIdPage, {
+  allowedTypes: ['employer'],
+});

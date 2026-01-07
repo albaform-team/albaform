@@ -27,6 +27,19 @@ export const Section = styled.div`
   }
 `;
 
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+
+  @media ${media.tablet} {
+    gap: 32px;
+  }
+`;
+
 export const Button = styled.button`
   width: 100%;
   height: 48px;

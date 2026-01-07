@@ -1,15 +1,29 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import type { LoginUser } from '@/types/api/auth';
+import { User } from '@/types/api/user';
 
 interface AuthState {
   accessToken: string | null;
-  user: LoginUser | null;
+  user: User | null;
   rehydrated: boolean;
 
-  setAuth: (payload: { accessToken: string; user: LoginUser }) => void;
-  setUser: (user: LoginUser | null) => void;
+  setAuth: (payload: { accessToken: string; user: User }) => void;
+  setUser: (user: User | null) => void;
+  setShop: (
+    shop: {
+      item: {
+        id: string;
+        name: string;
+        category: string;
+        address1: string;
+        address2: string;
+        description: string;
+        imageUrl: string;
+        originalHourlyPay: number;
+      };
+    } | null
+  ) => void;
   setRehydrated: () => void;
   clearAuth: () => void;
 }
@@ -28,6 +42,8 @@ const useAuthStore = create<AuthState>()(
         }),
 
       setUser: user => set({ user }),
+
+      setShop: shop => set(pre => ({ ...pre, ...shop })),
 
       setRehydrated: () => set({ rehydrated: true }),
 

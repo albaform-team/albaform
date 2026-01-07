@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import toast from 'react-hot-toast';
 
 import useAuthStore from '@/stores/useAuthStore';
 import { ErrorResponse } from '@/types/api/apiError';
@@ -19,10 +20,10 @@ const onError = (error: AxiosError<ErrorResponse>): Promise<ErrorResponse> => {
   const res = error.response;
 
   if (res?.data) {
-    // 추후에 에러 처리 작업 진행 예정
+    toast.error(res.data.message ?? '잠시후에 다시 시도해주세요');
     return Promise.reject(error);
   }
-
+  toast.error('서버 장애 : 잠시후에 다시 시도해주세요');
   return Promise.reject(error);
 };
 

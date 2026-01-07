@@ -47,7 +47,7 @@ export const getStatusLabel = (status: ApplicationStatus): string => {
 };
 
 export interface ApplicantRowVM {
-  shop: string;
+  shop: { name: string; id: string };
   date: string;
   pay: string;
   status: ApplicationStatus;
@@ -56,7 +56,7 @@ export interface ApplicantRowVM {
 export const mapAppliedJobToApplicantRow = (
   job: AppliedJobListItem
 ): ApplicantRowVM => ({
-  shop: job.shop.name,
+  shop: { name: job.shop.name, id: job.id },
   date: formatDateTimeRange(job.notice.startsAt, {
     durationHours: job.notice.workhour,
   }),

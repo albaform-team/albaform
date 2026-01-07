@@ -186,7 +186,13 @@ const StoreRegisterPage = () => {
       <S.Section>
         <S.TitleWrap>
           <S.Title>가게 정보</S.Title>
-          <Image src={CloseIcon} alt="CloseIcon" />
+          <Image
+            src={CloseIcon}
+            alt="CloseIcon"
+            onClick={() => {
+              router.push(MY_STORE_ROUTES.ROOT);
+            }}
+          />
         </S.TitleWrap>
         <S.Form onSubmit={handleSubmit}>
           <S.Wraps>

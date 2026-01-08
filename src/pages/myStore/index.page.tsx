@@ -283,7 +283,7 @@ const StoreListIdPage = () => {
                     {i.item.hourlyPay.toLocaleString('ko-KR')}원
                   </S.CardPriceText>
                   {originalHourlyPay >= i.item.hourlyPay ? (
-                    <div style={{ display: 'none' }}></div>
+                    <div></div>
                   ) : (
                     <S.CardPriceSubTextWrap $closed={i.item.closed}>
                       <S.CardPriceSubText $closed={i.item.closed}>

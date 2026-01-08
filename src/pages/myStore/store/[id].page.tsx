@@ -11,6 +11,7 @@ import withAuthentication from '@/components/hoc/withAuthentication';
 import { IMAGES_API, SHOPS_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
+import { GetUserInfo } from '@/lib/services/userService';
 import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
 import useAuthStore from '@/stores/useAuthStore';
 
@@ -23,7 +24,8 @@ const StoreRegisterPage = () => {
 
   const router = useRouter();
   const user = useAuthStore(s => s.user);
-  const setShop = useAuthStore(s => s.setShop);
+  const setAuth = useAuthStore(s => s.setAuth);
+  const accessToken = useAuthStore(s => s.accessToken);
 
   // 가게 이름
   const [storeName, setStoreName] = useState('');
@@ -162,32 +164,17 @@ const StoreRegisterPage = () => {
         imageUrl: imgFile,
         originalHourlyPay: Number(pay),
       })
-      .then(res => {
-        const {
-          id,
-          name,
-          address1,
-          address2,
-          category,
-          description,
-          imageUrl,
-          originalHourlyPay,
-        } = res.data.item;
+      .then(async () => {
+        const userInfoRes = await GetUserInfo(user?.id as string);
+
+        if (accessToken) {
+          setAuth({
+            accessToken,
+            user: userInfoRes.item,
+          });
+        }
 
         handleOpen();
-        setShop({
-          item: {
-            id,
-            name,
-            address1,
-            address2,
-            category,
-            description,
-            imageUrl,
-            originalHourlyPay,
-          },
-        });
-        router.push(MY_STORE_ROUTES.ROOT);
       })
       .catch(error => {
         console.log('등록에 실패하였습니다.', error);
@@ -290,7 +277,14 @@ const StoreRegisterPage = () => {
         <Modal open={open} onClose={handleClose}>
           <S.ModalBox>
             <S.ModalText>수정이 완료되었습니다.</S.ModalText>
-            <S.ModalButton onClick={handleClose}>확인</S.ModalButton>
+            <S.ModalButton
+              onClick={() => {
+                handleClose();
+                router.push(MY_STORE_ROUTES.ROOT);
+              }}
+            >
+              확인
+            </S.ModalButton>
           </S.ModalBox>
         </Modal>
       </S.Section>

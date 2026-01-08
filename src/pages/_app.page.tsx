@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
@@ -21,6 +22,11 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   return getLayout(
     <>
+      <Head>
+        <title>
+          더줄게 | 세상의 모든 알바! 일자리 & 아르바이트 구인 구직 사이트
+        </title>
+      </Head>
       <GlobalStyle />
       <Component {...pageProps} />
       <Toaster />

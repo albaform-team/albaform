@@ -53,18 +53,20 @@ const StoreDetailPage = () => {
         const data = await getNoticeDetail(shopId, noticeId);
         setNotice(data);
 
-        const userApplications = await GetUserApplications(
-          user?.id as string,
-          0,
-          100
-        );
-        const currentApplication = getMatchingApplication(
-          noticeId as string,
-          userApplications.items
-        );
+        if (user?.id) {
+          const userApplications = await GetUserApplications(
+            user?.id as string,
+            0,
+            100
+          );
+          const currentApplication = getMatchingApplication(
+            noticeId as string,
+            userApplications.items
+          );
 
-        if (currentApplication?.status) setTest(currentApplication?.status);
-        setCancelModalOpen(false);
+          if (currentApplication?.status) setTest(currentApplication?.status);
+          setCancelModalOpen(false);
+        }
         if (data.closed) {
           setClosed(true);
         } else {
@@ -128,6 +130,12 @@ const StoreDetailPage = () => {
   }
 
   const handleClick = async () => {
+    if (!user?.id) {
+      setLoginModalOpen(true);
+
+      return;
+    }
+
     await applyNotice(shopId as string, noticeId as string);
     setTest('pending');
   };

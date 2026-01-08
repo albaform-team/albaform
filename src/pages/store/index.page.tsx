@@ -12,6 +12,7 @@ import { NoticeListResponse } from '@/types/user/noticeList';
 import RightDrawer from './_components/DetailFilter/Drawer';
 import BasicPopover from './_components/DetailFilter/Popover';
 import FilterOptionSelect from './_components/Drawer/FilterDrawer';
+import NoResult from './_components/PageComponents/NoResult';
 import PaginationRounded from './_components/Pagination';
 import { useNotice } from './_hooks/useNotice';
 
@@ -34,7 +35,7 @@ const StoreList = () => {
   const [filterTrigger, setFilterTrigger] = useState(0);
   const [filterCount, setFilterCount] = useState(0);
 
-  const { notice } = useNotice({
+  const { notice: noticeData } = useNotice({
     sortValue,
     offset: LIMIT * (page - 1),
     limit: LIMIT,
@@ -96,6 +97,8 @@ const StoreList = () => {
     setPage(1);
   }, [sortValue]);
 
+  const isEmpty = noticeData && noticeData.items.length === 0;
+
   return (
     <>
       <S.JobSuggestSection>
@@ -149,21 +152,25 @@ const StoreList = () => {
           </S.JobFilterContainer>
         </S.JobListHeader>
         <S.AllJobListContainer>
-          <S.AllJobList>
-            {notice?.items.map(({ item }) => (
-              <Link
-                key={item.id}
-                href={`/store/${item.shop.item.id}/${item.id}`}
-              >
-                <ListCard key={item.id} notice={item} />
-              </Link>
-            ))}
+          <S.AllJobList className={isEmpty ? 'empty' : ''}>
+            {isEmpty ? (
+              <NoResult />
+            ) : (
+              noticeData?.items.map(({ item }) => (
+                <Link
+                  key={item.id}
+                  href={`/store/${item.shop.item.id}/${item.id}`}
+                >
+                  <ListCard notice={item} />
+                </Link>
+              ))
+            )}
           </S.AllJobList>
         </S.AllJobListContainer>
         <PaginationRounded
           page={page}
           onChange={setPage}
-          totalCount={notice?.count ?? 0}
+          totalCount={noticeData?.count ?? 0}
           limit={LIMIT}
         ></PaginationRounded>
       </S.AllJobContainer>

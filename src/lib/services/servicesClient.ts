@@ -6,7 +6,7 @@ import { ErrorResponse } from '@/types/api/apiError';
 
 export const services = axios.create({
   timeout: 5000,
-  baseURL: 'https://bootcamp-api.codeit.kr/api/0-1/the-julge',
+  baseURL: 'https://bootcamp-api.codeit.kr/api/20-3/the-julge',
   headers: {
     'Content-Type': 'application/json',
   },

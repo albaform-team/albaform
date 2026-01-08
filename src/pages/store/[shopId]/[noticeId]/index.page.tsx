@@ -47,7 +47,6 @@ const StoreDetailPage = () => {
   const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
   const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
   const [recentNotices, setRecentNotices] = useState<NoticeItem[]>([]);
-
   const fetchNotice = useCallback(async () => {
     try {
       if (typeof shopId === 'string' && typeof noticeId === 'string') {
@@ -66,7 +65,7 @@ const StoreDetailPage = () => {
             userApplications.items
           );
 
-          if (currentApplication?.status) setTest(currentApplication?.status);
+          setTest(currentApplication?.status || 'canceled');
           setCancelModalOpen(false);
         }
         if (data.closed) {

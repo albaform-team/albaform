@@ -1,9 +1,10 @@
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useCallback, useEffect, useState } from 'react';
 
+import DefaultImage from '@/assets/png/DefaultImageSrc.png';
 import { RECENT_NOTICE_KEY } from '@/constants/recentNotice';
 import {
   applyNotice,
@@ -46,6 +47,9 @@ const StoreDetailPage = () => {
   const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
   const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
   const [recentNotices, setRecentNotices] = useState<NoticeItem[]>([]);
+  const [image, setImage] = useState<string | StaticImageData | undefined>(
+    notice?.shop.item.imageUrl
+  );
 
   const fetchNotice = useCallback(async () => {
     try {
@@ -171,10 +175,13 @@ const StoreDetailPage = () => {
           <S.SummaryCardImage>
             {closed && <S.ExpiredOverlay>마감 완료</S.ExpiredOverlay>}
             <Image
-              src={notice.shop.item.imageUrl}
+              src={image || DefaultImage}
               alt="식당 이미지"
               fill
               style={{ objectFit: 'cover' }}
+              onError={e => {
+                setImage(DefaultImage);
+              }}
             />
           </S.SummaryCardImage>
           <S.SummaryCardInfo>

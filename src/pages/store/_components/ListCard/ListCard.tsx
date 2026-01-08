@@ -62,7 +62,9 @@ const ListCard = ({ notice }: ListCardProps) => {
             </S.JobMetaSection>
           </S.JobSummary>
           <S.PaySection>
-            <S.HourlyPay isClosed={closed}>{hourlyPay}원</S.HourlyPay>
+            <S.HourlyPay isClosed={closed}>
+              {hourlyPay.toLocaleString('ko-KR')}원
+            </S.HourlyPay>
             {isIncrease && (
               <S.PayIncreaseBadgeSection isClosed={closed}>
                 <S.PayIncreaseBadge isClosed={closed}>

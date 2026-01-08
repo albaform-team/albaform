@@ -1,6 +1,8 @@
 import { USERS_API } from '@/constants/api';
+import useAuthStore from '@/stores/useAuthStore';
 
 import { services } from './servicesClient';
+import { GetUserInfo } from './userService';
 
 interface UserProfileInput {
   name: string;
@@ -14,6 +16,17 @@ export const registerUserProfile = async (
   data: UserProfileInput
 ) => {
   const res = await services.put(USERS_API.ME(userId), data);
+
+  const userInfoRes = await GetUserInfo(userId);
+
+  const { setAuth, accessToken } = useAuthStore.getState();
+
+  if (accessToken) {
+    setAuth({
+      accessToken,
+      user: userInfoRes.item,
+    });
+  }
 
   return res.data.item;
 };

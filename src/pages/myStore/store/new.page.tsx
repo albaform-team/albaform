@@ -11,8 +11,10 @@ import withAuthentication from '@/components/hoc/withAuthentication';
 import { IMAGES_API, NOTICES_API, SHOPS_API, USERS_API } from '@/constants/api';
 import { MY_STORE_ROUTES } from '@/constants/routes';
 import { services } from '@/lib/services/servicesClient';
+import { GetUserInfo } from '@/lib/services/userService';
 import StoreImgComponent from '@/pages/myStore/store/_components/storeimg';
 import StoreImgFileComponent from '@/pages/myStore/store/_components/storeimg2';
+import useAuthStore from '@/stores/useAuthStore';
 
 import * as S from './new.style';
 
@@ -20,6 +22,10 @@ const StoreRegisterPage = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const setAuth = useAuthStore(s => s.setAuth);
+  const accessToken = useAuthStore(s => s.accessToken);
+  const user = useAuthStore(s => s.user);
 
   const router = useRouter();
   const jobId = router.query.jobId;
@@ -172,9 +178,17 @@ const StoreRegisterPage = () => {
         imageUrl: imgFile,
         originalHourlyPay: Number(pay),
       })
-      .then(() => {
+      .then(async () => {
+        const userInfoRes = await GetUserInfo(user?.id as string);
+
+        if (accessToken) {
+          setAuth({
+            accessToken,
+            user: userInfoRes.item,
+          });
+        }
+
         handleOpen();
-        router.push(MY_STORE_ROUTES.JOBS.DETAIL(jobId as string));
       })
       .catch(error => {
         console.log('등록에 실패하였습니다.', error);
@@ -279,7 +293,14 @@ const StoreRegisterPage = () => {
         <Modal open={open} onClose={handleClose}>
           <S.ModalBox>
             <S.ModalText>등록이 완료되었습니다.</S.ModalText>
-            <S.ModalButton onClick={handleClose}>확인</S.ModalButton>
+            <S.ModalButton
+              onClick={() => {
+                handleClose();
+                router.push(MY_STORE_ROUTES.ROOT);
+              }}
+            >
+              확인
+            </S.ModalButton>
           </S.ModalBox>
         </Modal>
       </S.Section>

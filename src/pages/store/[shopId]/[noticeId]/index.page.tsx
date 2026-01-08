@@ -138,7 +138,11 @@ const StoreDetailPage = () => {
   const handleClick = async () => {
     if (!user?.id) {
       setLoginModalOpen(true);
+      return;
+    }
 
+    if (!user.bio && !user.name && !user.phone && !user.address) {
+      setProfileModalOpen(true);
       return;
     }
 
@@ -181,7 +185,7 @@ const StoreDetailPage = () => {
               alt="식당 이미지"
               fill
               style={{ objectFit: 'cover' }}
-              onError={e => {
+              onError={() => {
                 setImage(DefaultImage);
               }}
             />

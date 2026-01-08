@@ -47,15 +47,13 @@ const StoreDetailPage = () => {
   const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
   const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
   const [recentNotices, setRecentNotices] = useState<NoticeItem[]>([]);
-  const [image, setImage] = useState<string | StaticImageData | undefined>(
-    notice?.shop.item.imageUrl
-  );
 
   const fetchNotice = useCallback(async () => {
     try {
       if (typeof shopId === 'string' && typeof noticeId === 'string') {
         const data = await getNoticeDetail(shopId, noticeId);
         setNotice(data);
+        setImage(data.shop.item.imageUrl);
 
         if (user?.id) {
           const userApplications = await GetUserApplications(
@@ -91,6 +89,10 @@ const StoreDetailPage = () => {
   const handleCancel = () => {
     setCancelModalOpen(true);
   };
+
+  const [image, setImage] = useState<string | StaticImageData | undefined>(
+    notice?.shop.item.imageUrl
+  );
 
   useEffect(() => {
     if (!notice) return;

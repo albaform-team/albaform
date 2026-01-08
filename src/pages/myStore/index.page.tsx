@@ -32,6 +32,9 @@ const StoreListIdPage = () => {
   // 가게 이미지
   const [imgFile, setImgFile] = useState<string>('');
 
+  // 기본 시급
+  const [originalHourlyPay, setOriginalHourlyPay] = useState<number>(0);
+
   // 가게 설명
   const [textExplain, setTextExplain] = useState('');
 
@@ -70,6 +73,7 @@ const StoreListIdPage = () => {
     setAddressSelected(shopData.address1);
     setImgFile(shopData.imageUrl);
     setTextExplain(shopData.description);
+    setOriginalHourlyPay(shopData.originalHourlyPay);
   }, [user?.id, user?.shop?.item]);
 
   // 무한 스크롤
@@ -278,17 +282,21 @@ const StoreListIdPage = () => {
                   <S.CardPriceText $closed={i.item.closed}>
                     {i.item.hourlyPay.toLocaleString('ko-KR')}원
                   </S.CardPriceText>
-                  <S.CardPriceSubTextWrap $closed={i.item.closed}>
-                    <S.CardPriceSubText $closed={i.item.closed}>
-                      기존 시급보다{' '}
-                      {getPayIncreaseRate(
-                        i.item.hourlyPay,
-                        user!.shop!.item.originalHourlyPay
-                      )}{' '}
-                      %
-                    </S.CardPriceSubText>
-                    <S.ArrowIcon $closed={i.item.closed} />
-                  </S.CardPriceSubTextWrap>
+                  {originalHourlyPay >= i.item.hourlyPay ? (
+                    <div style={{ display: 'none' }}></div>
+                  ) : (
+                    <S.CardPriceSubTextWrap $closed={i.item.closed}>
+                      <S.CardPriceSubText $closed={i.item.closed}>
+                        기존 시급보다{' '}
+                        {getPayIncreaseRate(
+                          i.item.hourlyPay,
+                          user!.shop!.item.originalHourlyPay
+                        )}{' '}
+                        %
+                      </S.CardPriceSubText>
+                      <S.ArrowIcon $closed={i.item.closed} />
+                    </S.CardPriceSubTextWrap>
+                  )}
                 </S.CardPriceTextWrap>
               </S.CardList>
             ))}

@@ -10,6 +10,7 @@ import * as S from '@/pages/store/search.page.style';
 import RightDrawer from './_components/DetailFilter/Drawer';
 import BasicPopover from './_components/DetailFilter/Popover';
 import FilterOptionSelect from './_components/Drawer/FilterDrawer';
+import SearchDataEmpty from './_components/PageComponents/SearchDataEmpty';
 import PaginationRounded from './_components/Pagination';
 import { useNotice } from './_hooks/useNotice';
 
@@ -103,13 +104,13 @@ const Search = () => {
           )}
         </S.JobFilterContainer>
       </S.SearchHeader>
-      <S.JobSearchSection>
+      <S.JobSearchSection className={showEmptyMessage ? 'empty' : ''}>
         {notice?.items.map(({ item }) => (
           <Link key={item.id} href={`/store/${item.shop.item.id}/${item.id}`}>
             <ListCard key={item.id} notice={item} />
           </Link>
         ))}
-        {showEmptyMessage && <div>검색값이 없습니다</div>}
+        {showEmptyMessage && <SearchDataEmpty />}
       </S.JobSearchSection>
       <PaginationRounded
         page={page}

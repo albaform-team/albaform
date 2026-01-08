@@ -61,6 +61,12 @@ export const JobSearchSection = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 
+  &.empty {
+    grid-template-columns: 1fr;
+    place-items: center;
+    min-height: 300px;
+  }
+
   @media ${media.tablet} {
     gap: 40px;
   }

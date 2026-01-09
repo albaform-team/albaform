@@ -158,15 +158,17 @@ const StoreListIdPage = () => {
                 <Image src={imgFile} fill alt="StoreImg" priority />
               </S.CardImgWrap>
               <S.CardTextWrap>
-                <S.CardTitleWrap>
-                  <S.CardSmallTitle>{categorySelected}</S.CardSmallTitle>
-                  <S.CardTitle>{storeName}</S.CardTitle>
-                </S.CardTitleWrap>
-                <S.CardNavWrap>
-                  <S.TopNavIcon />
-                  <S.CardNavText>{addressSelected}</S.CardNavText>
-                </S.CardNavWrap>
-                <S.CardTextArea>{textExplain}</S.CardTextArea>
+                <S.CardTextSection>
+                  <S.CardTitleWrap>
+                    <S.CardSmallTitle>{categorySelected}</S.CardSmallTitle>
+                    <S.CardTitle>{storeName}</S.CardTitle>
+                  </S.CardTitleWrap>
+                  <S.CardNavWrap>
+                    <S.TopNavIcon />
+                    <S.CardNavText>{addressSelected}</S.CardNavText>
+                  </S.CardNavWrap>
+                  <S.CardTextArea>{textExplain}</S.CardTextArea>
+                </S.CardTextSection>
                 <S.CardButtonWrap>
                   <S.CardEditButton onClick={handleEdit}>
                     편집하기

@@ -12,6 +12,7 @@ import { NoticeListResponse } from '@/types/user/noticeList';
 import RightDrawer from './_components/DetailFilter/Drawer';
 import BasicPopover from './_components/DetailFilter/Popover';
 import FilterOptionSelect from './_components/Drawer/FilterDrawer';
+import SkeletonListCard from './_components/ListCard/SkeletonListCard';
 import NoResult from './_components/PageComponents/NoResult';
 import PaginationRounded from './_components/Pagination';
 import { useNotice } from './_hooks/useNotice';
@@ -35,7 +36,7 @@ const StoreList = () => {
   const [filterTrigger, setFilterTrigger] = useState(0);
   const [filterCount, setFilterCount] = useState(0);
 
-  const { notice: noticeData } = useNotice({
+  const { notice: noticeData, loading } = useNotice({
     sortValue,
     offset: LIMIT * (page - 1),
     limit: LIMIT,
@@ -57,7 +58,7 @@ const StoreList = () => {
     NoticeListResponse['items']
   >([]);
 
-  const { notice: personalNotice } = useNotice({
+  const { notice: personalNotice, loading: personalLoading } = useNotice({
     sortValue: '마감임박순',
     offset: 0,
     limit: 6,
@@ -106,14 +107,18 @@ const StoreList = () => {
           <S.JobSuggestTitle>맞춤 공고</S.JobSuggestTitle>
           <div>
             <S.JobSuggestList>
-              {personalItems?.map(({ item }) => (
-                <Link
-                  key={item.id}
-                  href={`/store/${item.shop.item.id}/${item.id}`}
-                >
-                  <ListCard notice={item} />
-                </Link>
-              ))}
+              {personalLoading ? (
+                <SkeletonListCard />
+              ) : (
+                personalItems?.map(({ item }) => (
+                  <Link
+                    key={item.id}
+                    href={`/store/${item.shop.item.id}/${item.id}`}
+                  >
+                    <ListCard notice={item} />
+                  </Link>
+                ))
+              )}
             </S.JobSuggestList>
           </div>
         </div>
@@ -153,7 +158,9 @@ const StoreList = () => {
         </S.JobListHeader>
         <S.AllJobListContainer>
           <S.AllJobList className={isEmpty ? 'empty' : ''}>
-            {isEmpty ? (
+            {loading ? (
+              <SkeletonListCard />
+            ) : isEmpty ? (
               <NoResult />
             ) : (
               noticeData?.items.map(({ item }) => (

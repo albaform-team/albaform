@@ -31,6 +31,8 @@ const BasicPopover = ({
 }: BasicPopoverProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const payCounter = useRef(false);
+  const dateCounter = useRef(false);
+  const today = new Date().toISOString().split('T')[0];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -45,13 +47,24 @@ const BasicPopover = ({
     setStartDate(null);
     setMinPay(0);
     setFilterCount(0);
+    dateCounter.current = false;
     payCounter.current = false;
   };
 
   const filterCounter = () => {
-    if (minPay !== 0 && !payCounter.current) {
+    if (typeof minPay === 'number' && minPay > 0 && !payCounter.current) {
       setFilterCount(prev => prev + 1);
       payCounter.current = true;
+    }
+
+    if (
+      startDate !== null &&
+      startDate !== '' &&
+      startDate !== today &&
+      !dateCounter.current
+    ) {
+      setFilterCount(prev => prev + 1);
+      dateCounter.current = true;
     }
   };
 
@@ -60,7 +73,11 @@ const BasicPopover = ({
       setFilterCount(prev => prev - 1);
       payCounter.current = false;
     }
-  }, [minPay]);
+    if (today === startDate && dateCounter.current) {
+      setFilterCount(prev => prev - 1);
+      dateCounter.current = false;
+    }
+  }, [minPay, startDate]);
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;

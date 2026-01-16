@@ -1,5 +1,6 @@
 import CancelIcon from '@mui/icons-material/Cancel';
 import Chip from '@mui/material/Chip';
+import { useRef } from 'react';
 
 import * as S from '@/pages/store/_components/DetailFilter/OptionSection.style';
 import { colors } from '@/styles/colors';
@@ -71,9 +72,6 @@ const OptionSection = ({
 
     const rfc3339 = selectedDate.toISOString();
     setStartDate(rfc3339);
-    setFilterCount(prev => prev + 1);
-
-    console.log(rfc3339);
   };
 
   const handleDelete = (areaToDelete: string) => {

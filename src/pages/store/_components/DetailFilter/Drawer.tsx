@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import CloseIcon from '@/assets/svg/close.svg';
 import * as S from '@/pages/store/_components/DetailFilter/Drawer.style';
@@ -29,6 +29,9 @@ const RightDrawer = ({
   setFilterCount,
 }: RightDrawerProps) => {
   const [open, setOpen] = useState(false);
+  const payCounter = useRef(false);
+  const dateCounter = useRef(false);
+  const today = new Date().toISOString().split('T')[0];
 
   const toggleDrawer =
     (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -48,7 +51,37 @@ const RightDrawer = ({
     setStartDate(null);
     setMinPay(0);
     setFilterCount(0);
+    dateCounter.current = false;
+    payCounter.current = false;
   };
+
+  const filterCounter = () => {
+    if (typeof minPay === 'number' && minPay > 0 && !payCounter.current) {
+      setFilterCount(prev => prev + 1);
+      payCounter.current = true;
+    }
+
+    if (
+      startDate !== null &&
+      startDate !== '' &&
+      startDate !== today &&
+      !dateCounter.current
+    ) {
+      setFilterCount(prev => prev + 1);
+      dateCounter.current = true;
+    }
+  };
+
+  useEffect(() => {
+    if (minPay === 0 && payCounter.current) {
+      setFilterCount(prev => prev - 1);
+      payCounter.current = false;
+    }
+    if (today === startDate && dateCounter.current) {
+      setFilterCount(prev => prev - 1);
+      dateCounter.current = false;
+    }
+  }, [minPay, startDate]);
 
   const clickApply = () => {
     onApply();
@@ -89,6 +122,7 @@ const RightDrawer = ({
           <S.ApplyButton
             onClick={() => {
               clickApply();
+              filterCounter();
             }}
           >
             적용하기

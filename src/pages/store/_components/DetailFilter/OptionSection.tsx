@@ -84,7 +84,6 @@ const OptionSection = ({
   const handleMinPayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
     setMinPay(value);
-    setFilterCount(prev => prev + 1);
   };
 
   return (

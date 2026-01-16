@@ -67,9 +67,10 @@ const OptionSection = ({
       return;
     }
 
-    const selectedDate = new Date(`${value}T00:00:00+09:00`);
-
+    const selectedDate = new Date(`${value}T00:00:00`);
+    selectedDate.setHours(selectedDate.getHours() + 9);
     const rfc3339 = selectedDate.toISOString();
+
     setStartDate(rfc3339);
   };
 

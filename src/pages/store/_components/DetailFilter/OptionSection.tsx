@@ -1,6 +1,5 @@
 import CancelIcon from '@mui/icons-material/Cancel';
 import Chip from '@mui/material/Chip';
-import { useRef } from 'react';
 
 import * as S from '@/pages/store/_components/DetailFilter/OptionSection.style';
 import { colors } from '@/styles/colors';
@@ -79,9 +78,16 @@ const OptionSection = ({
     setFilterCount(prev => prev - 1);
   };
 
+  const formatToCurrency = (value: string) => {
+    const numberValue = value.replace(/[^0-9]/g, '');
+    return numberValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   const handleMinPayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    setMinPay(value);
+    const originValue = e.target.value;
+    const onlyNumbers = originValue.replace(/[^0-9]/g, '');
+
+    setMinPay(onlyNumbers ? Number(onlyNumbers) : 0);
   };
 
   return (
@@ -143,8 +149,11 @@ const OptionSection = ({
           <S.PayInputBox
             disableUnderline
             placeholder="입력"
-            value={minPay}
+            value={minPay !== null ? formatToCurrency(minPay.toString()) : ''}
             onChange={handleMinPayChange}
+            inputProps={{
+              inputMode: 'numeric',
+            }}
           ></S.PayInputBox>
           <S.DetailOptionTitle>이상부터</S.DetailOptionTitle>
         </S.PayInput>

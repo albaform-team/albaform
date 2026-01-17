@@ -25,8 +25,11 @@ export const useNotice = ({
   trigger,
 }: UseNoticeProps) => {
   const [notice, setNotice] = useState<NoticeListResponse | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
+
     const fetchNotice = async () => {
       const sortMap: Record<string, 'time' | 'pay' | 'hour' | 'shop'> = {
         마감임박순: 'time',
@@ -45,6 +48,7 @@ export const useNotice = ({
         hourlyPayGte: hourlyPayGte,
       });
       setNotice(data);
+      setLoading(false);
     };
     fetchNotice();
   }, [
@@ -58,5 +62,5 @@ export const useNotice = ({
     trigger,
   ]);
 
-  return { notice };
+  return { notice, loading };
 };

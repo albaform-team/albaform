@@ -67,13 +67,11 @@ const OptionSection = ({
       return;
     }
 
-    const selectedDate = new Date(`${value}T00:00:00+09:00`);
-
+    const selectedDate = new Date(`${value}T00:00:00`);
+    selectedDate.setHours(selectedDate.getHours() + 9);
     const rfc3339 = selectedDate.toISOString();
-    setStartDate(rfc3339);
-    setFilterCount(prev => prev + 1);
 
-    console.log(rfc3339);
+    setStartDate(rfc3339);
   };
 
   const handleDelete = (areaToDelete: string) => {
@@ -81,10 +79,16 @@ const OptionSection = ({
     setFilterCount(prev => prev - 1);
   };
 
+  const formatToCurrency = (value: string) => {
+    const numberValue = value.replace(/[^0-9]/g, '');
+    return numberValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   const handleMinPayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    setMinPay(value);
-    setFilterCount(prev => prev + 1);
+    const originValue = e.target.value;
+    const onlyNumbers = originValue.replace(/[^0-9]/g, '');
+
+    setMinPay(onlyNumbers ? Number(onlyNumbers) : 0);
   };
 
   return (
@@ -146,8 +150,11 @@ const OptionSection = ({
           <S.PayInputBox
             disableUnderline
             placeholder="입력"
-            value={minPay}
+            value={minPay !== null ? formatToCurrency(minPay.toString()) : ''}
             onChange={handleMinPayChange}
+            inputProps={{
+              inputMode: 'numeric',
+            }}
           ></S.PayInputBox>
           <S.DetailOptionTitle>이상부터</S.DetailOptionTitle>
         </S.PayInput>

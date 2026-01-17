@@ -1,5 +1,5 @@
 import Popover from '@mui/material/Popover';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import CloseIcon from '@/assets/svg/close.svg';
 import * as S from '@/pages/store/_components/DetailFilter/Popover.style';
@@ -30,6 +30,9 @@ const BasicPopover = ({
   setFilterCount,
 }: BasicPopoverProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const payCounter = useRef(false);
+  const dateCounter = useRef(false);
+  const today = new Date().toISOString().split('T')[0];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -44,9 +47,37 @@ const BasicPopover = ({
     setStartDate(null);
     setMinPay(0);
     setFilterCount(0);
+    dateCounter.current = false;
+    payCounter.current = false;
   };
 
-  console.log(filterCount);
+  const filterCounter = () => {
+    if (typeof minPay === 'number' && minPay > 0 && !payCounter.current) {
+      setFilterCount(prev => prev + 1);
+      payCounter.current = true;
+    }
+
+    if (
+      startDate !== null &&
+      startDate !== '' &&
+      startDate !== today &&
+      !dateCounter.current
+    ) {
+      setFilterCount(prev => prev + 1);
+      dateCounter.current = true;
+    }
+  };
+
+  useEffect(() => {
+    if (minPay === 0 && payCounter.current) {
+      setFilterCount(prev => prev - 1);
+      payCounter.current = false;
+    }
+    if (today === startDate && dateCounter.current) {
+      setFilterCount(prev => prev - 1);
+      dateCounter.current = false;
+    }
+  }, [minPay, startDate]);
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -104,6 +135,7 @@ const BasicPopover = ({
                 onClick={() => {
                   onApply();
                   handleClose();
+                  filterCounter();
                 }}
               >
                 적용하기

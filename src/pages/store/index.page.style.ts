@@ -40,7 +40,7 @@ export const JobSuggestTitle = styled.div`
 export const JobSuggestList = styled.div`
   display: flex;
   gap: 4px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   padding: 0 12px;
   padding: 12px 12px 24px;
